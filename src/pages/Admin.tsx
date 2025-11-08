@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { bikes as initialBikes, Bike } from '@/data/bikes';
+import { useState, useEffect } from 'react';
+import { Bike } from '@/data/bikes';
+import { getBikes, saveBikes, resetBikes } from '@/utils/bikeStorage';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -9,10 +10,15 @@ import { Lock, CheckCircle, XCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const Admin = () => {
-  const [bikes, setBikes] = useState<Bike[]>(initialBikes);
+  const [bikes, setBikes] = useState<Bike[]>(getBikes());
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const { toast } = useToast();
+
+  // Save bikes to localStorage whenever they change
+  useEffect(() => {
+    saveBikes(bikes);
+  }, [bikes]);
 
   // Simple password protection (in production, use proper authentication)
   const ADMIN_PASSWORD = 'lombok2025';
@@ -70,6 +76,15 @@ const Admin = () => {
     });
   };
 
+  const handleResetBikes = () => {
+    const defaultBikes = resetBikes();
+    setBikes(defaultBikes);
+    toast({
+      title: 'Reset Complete',
+      description: 'All bikes reset to default values',
+    });
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted/30">
@@ -110,9 +125,14 @@ const Admin = () => {
   return (
     <div className="min-h-screen bg-muted/30 py-8">
       <div className="container mx-auto px-4">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">Admin Panel</h1>
-          <p className="text-muted-foreground">Manage bike availability status</p>
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold text-foreground mb-2">Admin Panel</h1>
+            <p className="text-muted-foreground">Manage bike availability and pricing - Changes are saved automatically</p>
+          </div>
+          <Button variant="outline" onClick={handleResetBikes}>
+            Reset to Defaults
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -188,12 +208,18 @@ const Admin = () => {
           <CardContent className="prose prose-sm max-w-none">
             <h3>How to Update Bike Status & Prices</h3>
             <ol>
-              <li><strong>Change Price:</strong> Simply type a new number in the price input field - changes are instant!</li>
+              <li><strong>Change Price:</strong> Simply type a new number in the price input field - changes save automatically!</li>
               <li><strong>Toggle Availability:</strong> Use the switch to change status between "Available" and "Rented"</li>
               <li>Green badge = Available for rent</li>
               <li>Red badge = Currently rented</li>
-              <li>All changes are instant and will reflect on the main website</li>
+              <li><strong>Changes are saved to browser storage</strong> and will reflect on the main website within 2 seconds</li>
+              <li><strong>Reset Button:</strong> Click "Reset to Defaults" to restore original prices and availability</li>
             </ol>
+            
+            <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 mt-4">
+              <p className="text-sm font-semibold text-primary mb-1">💡 Pro Tip:</p>
+              <p className="text-sm text-foreground">Changes persist in your browser. To see updates on the main page, refresh it or wait up to 2 seconds for auto-sync.</p>
+            </div>
             
             <h3>Code-Based Editing (Alternative Method)</h3>
             <p>You can also edit bike prices and status directly in the code:</p>
