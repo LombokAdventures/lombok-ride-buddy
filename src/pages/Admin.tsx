@@ -48,6 +48,28 @@ const Admin = () => {
     });
   };
 
+  const updateBikePrice = (bikeId: string, newPrice: number) => {
+    if (newPrice <= 0) {
+      toast({
+        title: 'Invalid Price',
+        description: 'Price must be greater than 0',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setBikes((prevBikes) =>
+      prevBikes.map((bike) =>
+        bike.id === bikeId ? { ...bike, dailyPrice: newPrice } : bike
+      )
+    );
+    
+    toast({
+      title: 'Price Updated',
+      description: `Daily price updated to $${newPrice}`,
+    });
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted/30">
@@ -121,14 +143,25 @@ const Admin = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="mb-4">
-                  <p className="text-2xl font-bold text-primary">
-                    ${bike.dailyPrice}
-                    <span className="text-sm text-muted-foreground font-normal">/day</span>
-                  </p>
+                <div className="mb-4 p-4 bg-muted rounded-lg">
+                  <Label htmlFor={`price-${bike.id}`} className="text-sm font-semibold mb-2 block">
+                    Daily Price (USD)
+                  </Label>
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl font-bold text-primary">$</span>
+                    <input
+                      id={`price-${bike.id}`}
+                      type="number"
+                      min="1"
+                      value={bike.dailyPrice}
+                      onChange={(e) => updateBikePrice(bike.id, parseInt(e.target.value) || 0)}
+                      className="flex-1 px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-lg font-bold"
+                    />
+                    <span className="text-sm text-muted-foreground">/day</span>
+                  </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-muted rounded-lg mb-4">
                   <Label htmlFor={`bike-${bike.id}`} className="font-semibold">
                     Mark as {bike.status === 'available' ? 'Rented' : 'Available'}
                   </Label>
@@ -139,7 +172,7 @@ const Admin = () => {
                   />
                 </div>
 
-                <div className="mt-4 text-sm text-muted-foreground">
+                <div className="text-sm text-muted-foreground">
                   <p><strong>Engine:</strong> {bike.specs.engine}</p>
                   <p><strong>Transmission:</strong> {bike.specs.transmission}</p>
                 </div>
@@ -153,19 +186,21 @@ const Admin = () => {
             <CardTitle>Instructions</CardTitle>
           </CardHeader>
           <CardContent className="prose prose-sm max-w-none">
-            <h3>How to Update Bike Status</h3>
+            <h3>How to Update Bike Status & Prices</h3>
             <ol>
-              <li>Use the toggle switch to change a bike's status between "Available" and "Rented"</li>
+              <li><strong>Change Price:</strong> Simply type a new number in the price input field - changes are instant!</li>
+              <li><strong>Toggle Availability:</strong> Use the switch to change status between "Available" and "Rented"</li>
               <li>Green badge = Available for rent</li>
               <li>Red badge = Currently rented</li>
-              <li>Changes are instant and will reflect on the main website</li>
+              <li>All changes are instant and will reflect on the main website</li>
             </ol>
             
             <h3>Code-Based Editing (Alternative Method)</h3>
-            <p>You can also edit bike status directly in the code:</p>
+            <p>You can also edit bike prices and status directly in the code:</p>
             <ol>
               <li>Open <code>src/data/bikes.ts</code></li>
               <li>Find the bike you want to update</li>
+              <li>Change the <code>dailyPrice</code> field to set a new price</li>
               <li>Change the <code>status</code> field to either <code>'available'</code> or <code>'rented'</code></li>
               <li>Save the file - changes will appear automatically</li>
             </ol>
@@ -176,7 +211,8 @@ const Admin = () => {
 {`{
   id: 'honda-pcx',
   name: 'Honda PCX 160',
-  status: 'available', // Change this to 'rented'
+  dailyPrice: 12, // Change price here
+  status: 'available', // Change to 'rented'
   ...
 }`}
               </pre>
