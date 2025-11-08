@@ -1,13 +1,37 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Header } from '@/components/Header';
+import { Hero } from '@/components/Hero';
+import { Fleet } from '@/components/Fleet';
+import { Benefits } from '@/components/Benefits';
+import { HowItWorks } from '@/components/HowItWorks';
+import { Reviews } from '@/components/Reviews';
+import { ComingSoon } from '@/components/ComingSoon';
+import { FAQ } from '@/components/FAQ';
+import { Footer } from '@/components/Footer';
+import { FloatingContact } from '@/components/FloatingContact';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <LanguageProvider>
+      <div className="min-h-screen">
+        <Header />
+        <main className="pt-16">
+          <Hero />
+          <Fleet />
+          <Benefits />
+          <HowItWorks />
+          <Reviews />
+          <div id="coming-soon">
+            <ComingSoon />
+          </div>
+          <FAQ />
+          <div id="footer">
+            <Footer />
+          </div>
+        </main>
+        <FloatingContact />
       </div>
-    </div>
+    </LanguageProvider>
   );
 };
 
