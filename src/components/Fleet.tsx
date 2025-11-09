@@ -1,31 +1,58 @@
 import { useState, useEffect } from 'react';
 import { BikeCard } from './BikeCard';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { getBikes } from '@/utils/bikeStorage';
-import { Bike } from '@/data/bikes';
+import { supabase } from '@/integrations/supabase/client';
+
+interface Bike {
+  id: string;
+  name: string;
+  model: string;
+  daily_price: number;
+  weekly_price: number | null;
+  monthly_price: number | null;
+  features: string[];
+  engine: string;
+  transmission: string;
+  fuel_capacity: string;
+  status: string;
+  image: string;
+}
 
 export const Fleet = () => {
   const { t } = useLanguage();
-  const [bikes, setBikes] = useState<Bike[]>(getBikes());
+  const [bikes, setBikes] = useState<Bike[]>([]);
 
-  // Listen for storage changes (when admin updates bikes)
   useEffect(() => {
-    const handleStorageChange = () => {
-      setBikes(getBikes());
-    };
-
-    window.addEventListener('storage', handleStorageChange);
+    fetchBikes();
     
-    // Also poll for changes every 2 seconds (for same-tab updates)
-    const interval = setInterval(() => {
-      setBikes(getBikes());
-    }, 2000);
+    // Subscribe to realtime changes
+    const channel = supabase
+      .channel('bikes-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'bikes' }, () => {
+        fetchBikes();
+      })
+      .subscribe();
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      clearInterval(interval);
+      supabase.removeChannel(channel);
     };
   }, []);
+
+  const fetchBikes = async () => {
+    const { data, error } = await supabase
+      .from('bikes')
+      .select('*')
+      .order('daily_price', { ascending: true });
+
+    if (error) {
+      console.error('Error fetching bikes:', error);
+      return;
+    }
+
+    if (data) {
+      setBikes(data);
+    }
+  };
 
   return (
     <section id="fleet" className="py-20 bg-background">

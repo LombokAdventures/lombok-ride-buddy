@@ -32,8 +32,8 @@ export const bikes: Bike[] = [
     image: '/bikes/honda-beat.jpg'
   },
   {
-    id: 'honda-scoopy',
-    name: 'Honda Scoopy',
+    id: 'honda-street',
+    name: 'Honda Street',
     model: 'Scoopy Street',
     dailyPrice: 6,
     features: ['Free Helmet', 'Lock Included', 'Comfortable Seat', 'Stylish Design'],

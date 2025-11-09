@@ -1,52 +1,63 @@
 import { MessageCircle, Send } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { contactConfig } from '@/data/bikes';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
 export const FloatingContact = () => {
-  const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=Hi! I'm interested in renting a scooter from Lombok Adventures`;
+  const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=Hi! I'm interested in renting a scooter`;
   const telegramUrl = `https://t.me/${contactConfig.telegramUsername}`;
 
   return (
     <>
-      {/* Desktop floating buttons */}
-      <div className="hidden md:flex fixed bottom-6 right-6 flex-col gap-3 z-50">
-        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-          <Button
-            size="lg"
-            className="rounded-full w-14 h-14 shadow-float hover:scale-110 transition-transform bg-[#25D366] hover:bg-[#20BD5A]"
-          >
-            <MessageCircle className="h-6 w-6" />
-          </Button>
-        </a>
-        <a href={telegramUrl} target="_blank" rel="noopener noreferrer">
-          <Button
-            size="lg"
-            className="rounded-full w-14 h-14 shadow-float hover:scale-110 transition-transform bg-[#0088cc] hover:bg-[#006699]"
-          >
-            <Send className="h-6 w-6" />
-          </Button>
-        </a>
-      </div>
+      {/* Desktop Floating Buttons */}
+      <TooltipProvider>
+        <div className="hidden md:flex fixed bottom-6 right-6 flex-col gap-3 z-50">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#25D366] hover:bg-[#20BA5A] text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+              >
+                <MessageCircle className="h-6 w-6" />
+              </a>
+            </TooltipTrigger>
+            <TooltipContent side="left">
+              <p>Contact us on WhatsApp</p>
+            </TooltipContent>
+          </Tooltip>
 
-      {/* Mobile sticky contact bar */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <a
+                href={telegramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#0088cc] hover:bg-[#006699] text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+              >
+                <Send className="h-6 w-6" />
+              </a>
+            </TooltipTrigger>
+            <TooltipContent side="left">
+              <p>Contact us on Telegram</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      </TooltipProvider>
+
+      {/* Mobile Sticky Contact Bar */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-background border-t border-border shadow-elegant z-50 p-3 flex gap-3">
         <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
-          <Button
-            size="lg"
-            className="w-full gap-2 bg-[#25D366] hover:bg-[#20BD5A] text-white"
-          >
+          <div className="w-full py-3 px-4 rounded-lg bg-[#25D366] hover:bg-[#20BA5A] text-white font-semibold flex items-center justify-center gap-2 transition-colors">
             <MessageCircle className="h-5 w-5" />
             WhatsApp
-          </Button>
+          </div>
         </a>
         <a href={telegramUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
-          <Button
-            size="lg"
-            className="w-full gap-2 bg-[#0088cc] hover:bg-[#006699] text-white"
-          >
+          <div className="w-full py-3 px-4 rounded-lg bg-[#0088cc] hover:bg-[#006699] text-white font-semibold flex items-center justify-center gap-2 transition-colors">
             <Send className="h-5 w-5" />
             Telegram
-          </Button>
+          </div>
         </a>
       </div>
     </>
