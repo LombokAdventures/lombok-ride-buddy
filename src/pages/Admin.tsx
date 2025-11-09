@@ -88,6 +88,7 @@ const Admin = () => {
   };
 
   const fetchBikes = async () => {
+    console.log('Fetching bikes...');
     const { data, error } = await supabase
       .from('bikes')
       .select('*')
@@ -96,14 +97,15 @@ const Admin = () => {
     if (error) {
       console.error('Error fetching bikes:', error);
       toast({
-        title: 'Error',
-        description: 'Failed to load bikes',
+        title: 'Error loading bikes',
+        description: error.message,
         variant: 'destructive',
       });
       return;
     }
 
     if (data) {
+      console.log('Loaded bikes:', data.length, data);
       setBikes(data);
     }
   };
@@ -116,11 +118,17 @@ const Admin = () => {
 
     if (error) {
       console.error('Error fetching reviews:', error);
+      toast({
+        title: 'Error loading reviews',
+        description: error.message,
+        variant: 'destructive',
+      });
       return;
     }
 
     if (data) {
       setReviews(data);
+      console.log('Loaded reviews:', data.length);
     }
   };
 
@@ -132,11 +140,17 @@ const Admin = () => {
 
     if (error) {
       console.error('Error fetching tour emails:', error);
+      toast({
+        title: 'Error loading tour emails',
+        description: error.message,
+        variant: 'destructive',
+      });
       return;
     }
 
     if (data) {
       setTourEmails(data);
+      console.log('Loaded tour emails:', data.length);
     }
   };
 
@@ -148,11 +162,17 @@ const Admin = () => {
 
     if (error) {
       console.error('Error fetching villa emails:', error);
+      toast({
+        title: 'Error loading villa emails',
+        description: error.message,
+        variant: 'destructive',
+      });
       return;
     }
 
     if (data) {
       setVillaEmails(data);
+      console.log('Loaded villa emails:', data.length);
     }
   };
 
@@ -173,10 +193,15 @@ const Admin = () => {
   };
 
   const toggleBikeStatus = async (bikeId: string) => {
+    console.log('Toggling bike status for:', bikeId);
     const bike = bikes.find(b => b.id === bikeId);
-    if (!bike) return;
+    if (!bike) {
+      console.error('Bike not found:', bikeId);
+      return;
+    }
 
     const newStatus = bike.status === 'available' ? 'rented' : 'available';
+    console.log('Changing status from', bike.status, 'to', newStatus);
 
     // Use upsert to bypass UPDATE policy restrictions
     const { error } = await supabase
@@ -193,6 +218,7 @@ const Admin = () => {
       return;
     }
 
+    console.log('Status updated successfully');
     toast({
       title: 'Status Updated',
       description: `Bike is now ${newStatus}. Changes reflected globally.`,
@@ -202,6 +228,8 @@ const Admin = () => {
   };
 
   const updateBikePrice = async (bikeId: string, field: 'daily_price' | 'weekly_price' | 'monthly_price', newPrice: number | null) => {
+    console.log('Updating bike price:', bikeId, field, newPrice);
+
     if (newPrice !== null && newPrice < 0) {
       toast({
         title: 'Invalid Price',
@@ -213,7 +241,10 @@ const Admin = () => {
     }
 
     const bike = bikes.find(b => b.id === bikeId);
-    if (!bike) return;
+    if (!bike) {
+      console.error('Bike not found:', bikeId);
+      return;
+    }
 
     // Use upsert to bypass UPDATE policy restrictions
     const { error } = await supabase
@@ -231,6 +262,7 @@ const Admin = () => {
       return;
     }
 
+    console.log('Price updated successfully');
     toast({
       title: 'Price Updated',
       description: `Price updated globally to $${newPrice || 0}`,
