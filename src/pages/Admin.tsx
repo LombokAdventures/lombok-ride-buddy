@@ -162,9 +162,10 @@ const Admin = () => {
       .eq('id', bikeId);
 
     if (error) {
+      console.error('Error updating status:', error);
       toast({
         title: 'Error',
-        description: 'Failed to update bike status',
+        description: `Failed to update bike status: ${error.message}`,
         variant: 'destructive',
       });
       return;
@@ -172,19 +173,20 @@ const Admin = () => {
 
     toast({
       title: 'Status Updated',
-      description: 'Bike availability status has been changed globally.',
+      description: `Bike is now ${newStatus}. Changes reflected globally.`,
     });
 
     fetchBikes();
   };
 
-  const updateBikePrice = async (bikeId: string, field: 'daily_price' | 'weekly_price' | 'monthly_price', newPrice: number) => {
-    if (newPrice < 0) {
+  const updateBikePrice = async (bikeId: string, field: 'daily_price' | 'weekly_price' | 'monthly_price', newPrice: number | null) => {
+    if (newPrice !== null && newPrice < 0) {
       toast({
         title: 'Invalid Price',
         description: 'Price cannot be negative',
         variant: 'destructive',
       });
+      fetchBikes(); // Refresh to reset the invalid value
       return;
     }
 
@@ -194,20 +196,33 @@ const Admin = () => {
       .eq('id', bikeId);
 
     if (error) {
+      console.error('Error updating price:', error);
       toast({
         title: 'Error',
-        description: 'Failed to update price',
+        description: `Failed to update price: ${error.message}`,
         variant: 'destructive',
       });
+      fetchBikes(); // Refresh to reset the invalid value
       return;
     }
 
     toast({
       title: 'Price Updated',
-      description: `Price updated globally to $${newPrice}`,
+      description: `Price updated globally to $${newPrice || 0}`,
     });
 
     fetchBikes();
+  };
+
+  const handlePriceChange = (bikeId: string, field: 'daily_price' | 'weekly_price' | 'monthly_price', value: string) => {
+    // Update local state immediately for responsive UI
+    setBikes(prevBikes =>
+      prevBikes.map(bike =>
+        bike.id === bikeId
+          ? { ...bike, [field]: value === '' ? null : parseFloat(value) }
+          : bike
+      )
+    );
   };
 
   const updateReviewStatus = async (reviewId: string, status: 'approved' | 'rejected') => {
@@ -217,9 +232,10 @@ const Admin = () => {
       .eq('id', reviewId);
 
     if (error) {
+      console.error('Error updating review:', error);
       toast({
         title: 'Error',
-        description: 'Failed to update review status',
+        description: `Failed to update review status: ${error.message}`,
         variant: 'destructive',
       });
       return;
@@ -227,7 +243,7 @@ const Admin = () => {
 
     toast({
       title: 'Review Updated',
-      description: `Review has been ${status}`,
+      description: `Review has been ${status}. ${status === 'approved' ? 'It will now appear on the website.' : 'It will not appear on the website.'}`,
     });
 
     fetchReviews();
@@ -240,9 +256,10 @@ const Admin = () => {
       .eq('id', emailId);
 
     if (error) {
+      console.error('Error deleting email:', error);
       toast({
         title: 'Error',
-        description: 'Failed to delete email',
+        description: `Failed to delete email: ${error.message}`,
         variant: 'destructive',
       });
       return;
@@ -365,8 +382,10 @@ const Admin = () => {
                           id={`daily-${bike.id}`}
                           type="number"
                           min="0"
-                          value={bike.daily_price}
-                          onChange={(e) => updateBikePrice(bike.id, 'daily_price', parseFloat(e.target.value) || 0)}
+                          step="0.01"
+                          value={bike.daily_price || ''}
+                          onChange={(e) => handlePriceChange(bike.id, 'daily_price', e.target.value)}
+                          onBlur={(e) => updateBikePrice(bike.id, 'daily_price', parseFloat(e.target.value) || 0)}
                           className="flex-1 px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm font-bold"
                         />
                         <span className="text-xs text-muted-foreground">/day</span>
@@ -384,8 +403,10 @@ const Admin = () => {
                           id={`weekly-${bike.id}`}
                           type="number"
                           min="0"
+                          step="0.01"
                           value={bike.weekly_price || ''}
-                          onChange={(e) => updateBikePrice(bike.id, 'weekly_price', parseFloat(e.target.value) || 0)}
+                          onChange={(e) => handlePriceChange(bike.id, 'weekly_price', e.target.value)}
+                          onBlur={(e) => updateBikePrice(bike.id, 'weekly_price', e.target.value ? parseFloat(e.target.value) : null)}
                           placeholder="Optional"
                           className="flex-1 px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm font-bold"
                         />
@@ -404,8 +425,10 @@ const Admin = () => {
                           id={`monthly-${bike.id}`}
                           type="number"
                           min="0"
+                          step="0.01"
                           value={bike.monthly_price || ''}
-                          onChange={(e) => updateBikePrice(bike.id, 'monthly_price', parseFloat(e.target.value) || 0)}
+                          onChange={(e) => handlePriceChange(bike.id, 'monthly_price', e.target.value)}
+                          onBlur={(e) => updateBikePrice(bike.id, 'monthly_price', e.target.value ? parseFloat(e.target.value) : null)}
                           placeholder="Optional"
                           className="flex-1 px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm font-bold"
                         />
