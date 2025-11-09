@@ -14,7 +14,126 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bikes: {
+        Row: {
+          created_at: string | null
+          daily_price: number
+          engine: string
+          features: string[]
+          fuel_capacity: string
+          id: string
+          image: string
+          model: string
+          monthly_price: number | null
+          name: string
+          status: string
+          transmission: string
+          updated_at: string | null
+          weekly_price: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          daily_price: number
+          engine: string
+          features?: string[]
+          fuel_capacity: string
+          id: string
+          image: string
+          model: string
+          monthly_price?: number | null
+          name: string
+          status: string
+          transmission: string
+          updated_at?: string | null
+          weekly_price?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          daily_price?: number
+          engine?: string
+          features?: string[]
+          fuel_capacity?: string
+          id?: string
+          image?: string
+          model?: string
+          monthly_price?: number | null
+          name?: string
+          status?: string
+          transmission?: string
+          updated_at?: string | null
+          weekly_price?: number | null
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          approval_status: string
+          comment: string
+          country: string
+          created_at: string | null
+          id: string
+          name: string
+          rating: number
+          updated_at: string | null
+        }
+        Insert: {
+          approval_status?: string
+          comment: string
+          country: string
+          created_at?: string | null
+          id?: string
+          name: string
+          rating: number
+          updated_at?: string | null
+        }
+        Update: {
+          approval_status?: string
+          comment?: string
+          country?: string
+          created_at?: string | null
+          id?: string
+          name?: string
+          rating?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      tour_emails: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      villa_emails: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
