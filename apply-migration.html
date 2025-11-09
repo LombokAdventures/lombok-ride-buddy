@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply Database Migration - Lombok Adventures</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 { color: #FF6B6B; }
+    h2 { color: #4ECDC4; margin-top: 30px; }
+    .step {
+      background: #f9f9f9;
+      padding: 15px;
+      border-left: 4px solid #4ECDC4;
+      margin: 20px 0;
+    }
+    .sql-box {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 5px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 15px 0;
+    }
+    button {
+      background: #4ECDC4;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px 5px 10px 0;
+    }
+    button:hover { background: #45b8b0; }
+    button.secondary {
+      background: #FF6B6B;
+    }
+    button.secondary:hover { background: #ff5252; }
+    .success {
+      background: #d4edda;
+      color: #155724;
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid #c3e6cb;
+      margin: 20px 0;
+    }
+    .warning {
+      background: #fff3cd;
+      color: #856404;
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid #ffeaa7;
+      margin: 20px 0;
+    }
+    a {
+      color: #4ECDC4;
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Apply Database Migration</h1>
+    <p><strong>Lombok Adventures Admin Panel Setup</strong></p>
+
+    <div class="warning">
+      <strong>⚠️ Why you're here:</strong> The admin panel won't work until you apply this migration to your Supabase database. This adds the necessary permissions (RLS policies).
+    </div>
+
+    <h2>📋 Step 1: Copy the SQL</h2>
+    <div class="step">
+      <p>Click the button below to copy the SQL migration to your clipboard:</p>
+      <button onclick="copySQLToClipboard()">📋 Copy SQL to Clipboard</button>
+      <div id="copySuccess" style="display:none; color: green; margin-top: 10px;">✅ Copied to clipboard!</div>
+    </div>
+
+    <div class="sql-box" id="sqlCode">-- Add missing policies for admin operations
+
+-- Bikes: Allow public UPDATE
+CREATE POLICY "Anyone can update bikes"
+  ON public.bikes FOR UPDATE
+  USING (true)
+  WITH CHECK (true);
+
+-- Reviews: Allow public UPDATE
+CREATE POLICY "Anyone can update reviews"
+  ON public.reviews FOR UPDATE
+  USING (true)
+  WITH CHECK (true);
+
+-- Reviews: Allow public SELECT ALL
+DROP POLICY IF EXISTS "Anyone can view approved reviews" ON public.reviews;
+CREATE POLICY "Anyone can view all reviews"
+  ON public.reviews FOR SELECT
+  USING (true);
+
+-- Tour Emails: Allow public SELECT
+CREATE POLICY "Anyone can view tour emails"
+  ON public.tour_emails FOR SELECT
+  USING (true);
+
+-- Tour Emails: Allow public DELETE
+CREATE POLICY "Anyone can delete tour emails"
+  ON public.tour_emails FOR DELETE
+  USING (true);
+
+-- Villa Emails: Allow public SELECT
+CREATE POLICY "Anyone can view villa emails"
+  ON public.villa_emails FOR SELECT
+  USING (true);
+
+-- Villa Emails: Allow public DELETE
+CREATE POLICY "Anyone can delete villa emails"
+  ON public.villa_emails FOR DELETE
+  USING (true);</div>
+
+    <h2>🌐 Step 2: Open Supabase SQL Editor</h2>
+    <div class="step">
+      <p>Click the button below to open your Supabase SQL Editor in a new tab:</p>
+      <button class="secondary" onclick="window.open('https://supabase.com/dashboard/project/mbbdaettoxezvftsfiff/sql/new', '_blank')">
+        🔗 Open Supabase SQL Editor
+      </button>
+    </div>
+
+    <h2>▶️ Step 3: Paste and Run</h2>
+    <div class="step">
+      <ol>
+        <li>In the Supabase SQL Editor, <strong>paste</strong> the SQL you copied</li>
+        <li>Click the <strong>"RUN"</strong> button (bottom right)</li>
+        <li>You should see "Success. No rows returned"</li>
+      </ol>
+    </div>
+
+    <h2>✅ Step 4: Test Admin Panel</h2>
+    <div class="step">
+      <p>After running the SQL, test your admin panel:</p>
+      <ol>
+        <li>Go to <code>/secret/admin</code> (password: <code>lombok2025</code>)</li>
+        <li>Try changing a bike price → Should work! ✅</li>
+        <li>Try toggling bike status → Should work! ✅</li>
+        <li>Submit a test review on the main site</li>
+        <li>Check Reviews tab → Should appear! ✅</li>
+        <li>Approve it → Should work! ✅</li>
+      </ol>
+    </div>
+
+    <div class="success">
+      <strong>🎉 Once you complete these steps, everything will work!</strong><br>
+      - Admin panel will update prices & status<br>
+      - Changes will reflect globally on all devices<br>
+      - Reviews will show and can be approved<br>
+      - Email inquiries will be visible
+    </div>
+
+    <h2>❓ Troubleshooting</h2>
+    <div class="step">
+      <p><strong>If you see "policy already exists":</strong> That's OK! It means some policies already exist. Continue anyway.</p>
+      <p><strong>If admin panel still doesn't work:</strong></p>
+      <ul>
+        <li>Clear browser cache and reload</li>
+        <li>Check browser console (F12) for error messages</li>
+        <li>Verify the SQL ran successfully in Supabase</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function copySQLToClipboard() {
+      const sqlText = document.getElementById('sqlCode').textContent;
+      navigator.clipboard.writeText(sqlText).then(() => {
+        const successMsg = document.getElementById('copySuccess');
+        successMsg.style.display = 'block';
+        setTimeout(() => {
+          successMsg.style.display = 'none';
+        }, 3000);
+      });
+    }
+  </script>
+</body>
+</html>
