@@ -1,0 +1,59 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient Background Circle -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4ECDC4;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFE66D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF6B6B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#grad1)"/>
+
+  <!-- Scooter Design -->
+  <!-- Back Wheel -->
+  <circle cx="160" cy="340" r="60" fill="#2C3E50" stroke="#ECF0F1" stroke-width="8"/>
+  <circle cx="160" cy="340" r="35" fill="#34495E"/>
+  <circle cx="160" cy="340" r="15" fill="#ECF0F1"/>
+
+  <!-- Front Wheel -->
+  <circle cx="380" cy="340" r="60" fill="#2C3E50" stroke="#ECF0F1" stroke-width="8"/>
+  <circle cx="380" cy="340" r="35" fill="#34495E"/>
+  <circle cx="380" cy="340" r="15" fill="#ECF0F1"/>
+
+  <!-- Scooter Body -->
+  <!-- Base/Floor -->
+  <rect x="160" y="310" width="180" height="15" rx="7" fill="#34495E"/>
+
+  <!-- Seat -->
+  <path d="M 200 280 Q 220 265 260 265 L 290 265 Q 310 265 310 285 L 310 310 L 200 310 Z" fill="#E74C3C"/>
+  <path d="M 200 280 Q 220 265 260 265 L 290 265 Q 310 265 310 285" fill="none" stroke="#C0392B" stroke-width="3"/>
+
+  <!-- Handlebar Support -->
+  <rect x="365" y="200" width="12" height="120" rx="6" fill="#34495E"/>
+
+  <!-- Handlebar -->
+  <ellipse cx="371" cy="200" rx="50" ry="10" fill="#2C3E50"/>
+  <rect x="320" y="195" width="102" height="10" rx="5" fill="#2C3E50"/>
+
+  <!-- Front Light -->
+  <circle cx="395" cy="240" r="18" fill="#FFE66D" opacity="0.9"/>
+  <circle cx="395" cy="240" r="12" fill="#FFF" opacity="0.7"/>
+
+  <!-- Speedometer/Gauge -->
+  <circle cx="340" cy="220" r="15" fill="#34495E" stroke="#ECF0F1" stroke-width="2"/>
+  <circle cx="340" cy="220" r="8" fill="#4ECDC4"/>
+
+  <!-- Lombok "L" Badge on body -->
+  <circle cx="250" cy="290" r="25" fill="url(#grad2)" opacity="0.95"/>
+  <text x="250" y="305" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#FFF" text-anchor="middle">L</text>
+
+  <!-- Motion Lines -->
+  <line x1="100" y1="200" x2="140" y2="200" stroke="#FFF" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+  <line x1="90" y1="230" x2="130" y2="230" stroke="#FFF" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+  <line x1="80" y1="260" x2="120" y2="260" stroke="#FFF" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
+</svg>
