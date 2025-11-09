@@ -108,7 +108,7 @@ export const bikes: Bike[] = [
 export const contactConfig = {
   whatsappNumber: '62xxxxxxxxxx', // Replace with your WhatsApp number (with country code, no +)
   telegramUsername: 'lombookadventures', // Replace with your Telegram username
-  businessName: 'Lombok Adventures',
+  businessName: 'Lombok Local',
   email: 'info@lombookadventures.com',
   address: 'Kuta, Lombok, Indonesia',
   googleMapsUrl: 'https://maps.google.com' // Add your Google Maps URL
