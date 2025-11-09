@@ -51,7 +51,7 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
     }
   };
   
-  const whatsappMessage = `Hi! I'm interested in renting the ${bike.name} (${bike.model}) for ${selectedPeriod} rental from Lombok Adventures. Is it available?`;
+  const whatsappMessage = `Hi! I'm interested in renting the ${bike.name} (${bike.model}) for ${selectedPeriod} rental from Lombok Local. Is it available?`;
   const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (

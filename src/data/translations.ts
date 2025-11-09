@@ -99,7 +99,7 @@ export const translations: Record<Language, Translations> = {
       specifications: 'Specifications'
     },
     benefits: {
-      title: 'Why Choose Lombok Adventures',
+      title: 'Why Choose Lombok Local',
       items: [
         {
           title: 'Free Helmets & Locks',
@@ -240,7 +240,7 @@ export const translations: Record<Language, Translations> = {
       specifications: 'Характеристики'
     },
     benefits: {
-      title: 'Почему Lombok Adventures',
+      title: 'Почему Lombok Local',
       items: [
         {
           title: 'Бесплатные шлемы',
@@ -381,7 +381,7 @@ export const translations: Record<Language, Translations> = {
       specifications: 'Spesifikasi'
     },
     benefits: {
-      title: 'Mengapa Lombok Adventures',
+      title: 'Mengapa Lombok Local',
       items: [
         {
           title: 'Helm Gratis',
@@ -522,7 +522,7 @@ export const translations: Record<Language, Translations> = {
       specifications: 'Spezifikationen'
     },
     benefits: {
-      title: 'Warum Lombok Adventures',
+      title: 'Warum Lombok Local',
       items: [
         {
           title: 'Kostenlose Helme',

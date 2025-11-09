@@ -12,7 +12,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* About */}
           <div>
-            <h3 className="text-2xl font-bold mb-4">Lombok Adventures</h3>
+            <h3 className="text-2xl font-bold mb-4">Lombok Local</h3>
             <p className="text-background/80 mb-4">
               {t.footer.description}
             </p>
@@ -93,7 +93,7 @@ export const Footer = () => {
         </div>
 
         <div className="border-t border-background/20 pt-8 text-center text-background/60">
-          <p>&copy; {currentYear} Lombok Adventures. {t.footer.rights}</p>
+          <p>&copy; {currentYear} Lombok Local. {t.footer.rights}</p>
         </div>
       </div>
     </footer>
