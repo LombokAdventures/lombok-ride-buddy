@@ -80,7 +80,7 @@ export const translations: Record<Language, Translations> = {
       title: 'Explore Lombok Freedom',
       subtitle: 'Premium Scooters from $5/Day',
       cta: 'Check Availability',
-      trustBadge: 'Trusted by travelers since 2020'
+      trustBadge: 'Trusted by travelers since 2025'
     },
     nav: {
       fleet: 'Our Fleet',
@@ -221,7 +221,7 @@ export const translations: Record<Language, Translations> = {
       title: 'Исследуйте Ломбок',
       subtitle: 'Премиум скутеры от $5/день',
       cta: 'Проверить наличие',
-      trustBadge: 'Доверие путешественников с 2020'
+      trustBadge: 'Доверие путешественников с 2025'
     },
     nav: {
       fleet: 'Наш флот',
@@ -362,7 +362,7 @@ export const translations: Record<Language, Translations> = {
       title: 'Jelajahi Kebebasan Lombok',
       subtitle: 'Skuter Premium dari $5/Hari',
       cta: 'Cek Ketersediaan',
-      trustBadge: 'Dipercaya oleh wisatawan sejak 2020'
+      trustBadge: 'Dipercaya oleh wisatawan sejak 2025'
     },
     nav: {
       fleet: 'Armada Kami',
@@ -503,7 +503,7 @@ export const translations: Record<Language, Translations> = {
       title: 'Erkunde Lombok Freiheit',
       subtitle: 'Premium Roller ab $5/Tag',
       cta: 'Verfügbarkeit prüfen',
-      trustBadge: 'Vertraut von Reisenden seit 2020'
+      trustBadge: 'Vertraut von Reisenden seit 2025'
     },
     nav: {
       fleet: 'Unsere Flotte',
