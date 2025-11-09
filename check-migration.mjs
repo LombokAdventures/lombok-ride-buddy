@@ -5,16 +5,26 @@ import * as fs from 'fs';
 const envContent = fs.readFileSync('.env', 'utf-8');
 const envVars = {};
 envContent.split('\n').forEach(line => {
-  const [key, value] = line.split('=');
-  if (key && value) {
-    envVars[key.trim()] = value.trim();
+  const trimmedLine = line.trim();
+  if (trimmedLine && !trimmedLine.startsWith('#')) {
+    const [key, ...valueParts] = trimmedLine.split('=');
+    if (key && valueParts.length > 0) {
+      const value = valueParts.join('=').replace(/^["']|["']$/g, ''); // Remove quotes
+      envVars[key.trim()] = value.trim();
+    }
   }
 });
 
-const supabase = createClient(
-  envVars.VITE_SUPABASE_URL,
-  envVars.VITE_SUPABASE_PUBLISHABLE_KEY
-);
+const supabaseUrl = envVars.VITE_SUPABASE_URL || '';
+const supabaseKey = envVars.VITE_SUPABASE_PUBLISHABLE_KEY || '';
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('❌ Missing Supabase credentials in .env file');
+  console.log('Expected: VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY');
+  process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 console.log('🔍 Checking database migration status...\n');
 
