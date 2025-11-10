@@ -1135,7 +1135,7 @@ const Admin = () => {
                         }}
                         onBlur={(e) => updateBikeImage(bike.id, e.target.value)}
                         placeholder="https://example.com/bike.jpg or /bikes/honda-beat.jpg"
-                        className="w-full px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-xs"
+                        className="w-full px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-xs bg-background text-foreground"
                       />
                       <p className="text-xs text-muted-foreground mt-1">Image will display on client side</p>
                     </div>
