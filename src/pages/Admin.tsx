@@ -199,7 +199,7 @@ const Admin = () => {
 
   const toggleBikeStatus = async (bikeId: string) => {
     console.log('Toggling bike status for:', bikeId);
-    const updateBike = bikes.find(b => b.id === bike.id);
+    const bike = bikes.find(b => b.id === bikeId);
     if (!bike) {
       console.error('Bike not found:', bikeId);
       return;
@@ -255,7 +255,7 @@ const Admin = () => {
       return;
     }
 
-    const updateBike = bikes.find(b => b.id === bike.id);
+    const bike = bikes.find(b => b.id === bikeId);
     if (!bike) {
       console.error('Bike not found:', bikeId);
       return;
