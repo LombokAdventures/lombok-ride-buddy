@@ -1,4 +1,4 @@
-import { Shield, Truck, Headphones, CreditCard, Award, DollarSign } from 'lucide-react';
+import { Shield, Truck, Headphones, CreditCard, Award, DollarSign, FileText } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -8,7 +8,8 @@ const iconMap = {
   2: Headphones,
   3: CreditCard,
   4: Award,
-  5: DollarSign
+  5: DollarSign,
+  6: FileText
 };
 
 export const Benefits = () => {

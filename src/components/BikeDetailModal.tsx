@@ -1,6 +1,9 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { CheckCircle, XCircle, Gauge, Fuel, Settings, Calendar, Bike as BikeIcon, MessageCircle, Send } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { contactConfig } from '@/data/bikes';
@@ -30,6 +33,8 @@ interface BikeDetailModalProps {
 
 export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps) => {
   const { t } = useLanguage();
+  const [termsAgreed, setTermsAgreed] = useState(false);
+  const [showTermsError, setShowTermsError] = useState(false);
 
   if (!bike) return null;
 
@@ -37,6 +42,14 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
   const whatsappMessage = `Hi! I'm interested in renting the ${bike.name} (${bike.model}) from Lombok Local. Is it available?`;
   const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
   const telegramUrl = `https://t.me/${contactConfig.telegramUsername}`;
+
+  const handleContactClick = (e: React.MouseEvent) => {
+    if (!termsAgreed) {
+      e.preventDefault();
+      setShowTermsError(true);
+      setTimeout(() => setShowTermsError(false), 3000);
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -163,24 +176,68 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
             </div>
           </div>
 
-          {/* Contact Buttons */}
-          <div className="sticky bottom-0 bg-background pt-4 border-t">
+          {/* Terms & Conditions Agreement */}
+          <div className="sticky bottom-0 bg-background pt-4 border-t space-y-4">
+            <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
+              <Checkbox
+                id="terms"
+                checked={termsAgreed}
+                onCheckedChange={(checked) => {
+                  setTermsAgreed(checked as boolean);
+                  if (checked) setShowTermsError(false);
+                }}
+                className="mt-1"
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm leading-relaxed cursor-pointer"
+              >
+                {t.bikeModal.termsAgreement}{' '}
+                <Link
+                  to="/terms"
+                  className="text-primary hover:underline font-semibold"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {t.bikeModal.termsLink}
+                </Link>
+              </label>
+            </div>
+
+            {showTermsError && (
+              <p className="text-sm text-destructive text-center animate-in fade-in">
+                {t.bikeModal.termsRequired}
+              </p>
+            )}
+
+            {/* Contact Buttons */}
             <div className="flex gap-3">
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1"
+                onClick={handleContactClick}
+              >
                 <Button
                   className="w-full gap-2 bg-[#25D366] hover:bg-[#20BA5A]"
                   size="lg"
-                  disabled={!isAvailable}
+                  disabled={!isAvailable || !termsAgreed}
                 >
                   <MessageCircle className="h-5 w-5" />
                   WhatsApp
                 </Button>
               </a>
-              <a href={telegramUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
+              <a
+                href={telegramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1"
+                onClick={handleContactClick}
+              >
                 <Button
                   className="w-full gap-2 bg-[#0088cc] hover:bg-[#006699]"
                   size="lg"
-                  disabled={!isAvailable}
+                  disabled={!isAvailable || !termsAgreed}
                 >
                   <Send className="h-5 w-5" />
                   Telegram
@@ -188,7 +245,7 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
               </a>
             </div>
             {!isAvailable && (
-              <p className="text-center text-sm text-muted-foreground mt-2">
+              <p className="text-center text-sm text-muted-foreground">
                 Currently Unavailable
               </p>
             )}
