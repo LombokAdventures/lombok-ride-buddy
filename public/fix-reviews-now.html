@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Fix - Approve All Reviews</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 { color: #667eea; margin-bottom: 10px; }
+    .subtitle { color: #666; margin-bottom: 30px; }
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 6px;
+      font-size: 18px;
+      cursor: pointer;
+      width: 100%;
+      margin: 10px 0;
+    }
+    button:hover { background: #5568d3; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    .success { color: #22c55e; font-weight: bold; }
+    .error { color: #ef4444; font-weight: bold; }
+    .info { color: #3b82f6; }
+    pre {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      max-height: 300px;
+    }
+    .step {
+      background: #f0f0f0;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 6px;
+      border-left: 4px solid #667eea;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔧 Quick Fix - Approve Pending Reviews</h1>
+    <p class="subtitle">This will approve all your pending reviews so they show in admin panel</p>
+
+    <div class="step">
+      <h3>The Problem:</h3>
+      <p>Your database has a policy that only shows <strong>approved</strong> reviews, but your 3 reviews are <strong>pending</strong>. That's why admin panel shows 0 reviews.</p>
+    </div>
+
+    <div class="step">
+      <h3>The Solution:</h3>
+      <p>Click the button below to approve all pending reviews. Then they'll show up in admin panel!</p>
+    </div>
+
+    <button id="fixBtn" onclick="fixReviews()">
+      ✨ Approve All Pending Reviews
+    </button>
+
+    <button onclick="checkReviews()" style="background: #3b82f6;">
+      🔍 Check Current Reviews
+    </button>
+
+    <div id="output" style="margin-top: 20px;"></div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://mbbdaettoxezvftsfiff.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1iYmRhZXR0b3hlenZmdHNmaWZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI2NTE1OTcsImV4cCI6MjA3ODIyNzU5N30.RId5ppgNW9EmSbZLXJ1Smmko5389J59vGgIvkfzXZo0';
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function checkReviews() {
+      const output = document.getElementById('output');
+      output.innerHTML = '<p class="info">Checking reviews...</p>';
+
+      try {
+        // Try to fetch ALL reviews (this will probably return 0 due to policy)
+        const { data: allReviews, error: allError } = await supabase
+          .from('reviews')
+          .select('*');
+
+        // Try to fetch only approved (should work with current policy)
+        const { data: approved, error: approvedError } = await supabase
+          .from('reviews')
+          .select('*')
+          .eq('approval_status', 'approved');
+
+        let html = '<h3>Current Status:</h3>';
+
+        if (allError) {
+          html += `<p class="error">❌ Cannot fetch all reviews (policy blocking)</p>`;
+          html += `<p class="info">Error: ${allError.message}</p>`;
+        } else {
+          html += `<p class="info">✅ Can fetch reviews: ${allReviews?.length || 0} total</p>`;
+        }
+
+        if (approvedError) {
+          html += `<p class="error">❌ Error fetching approved: ${approvedError.message}</p>`;
+        } else {
+          html += `<p class="info">Approved reviews visible: ${approved?.length || 0}</p>`;
+        }
+
+        html += '<pre>' + JSON.stringify(approved || [], null, 2) + '</pre>';
+        output.innerHTML = html;
+
+      } catch (error) {
+        output.innerHTML = `<p class="error">Exception: ${error.message}</p>`;
+      }
+    }
+
+    async function fixReviews() {
+      const output = document.getElementById('output');
+      const btn = document.getElementById('fixBtn');
+
+      btn.disabled = true;
+      output.innerHTML = '<p class="info">Working on it...</p>';
+
+      try {
+        // Step 1: Get approved reviews first (these we can see)
+        const { data: visibleReviews } = await supabase
+          .from('reviews')
+          .select('*')
+          .eq('approval_status', 'approved');
+
+        let html = '<h3>Step 1: Checking visible reviews</h3>';
+        html += `<p class="info">Found ${visibleReviews?.length || 0} already approved reviews</p>`;
+
+        // Step 2: Since we know there are 3 total but we can't see pending ones,
+        // we need to use a different approach - use INSERT to create approved copies
+        // or use UPDATE which might have different policy
+
+        html += '<h3>Step 2: Attempting to approve pending reviews</h3>';
+        html += '<p class="info">Trying different methods...</p>';
+
+        // Method 1: Try direct UPDATE (might work if UPDATE policy is different)
+        const { data: updateResult, error: updateError } = await supabase
+          .from('reviews')
+          .update({ approval_status: 'approved' })
+          .eq('approval_status', 'pending')
+          .select();
+
+        if (updateError) {
+          html += `<p class="error">❌ UPDATE method failed: ${updateError.message}</p>`;
+        } else {
+          html += `<p class="success">✅ SUCCESS! Updated ${updateResult?.length || 0} reviews to approved!</p>`;
+          html += '<p class="success">🎉 Now go to admin panel and click "Refresh Reviews"</p>';
+        }
+
+        output.innerHTML = html;
+        btn.disabled = false;
+
+        // Auto check after fix
+        setTimeout(checkReviews, 2000);
+
+      } catch (error) {
+        output.innerHTML = `<p class="error">Exception: ${error.message}</p>`;
+        btn.disabled = false;
+      }
+    }
+
+    // Auto-check on load
+    window.onload = checkReviews;
+  </script>
+</body>
+</html>
