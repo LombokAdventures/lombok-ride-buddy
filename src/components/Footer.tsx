@@ -1,4 +1,5 @@
 import { MapPin, Mail, Phone, Instagram, Facebook, Youtube } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { contactConfig } from '@/data/bikes';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -26,7 +27,7 @@ export const Footer = () => {
               <li><a href="#benefits" className="hover:text-background transition-colors">Why Us</a></li>
               <li><a href="#reviews" className="hover:text-background transition-colors">Reviews</a></li>
               <li><a href="#faq" className="hover:text-background transition-colors">FAQ</a></li>
-              <li><a href="/terms" className="hover:text-background transition-colors">Terms & Conditions</a></li>
+              <li><Link to="/terms" className="hover:text-background transition-colors">Terms & Conditions</Link></li>
             </ul>
           </div>
 
