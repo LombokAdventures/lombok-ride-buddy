@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Database Test</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test-box {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .success { color: #22c55e; font-weight: bold; }
+    .error { color: #ef4444; font-weight: bold; }
+    .info { color: #3b82f6; }
+    pre {
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    button {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 Reviews Database Diagnostic</h1>
+
+  <div class="test-box">
+    <button onclick="runTest()">Run Diagnostic Test</button>
+  </div>
+
+  <div id="results"></div>
+
+  <script>
+    const SUPABASE_URL = 'https://mbbdaettoxezvftsfiff.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1iYmRhZXR0b3hlenZmdHNmaWZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI2NTE1OTcsImV4cCI6MjA3ODIyNzU5N30.RId5ppgNW9EmSbZLXJ1Smmko5389J59vGgIvkfzXZo0';
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function runTest() {
+      const results = document.getElementById('results');
+      results.innerHTML = '<div class="test-box"><p class="info">Running tests...</p></div>';
+
+      let html = '';
+
+      // Test 1: Check connection
+      html += '<div class="test-box">';
+      html += '<h3>Test 1: Database Connection</h3>';
+      try {
+        const { error } = await supabase.from('reviews').select('count');
+        if (error) throw error;
+        html += '<p class="success">✅ Connected to Supabase</p>';
+      } catch (error) {
+        html += `<p class="error">❌ Connection failed: ${error.message}</p>`;
+      }
+      html += '</div>';
+
+      // Test 2: Fetch all reviews
+      html += '<div class="test-box">';
+      html += '<h3>Test 2: Fetch Reviews</h3>';
+      try {
+        const { data, error } = await supabase
+          .from('reviews')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        html += `<p class="success">✅ Successfully fetched reviews</p>`;
+        html += `<p><strong>Total reviews:</strong> ${data.length}</p>`;
+
+        if (data.length === 0) {
+          html += '<p class="info">ℹ️ No reviews in database. Create a test review first!</p>';
+        } else {
+          const pending = data.filter(r => r.approval_status === 'pending').length;
+          const approved = data.filter(r => r.approval_status === 'approved').length;
+          const rejected = data.filter(r => r.approval_status === 'rejected').length;
+
+          html += `<p><strong>Pending:</strong> ${pending}</p>`;
+          html += `<p><strong>Approved:</strong> ${approved}</p>`;
+          html += `<p><strong>Rejected:</strong> ${rejected}</p>`;
+          html += '<h4>Review Details:</h4>';
+          html += '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+        }
+      } catch (error) {
+        html += `<p class="error">❌ Failed to fetch reviews</p>`;
+        html += `<p class="error">Error: ${error.message}</p>`;
+        html += '<p class="info">This means the SELECT policy is not working!</p>';
+      }
+      html += '</div>';
+
+      // Test 3: Test UPDATE (approve a review)
+      html += '<div class="test-box">';
+      html += '<h3>Test 3: Test UPDATE Permission</h3>';
+      try {
+        const { data: reviews } = await supabase.from('reviews').select('*').limit(1);
+
+        if (reviews && reviews.length > 0) {
+          const testReview = reviews[0];
+          const newStatus = testReview.approval_status === 'approved' ? 'pending' : 'approved';
+
+          const { error } = await supabase
+            .from('reviews')
+            .update({ approval_status: newStatus })
+            .eq('id', testReview.id);
+
+          if (error) throw error;
+
+          // Revert back
+          await supabase
+            .from('reviews')
+            .update({ approval_status: testReview.approval_status })
+            .eq('id', testReview.id);
+
+          html += '<p class="success">✅ UPDATE permission works!</p>';
+        } else {
+          html += '<p class="info">ℹ️ No reviews to test UPDATE (need at least 1 review)</p>';
+        }
+      } catch (error) {
+        html += `<p class="error">❌ UPDATE permission failed</p>`;
+        html += `<p class="error">Error: ${error.message}</p>`;
+        html += '<p class="info">The UPDATE policy is not applied!</p>';
+      }
+      html += '</div>';
+
+      // Test 4: Create a test review
+      html += '<div class="test-box">';
+      html += '<h3>Test 4: Create Test Review</h3>';
+      html += '<button onclick="createTestReview()">Create Test Review</button>';
+      html += '<p class="info">Click to add a test review to your database</p>';
+      html += '</div>';
+
+      results.innerHTML = html;
+    }
+
+    async function createTestReview() {
+      const { data, error } = await supabase
+        .from('reviews')
+        .insert({
+          name: 'Test User',
+          country: 'Test Country',
+          rating: 5,
+          comment: 'This is a test review created by the diagnostic tool',
+          approval_status: 'pending'
+        })
+        .select();
+
+      if (error) {
+        alert('Failed to create test review: ' + error.message);
+      } else {
+        alert('✅ Test review created! Now go to admin panel and check if it appears.');
+        runTest();
+      }
+    }
+  </script>
+</body>
+</html>
