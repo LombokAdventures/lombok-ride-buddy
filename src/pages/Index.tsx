@@ -8,30 +8,27 @@ import { ComingSoon } from '@/components/ComingSoon';
 import { FAQ } from '@/components/FAQ';
 import { Footer } from '@/components/Footer';
 import { FloatingContact } from '@/components/FloatingContact';
-import { LanguageProvider } from '@/contexts/LanguageContext';
 
 const Index = () => {
   return (
-    <LanguageProvider>
-      <div className="min-h-screen">
-        <Header />
-        <main className="pt-16">
-          <Hero />
-          <Fleet />
-          <Benefits />
-          <HowItWorks />
-          <Reviews />
-          <div id="coming-soon">
-            <ComingSoon />
-          </div>
-          <FAQ />
-          <div id="footer">
-            <Footer />
-          </div>
-        </main>
-        <FloatingContact />
-      </div>
-    </LanguageProvider>
+    <div className="min-h-screen">
+      <Header />
+      <main className="pt-16">
+        <Hero />
+        <Fleet />
+        <Benefits />
+        <HowItWorks />
+        <Reviews />
+        <div id="coming-soon">
+          <ComingSoon />
+        </div>
+        <FAQ />
+        <div id="footer">
+          <Footer />
+        </div>
+      </main>
+      <FloatingContact />
+    </div>
   );
 };
 
