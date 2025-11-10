@@ -40,7 +40,7 @@ export default function TermsAndConditions() {
           size="lg"
         >
           <ArrowLeft className="h-5 w-5" />
-          <span className="hidden sm:inline font-semibold">Back to Home</span>
+          <span className="hidden sm:inline font-semibold">{t.termsContent.backToHome}</span>
         </Button>
       </div>
 
@@ -64,22 +64,12 @@ export default function TermsAndConditions() {
               <h2 className="text-2xl font-bold">{t.terms.rentalRequirements}</h2>
             </div>
             <div className="bg-card border rounded-lg p-6 space-y-4">
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p>Renters must be between 17 and 70 years old</p>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p>Valid driver's license from your country is required</p>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p>Valid ID Card or Passport must be left as deposit during rental period</p>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p>Full payment required upon receiving the vehicle</p>
-              </div>
+              {t.termsContent.rentalRequirements.map((requirement, idx) => (
+                <div key={idx} className="flex gap-3">
+                  <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
+                  <p>{requirement}</p>
+                </div>
+              ))}
             </div>
           </section>
 
@@ -92,30 +82,12 @@ export default function TermsAndConditions() {
               <h2 className="text-2xl font-bold">{t.terms.usageTerms}</h2>
             </div>
             <div className="bg-card border rounded-lg p-6 space-y-4">
-              <div className="flex gap-3">
-                <AlertCircle className="h-5 w-5 text-warning mt-0.5 flex-shrink-0" />
-                <p>Scooters must NOT be driven outside of Lombok Island</p>
-              </div>
-              <div className="flex gap-3">
-                <AlertCircle className="h-5 w-5 text-warning mt-0.5 flex-shrink-0" />
-                <p>Off-road driving is strictly prohibited</p>
-              </div>
-              <div className="flex gap-3">
-                <AlertCircle className="h-5 w-5 text-warning mt-0.5 flex-shrink-0" />
-                <p>Only authorized riders may operate the scooter - do not allow others who don't know how to drive it</p>
-              </div>
-              <div className="flex gap-3">
-                <AlertCircle className="h-5 w-5 text-warning mt-0.5 flex-shrink-0" />
-                <p>Operating the vehicle under the influence of alcohol or drugs is strictly forbidden</p>
-              </div>
-              <div className="flex gap-3">
-                <AlertCircle className="h-5 w-5 text-warning mt-0.5 flex-shrink-0" />
-                <p>All traffic signs and regulations must be strictly followed</p>
-              </div>
-              <div className="flex gap-3">
-                <AlertCircle className="h-5 w-5 text-warning mt-0.5 flex-shrink-0" />
-                <p>Rental rates are calculated on a 24-hour clock basis</p>
-              </div>
+              {t.termsContent.usageTerms.map((term, idx) => (
+                <div key={idx} className="flex gap-3">
+                  <AlertCircle className="h-5 w-5 text-warning mt-0.5 flex-shrink-0" />
+                  <p>{term}</p>
+                </div>
+              ))}
             </div>
           </section>
 
@@ -129,21 +101,15 @@ export default function TermsAndConditions() {
             </div>
             <div className="bg-card border border-destructive/20 rounded-lg p-6 space-y-4">
               <div className="bg-destructive/5 p-4 rounded-lg">
-                <p className="font-semibold text-destructive mb-2">Important: Renter's Full Responsibility</p>
-                <p className="text-sm">The renter is fully responsible for all parts of the scooter during the rental period.</p>
+                <p className="font-semibold text-destructive mb-2">{t.termsContent.liability.warning}</p>
+                <p className="text-sm">{t.termsContent.liability.warningDesc}</p>
               </div>
-              <div className="flex gap-3">
-                <Shield className="h-5 w-5 text-destructive mt-0.5 flex-shrink-0" />
-                <p>In case of accident causing damage to the scooter, renter is liable for costs between <strong>$250 - $500 USD</strong> depending on the extent of damage</p>
-              </div>
-              <div className="flex gap-3">
-                <Shield className="h-5 w-5 text-destructive mt-0.5 flex-shrink-0" />
-                <p>If the bike is lost or stolen during the rental period, the renter is fully responsible for the replacement cost</p>
-              </div>
-              <div className="flex gap-3">
-                <Shield className="h-5 w-5 text-destructive mt-0.5 flex-shrink-0" />
-                <p>Renters must consent to being photographed when receiving the fleet for documentation purposes</p>
-              </div>
+              {t.termsContent.liability.items.map((item, idx) => (
+                <div key={idx} className="flex gap-3">
+                  <Shield className="h-5 w-5 text-destructive mt-0.5 flex-shrink-0" />
+                  <p dangerouslySetInnerHTML={{ __html: item.replace(/\$250 - \$500 USD/g, '<strong>$250 - $500 USD</strong>') }} />
+                </div>
+              ))}
             </div>
           </section>
 
@@ -156,42 +122,18 @@ export default function TermsAndConditions() {
               <h2 className="text-2xl font-bold">{t.terms.facilities}</h2>
             </div>
             <div className="bg-card border rounded-lg p-6 space-y-4">
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p><strong>Competitive Pricing:</strong> Starting from just $5 USD per day</p>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p><strong>Safety Equipment:</strong> Two SNI-certified helmets included with every rental</p>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p><strong>Weather Protection:</strong> Two clean, well-maintained raincoats provided</p>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p><strong>Free Delivery:</strong> Complimentary delivery to your hotel in the Senggigi area</p>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p><strong>Quick Booking:</strong> Fast and responsive ordering process through WhatsApp or Telegram</p>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p><strong>Well-Maintained Fleet:</strong> All scooters are delivered clean and in excellent condition</p>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p><strong>Latest Models:</strong> Our fleet consists of the newest models with regular maintenance at authorized dealers</p>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p><strong>Free Replacement:</strong> In the event of mechanical failure or damage to the unit (not caused by renter), we offer free-of-charge replacement</p>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p><strong>Transparent Pricing:</strong> No hidden costs or future additional charges</p>
-              </div>
+              {t.termsContent.facilities.map((facility, idx) => {
+                const [title, ...descParts] = facility.split(':');
+                const description = descParts.join(':');
+                return (
+                  <div key={idx} className="flex gap-3">
+                    <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
+                    <p>
+                      <strong>{title}:</strong>{description}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           </section>
 
@@ -204,11 +146,11 @@ export default function TermsAndConditions() {
               <h2 className="text-2xl font-bold">{t.terms.pricing}</h2>
             </div>
             <div className="bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 rounded-lg p-6">
-              <p className="text-lg mb-4">
-                Our rental rates start from just <strong className="text-2xl text-primary">$5 USD</strong> per day (24 hours).
-              </p>
+              <p className="text-lg mb-4" dangerouslySetInnerHTML={{
+                __html: t.termsContent.pricingInfo.replace('$5 USD', '<strong class="text-2xl text-primary">$5 USD</strong>')
+              }} />
               <p className="text-muted-foreground">
-                All pricing is transparent with no hidden fees. Payment is required in full upon receiving the vehicle.
+                {t.termsContent.pricingNote}
               </p>
             </div>
           </section>
@@ -222,17 +164,15 @@ export default function TermsAndConditions() {
               <h2 className="text-2xl font-bold">{t.terms.requiredDocs}</h2>
             </div>
             <div className="bg-card border rounded-lg p-6 space-y-4">
-              <p className="font-semibold mb-2">Please ensure you have the following documents:</p>
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p>Valid driver's license from your home country</p>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                <p>Valid identification (ID Card or Passport) - to be left as deposit</p>
-              </div>
+              <p className="font-semibold mb-2">{t.termsContent.requiredDocs.intro}</p>
+              {t.termsContent.requiredDocs.items.map((doc, idx) => (
+                <div key={idx} className="flex gap-3">
+                  <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
+                  <p>{doc}</p>
+                </div>
+              ))}
               <p className="text-sm text-muted-foreground mt-4">
-                Having these documents ensures compliance with local regulations and a hassle-free rental experience.
+                {t.termsContent.requiredDocs.note}
               </p>
             </div>
           </section>
@@ -242,7 +182,7 @@ export default function TermsAndConditions() {
             <div className="bg-primary/5 border-l-4 border-primary rounded-lg p-6">
               <h3 className="font-bold text-lg mb-2">{t.terms.agreement}</h3>
               <p className="text-muted-foreground">
-                By renting a scooter from Lombok Local, you acknowledge that you have read, understood, and agree to comply with all the terms and conditions stated above. Violation of these terms may result in additional charges or legal action.
+                {t.termsContent.agreementText}
               </p>
             </div>
           </section>
@@ -261,7 +201,7 @@ export default function TermsAndConditions() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-lg font-semibold transition-colors"
                 >
-                  Contact via WhatsApp
+                  {t.termsContent.contactWhatsApp}
                 </a>
                 <a
                   href="https://t.me/lombookadventures"
@@ -269,7 +209,7 @@ export default function TermsAndConditions() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#0088cc] hover:bg-[#006699] text-white rounded-lg font-semibold transition-colors"
                 >
-                  Contact via Telegram
+                  {t.termsContent.contactTelegram}
                 </a>
               </div>
             </div>
