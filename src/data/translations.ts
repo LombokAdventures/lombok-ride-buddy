@@ -72,6 +72,19 @@ export interface Translations {
     followUs: string;
     rights: string;
   };
+  terms: {
+    title: string;
+    subtitle: string;
+    rentalRequirements: string;
+    usageTerms: string;
+    liability: string;
+    facilities: string;
+    pricing: string;
+    requiredDocs: string;
+    agreement: string;
+    questionsTitle: string;
+    questionsSubtitle: string;
+  };
 }
 
 export const translations: Record<Language, Translations> = {
@@ -214,6 +227,19 @@ export const translations: Record<Language, Translations> = {
       contact: 'Contact Us',
       followUs: 'Follow Us',
       rights: 'All rights reserved.'
+    },
+    terms: {
+      title: 'Terms & Conditions',
+      subtitle: 'Please read these terms carefully before renting from Lombok Local',
+      rentalRequirements: 'Rental Requirements',
+      usageTerms: 'Usage Terms & Restrictions',
+      liability: 'Liability & Responsibility',
+      facilities: 'Included Facilities & Services',
+      pricing: 'Pricing',
+      requiredDocs: 'Required Documents',
+      agreement: 'Agreement',
+      questionsTitle: 'Questions About Our Terms?',
+      questionsSubtitle: 'If you have any questions or need clarification about our terms and conditions, please don\'t hesitate to contact us.'
     }
   },
   ru: {
@@ -355,6 +381,19 @@ export const translations: Record<Language, Translations> = {
       contact: 'Связаться с нами',
       followUs: 'Мы в соцсетях',
       rights: 'Все права защищены.'
+    },
+    terms: {
+      title: 'Условия использования',
+      subtitle: 'Пожалуйста, внимательно прочитайте эти условия перед арендой у Lombok Local',
+      rentalRequirements: 'Требования к аренде',
+      usageTerms: 'Условия использования и ограничения',
+      liability: 'Ответственность',
+      facilities: 'Включенные услуги',
+      pricing: 'Цены',
+      requiredDocs: 'Необходимые документы',
+      agreement: 'Соглашение',
+      questionsTitle: 'Вопросы об условиях?',
+      questionsSubtitle: 'Если у вас есть вопросы или нужны разъяснения наших условий, пожалуйста, свяжитесь с нами.'
     }
   },
   id: {
@@ -496,6 +535,19 @@ export const translations: Record<Language, Translations> = {
       contact: 'Hubungi Kami',
       followUs: 'Ikuti Kami',
       rights: 'Hak cipta dilindungi.'
+    },
+    terms: {
+      title: 'Syarat & Ketentuan',
+      subtitle: 'Harap baca syarat ini dengan seksama sebelum menyewa dari Lombok Local',
+      rentalRequirements: 'Persyaratan Sewa',
+      usageTerms: 'Syarat Penggunaan & Pembatasan',
+      liability: 'Tanggung Jawab',
+      facilities: 'Fasilitas & Layanan Termasuk',
+      pricing: 'Harga',
+      requiredDocs: 'Dokumen yang Diperlukan',
+      agreement: 'Perjanjian',
+      questionsTitle: 'Pertanyaan Tentang Syarat Kami?',
+      questionsSubtitle: 'Jika Anda memiliki pertanyaan atau memerlukan klarifikasi tentang syarat dan ketentuan kami, jangan ragu untuk menghubungi kami.'
     }
   },
   de: {
@@ -637,6 +689,19 @@ export const translations: Record<Language, Translations> = {
       contact: 'Kontaktieren Sie uns',
       followUs: 'Folgen Sie uns',
       rights: 'Alle Rechte vorbehalten.'
+    },
+    terms: {
+      title: 'Allgemeine Geschäftsbedingungen',
+      subtitle: 'Bitte lesen Sie diese Bedingungen sorgfältig durch, bevor Sie bei Lombok Local mieten',
+      rentalRequirements: 'Mietanforderungen',
+      usageTerms: 'Nutzungsbedingungen & Einschränkungen',
+      liability: 'Haftung & Verantwortung',
+      facilities: 'Inbegriffene Einrichtungen & Dienstleistungen',
+      pricing: 'Preisgestaltung',
+      requiredDocs: 'Erforderliche Dokumente',
+      agreement: 'Vereinbarung',
+      questionsTitle: 'Fragen zu unseren Bedingungen?',
+      questionsSubtitle: 'Wenn Sie Fragen haben oder Klarstellung zu unseren Geschäftsbedingungen benötigen, zögern Sie bitte nicht, uns zu kontaktieren.'
     }
   }
 };

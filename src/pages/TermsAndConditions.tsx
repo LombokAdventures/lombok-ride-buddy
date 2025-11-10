@@ -1,8 +1,10 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { CheckCircle, AlertCircle, Shield, DollarSign, FileText } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function TermsAndConditions() {
+  const { t } = useLanguage();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -12,9 +14,9 @@ export default function TermsAndConditions() {
         <div className="container mx-auto px-4 max-w-4xl">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Terms & Conditions</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">{t.terms.title}</h1>
             <p className="text-muted-foreground text-lg">
-              Please read these terms carefully before renting from Lombok Local
+              {t.terms.subtitle}
             </p>
           </div>
 
@@ -24,7 +26,7 @@ export default function TermsAndConditions() {
               <div className="p-3 bg-primary/10 rounded-lg">
                 <FileText className="h-6 w-6 text-primary" />
               </div>
-              <h2 className="text-2xl font-bold">Rental Requirements</h2>
+              <h2 className="text-2xl font-bold">{t.terms.rentalRequirements}</h2>
             </div>
             <div className="bg-card border rounded-lg p-6 space-y-4">
               <div className="flex gap-3">
@@ -52,7 +54,7 @@ export default function TermsAndConditions() {
               <div className="p-3 bg-warning/10 rounded-lg">
                 <AlertCircle className="h-6 w-6 text-warning" />
               </div>
-              <h2 className="text-2xl font-bold">Usage Terms & Restrictions</h2>
+              <h2 className="text-2xl font-bold">{t.terms.usageTerms}</h2>
             </div>
             <div className="bg-card border rounded-lg p-6 space-y-4">
               <div className="flex gap-3">
@@ -88,7 +90,7 @@ export default function TermsAndConditions() {
               <div className="p-3 bg-destructive/10 rounded-lg">
                 <Shield className="h-6 w-6 text-destructive" />
               </div>
-              <h2 className="text-2xl font-bold">Liability & Responsibility</h2>
+              <h2 className="text-2xl font-bold">{t.terms.liability}</h2>
             </div>
             <div className="bg-card border border-destructive/20 rounded-lg p-6 space-y-4">
               <div className="bg-destructive/5 p-4 rounded-lg">
@@ -116,7 +118,7 @@ export default function TermsAndConditions() {
               <div className="p-3 bg-success/10 rounded-lg">
                 <CheckCircle className="h-6 w-6 text-success" />
               </div>
-              <h2 className="text-2xl font-bold">Included Facilities & Services</h2>
+              <h2 className="text-2xl font-bold">{t.terms.facilities}</h2>
             </div>
             <div className="bg-card border rounded-lg p-6 space-y-4">
               <div className="flex gap-3">
@@ -164,7 +166,7 @@ export default function TermsAndConditions() {
               <div className="p-3 bg-primary/10 rounded-lg">
                 <DollarSign className="h-6 w-6 text-primary" />
               </div>
-              <h2 className="text-2xl font-bold">Pricing</h2>
+              <h2 className="text-2xl font-bold">{t.terms.pricing}</h2>
             </div>
             <div className="bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 rounded-lg p-6">
               <p className="text-lg mb-4">
@@ -182,7 +184,7 @@ export default function TermsAndConditions() {
               <div className="p-3 bg-primary/10 rounded-lg">
                 <FileText className="h-6 w-6 text-primary" />
               </div>
-              <h2 className="text-2xl font-bold">Required Documents</h2>
+              <h2 className="text-2xl font-bold">{t.terms.requiredDocs}</h2>
             </div>
             <div className="bg-card border rounded-lg p-6 space-y-4">
               <p className="font-semibold mb-2">Please ensure you have the following documents:</p>
@@ -203,7 +205,7 @@ export default function TermsAndConditions() {
           {/* Agreement Notice */}
           <section className="mb-12">
             <div className="bg-primary/5 border-l-4 border-primary rounded-lg p-6">
-              <h3 className="font-bold text-lg mb-2">Agreement</h3>
+              <h3 className="font-bold text-lg mb-2">{t.terms.agreement}</h3>
               <p className="text-muted-foreground">
                 By renting a scooter from Lombok Local, you acknowledge that you have read, understood, and agree to comply with all the terms and conditions stated above. Violation of these terms may result in additional charges or legal action.
               </p>
@@ -213,9 +215,9 @@ export default function TermsAndConditions() {
           {/* Contact Section */}
           <section className="text-center">
             <div className="bg-card border rounded-lg p-8">
-              <h3 className="text-2xl font-bold mb-4">Questions About Our Terms?</h3>
+              <h3 className="text-2xl font-bold mb-4">{t.terms.questionsTitle}</h3>
               <p className="text-muted-foreground mb-6">
-                If you have any questions or need clarification about our terms and conditions, please don't hesitate to contact us.
+                {t.terms.questionsSubtitle}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
