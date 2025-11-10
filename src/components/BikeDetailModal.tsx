@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, XCircle, Gauge, Fuel, Settings, Calendar, Bike as BikeIcon, MessageCircle } from 'lucide-react';
+import { CheckCircle, XCircle, Gauge, Fuel, Settings, Calendar, Bike as BikeIcon, MessageCircle, Send } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { contactConfig } from '@/data/bikes';
 
@@ -36,31 +36,34 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
   const isAvailable = bike.status === 'available';
   const whatsappMessage = `Hi! I'm interested in renting the ${bike.name} (${bike.model}) from Lombok Local. Is it available?`;
   const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const telegramUrl = `https://t.me/${contactConfig.telegramUsername}`;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <div className="flex items-start justify-between">
-            <DialogTitle className="text-2xl font-bold">{bike.name}</DialogTitle>
-            <Badge
-              variant={isAvailable ? 'default' : 'destructive'}
-              className={isAvailable ? 'bg-success' : 'bg-warning'}
-            >
-              {isAvailable ? (
-                <>
-                  <CheckCircle className="h-3 w-3 mr-1" />
-                  {t.fleet.available}
-                </>
-              ) : (
-                <>
-                  <XCircle className="h-3 w-3 mr-1" />
-                  {t.fleet.rented}
-                </>
-              )}
-            </Badge>
+          <div className="space-y-2">
+            <DialogTitle className="text-2xl font-bold pr-8">{bike.name}</DialogTitle>
+            <div className="flex items-center gap-3">
+              <p className="text-muted-foreground">{bike.model}</p>
+              <Badge
+                variant={isAvailable ? 'default' : 'destructive'}
+                className={isAvailable ? 'bg-success' : 'bg-warning'}
+              >
+                {isAvailable ? (
+                  <>
+                    <CheckCircle className="h-3 w-3 mr-1" />
+                    {t.fleet.available}
+                  </>
+                ) : (
+                  <>
+                    <XCircle className="h-3 w-3 mr-1" />
+                    {t.fleet.rented}
+                  </>
+                )}
+              </Badge>
+            </div>
           </div>
-          <p className="text-muted-foreground">{bike.model}</p>
         </DialogHeader>
 
         <div className="space-y-6 mt-4">
@@ -160,19 +163,35 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
             </div>
           </div>
 
-          {/* Reserve Button */}
+          {/* Contact Buttons */}
           <div className="sticky bottom-0 bg-background pt-4 border-t">
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="block">
-              <Button
-                className="w-full gap-2"
-                size="lg"
-                disabled={!isAvailable}
-                variant={isAvailable ? "default" : "outline"}
-              >
-                <MessageCircle className="h-5 w-5" />
-                {isAvailable ? t.fleet.reserve : 'Currently Unavailable'}
-              </Button>
-            </a>
+            <div className="flex gap-3">
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
+                <Button
+                  className="w-full gap-2 bg-[#25D366] hover:bg-[#20BA5A]"
+                  size="lg"
+                  disabled={!isAvailable}
+                >
+                  <MessageCircle className="h-5 w-5" />
+                  WhatsApp
+                </Button>
+              </a>
+              <a href={telegramUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
+                <Button
+                  className="w-full gap-2 bg-[#0088cc] hover:bg-[#006699]"
+                  size="lg"
+                  disabled={!isAvailable}
+                >
+                  <Send className="h-5 w-5" />
+                  Telegram
+                </Button>
+              </a>
+            </div>
+            {!isAvailable && (
+              <p className="text-center text-sm text-muted-foreground mt-2">
+                Currently Unavailable
+              </p>
+            )}
           </div>
         </div>
       </DialogContent>
