@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Tropical Paradise Theme */
+    /* Tropical Paradise Theme - Light Mode */
     --background: 0 0% 100%;
     --foreground: 220 15% 20%;
 
@@ -55,7 +55,7 @@ All colors MUST be HSL.
     --gradient-hero: linear-gradient(135deg, hsl(200 95% 40%), hsl(200 95% 55%));
     --gradient-sunset: linear-gradient(135deg, hsl(15 100% 60%), hsl(30 100% 55%));
     --gradient-tropical: linear-gradient(135deg, hsl(160 60% 45%), hsl(180 60% 50%));
-    
+
     /* Shadows */
     --shadow-elegant: 0 10px 40px -10px hsl(200 95% 40% / 0.3);
     --shadow-card: 0 4px 20px -4px hsl(220 15% 20% / 0.1);
@@ -64,6 +64,59 @@ All colors MUST be HSL.
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .dark {
+    /* Dark Mode - Tropical Night Theme */
+    --background: 220 20% 10%;
+    --foreground: 0 0% 95%;
+
+    --card: 220 18% 14%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 220 18% 14%;
+    --popover-foreground: 0 0% 95%;
+
+    /* Ocean Blue - Slightly brighter for dark mode */
+    --primary: 200 90% 50%;
+    --primary-foreground: 220 20% 10%;
+    --primary-glow: 200 90% 65%;
+
+    /* Tropical Green */
+    --secondary: 160 55% 50%;
+    --secondary-foreground: 220 20% 10%;
+
+    /* Sunset Orange */
+    --accent: 15 95% 65%;
+    --accent-foreground: 220 20% 10%;
+
+    /* Success Green */
+    --success: 145 60% 50%;
+    --success-foreground: 220 20% 10%;
+
+    /* Warning/Rented */
+    --warning: 0 80% 65%;
+    --warning-foreground: 220 20% 10%;
+
+    --muted: 220 18% 18%;
+    --muted-foreground: 0 0% 65%;
+
+    --destructive: 0 80% 65%;
+    --destructive-foreground: 220 20% 10%;
+
+    --border: 220 18% 25%;
+    --input: 220 18% 25%;
+    --ring: 200 90% 50%;
+
+    /* Gradients - Adjusted for dark mode */
+    --gradient-hero: linear-gradient(135deg, hsl(200 90% 45%), hsl(200 90% 60%));
+    --gradient-sunset: linear-gradient(135deg, hsl(15 95% 60%), hsl(30 95% 65%));
+    --gradient-tropical: linear-gradient(135deg, hsl(160 55% 45%), hsl(180 55% 55%));
+
+    /* Shadows - Darker shadows for dark mode */
+    --shadow-elegant: 0 10px 40px -10px hsl(0 0% 0% / 0.5);
+    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
+    --shadow-float: 0 20px 60px -20px hsl(200 90% 50% / 0.5);
   }
 }
 
