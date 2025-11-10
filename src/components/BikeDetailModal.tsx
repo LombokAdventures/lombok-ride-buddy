@@ -76,7 +76,7 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto dialog-scrollbar">
         <DialogHeader>
           <div className="space-y-2">
             <DialogTitle className="text-2xl font-bold pr-8">{bike.name}</DialogTitle>
