@@ -170,5 +170,6 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
       isOpen={isModalOpen}
       onClose={() => setIsModalOpen(false)}
     />
+    </>
   );
 };
