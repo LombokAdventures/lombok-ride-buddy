@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
-import { Lock, CheckCircle, XCircle, Trash2, Star, LogOut, Upload, Image as ImageIcon, Plus, ExternalLink } from 'lucide-react';
+import { Lock, CheckCircle, XCircle, Trash2, Star, LogOut, Upload, Image as ImageIcon, Plus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import type { User } from '@supabase/supabase-js';
@@ -44,18 +44,11 @@ interface EmailEntry {
   created_at: string;
 }
 
-interface HeroImage {
-  id: string;
-  image_url: string;
-  created_at: string;
-}
-
 const Admin = () => {
   const [bikes, setBikes] = useState<Bike[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [tourEmails, setTourEmails] = useState<EmailEntry[]>([]);
   const [villaEmails, setVillaEmails] = useState<EmailEntry[]>([]);
-  const [heroImages, setHeroImages] = useState<HeroImage[]>([]);
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -63,7 +56,6 @@ const Admin = () => {
   const [password, setPassword] = useState('');
   const [activeTab, setActiveTab] = useState('bikes');
   const [uploadingImageFor, setUploadingImageFor] = useState<string | null>(null);
-  const [uploadingHeroImage, setUploadingHeroImage] = useState(false);
   const [isAddBikeOpen, setIsAddBikeOpen] = useState(false);
   const [newBike, setNewBike] = useState({
     name: '',
@@ -157,17 +149,9 @@ const Admin = () => {
       })
       .subscribe();
 
-    const heroImagesChannel = supabase
-      .channel('admin-hero-images-changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'hero_images' }, () => {
-        fetchHeroImages();
-      })
-      .subscribe();
-
     return () => {
       supabase.removeChannel(bikesChannel);
       supabase.removeChannel(reviewsChannel);
-      supabase.removeChannel(heroImagesChannel);
     };
   }, [isAdmin]);
 
@@ -176,8 +160,7 @@ const Admin = () => {
       fetchBikes(),
       fetchReviews(),
       fetchTourEmails(),
-      fetchVillaEmails(),
-      fetchHeroImages()
+      fetchVillaEmails()
     ]);
   };
 
@@ -283,29 +266,6 @@ const Admin = () => {
     if (data) {
       setVillaEmails(data);
       console.log('Loaded villa emails:', data.length);
-    }
-  };
-
-  const fetchHeroImages = async () => {
-    console.log('Fetching hero images...');
-    const { data, error } = await supabase
-      .from('hero_images')
-      .select('*')
-      .order('created_at', { ascending: true });
-
-    if (error) {
-      console.error('Error fetching hero images:', error);
-      toast({
-        title: 'Error loading hero images',
-        description: error.message,
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    if (data) {
-      setHeroImages(data);
-      console.log('✅ Loaded hero images:', data.length);
     }
   };
 
@@ -729,95 +689,6 @@ const Admin = () => {
     fetchBikes();
   };
 
-  const uploadHeroImage = async (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      toast({
-        title: 'Invalid File',
-        description: 'Please upload an image file',
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      toast({
-        title: 'File Too Large',
-        description: 'Image must be less than 5MB',
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    setUploadingHeroImage(true);
-
-    try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `hero-${Date.now()}.${fileExt}`;
-      const filePath = `hero/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('bike-images')
-        .upload(filePath, file, {
-          cacheControl: '3600',
-          upsert: true,
-        });
-
-      if (uploadError) throw uploadError;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('bike-images')
-        .getPublicUrl(filePath);
-
-      const { error: insertError } = await supabase
-        .from('hero_images')
-        .insert([{ image_url: publicUrl }]);
-
-      if (insertError) throw insertError;
-
-      toast({
-        title: 'Hero Image Added',
-        description: 'Hero image has been uploaded successfully',
-      });
-
-      fetchHeroImages();
-    } catch (error: any) {
-      toast({
-        title: 'Upload Failed',
-        description: error.message,
-        variant: 'destructive',
-      });
-    } finally {
-      setUploadingHeroImage(false);
-    }
-  };
-
-  const deleteHeroImage = async (imageId: string) => {
-    if (!confirm('Are you sure you want to delete this hero image? This action cannot be undone.')) {
-      return;
-    }
-
-    const { error } = await supabase
-      .from('hero_images')
-      .delete()
-      .eq('id', imageId);
-
-    if (error) {
-      toast({
-        title: 'Error',
-        description: `Failed to delete hero image: ${error.message}`,
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    toast({
-      title: 'Hero Image Deleted',
-      description: 'Hero image has been removed from the carousel',
-    });
-
-    fetchHeroImages();
-  };
-
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted/30">
@@ -894,26 +765,15 @@ const Admin = () => {
             <h1 className="text-4xl font-bold text-foreground mb-2">Admin Panel</h1>
             <p className="text-muted-foreground">Manage your business - All changes sync globally</p>
           </div>
-          <div className="flex gap-2">
-            <Button
-              onClick={() => window.open('/lombok-ride-buddy', '_blank')}
-              variant="outline"
-              className="gap-2"
-            >
-              <ExternalLink className="h-4 w-4" />
-              Go to Customer Side
-            </Button>
-            <Button onClick={handleLogout} variant="outline" className="gap-2">
-              <LogOut className="h-4 w-4" />
-              Logout
-            </Button>
-          </div>
+          <Button onClick={handleLogout} variant="outline" className="gap-2">
+            <LogOut className="h-4 w-4" />
+            Logout
+          </Button>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5 lg:w-auto lg:inline-grid p-2">
+          <TabsList className="grid w-full grid-cols-2 gap-2 sm:grid-cols-4 lg:w-auto lg:inline-grid p-2">
             <TabsTrigger value="bikes">Bikes ({bikes.length})</TabsTrigger>
-            <TabsTrigger value="hero-images">Hero Images ({heroImages.length})</TabsTrigger>
             <TabsTrigger value="reviews">Reviews ({reviews.filter(r => r.approval_status === 'pending').length} pending)</TabsTrigger>
             <TabsTrigger value="tour-emails">Tour Emails ({tourEmails.length})</TabsTrigger>
             <TabsTrigger value="villa-emails">Villa Emails ({villaEmails.length})</TabsTrigger>
@@ -1340,108 +1200,6 @@ const Admin = () => {
                 </Card>
               ))}
             </div>
-          </TabsContent>
-
-          {/* Hero Images Tab */}
-          <TabsContent value="hero-images" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <div>
-                  <CardTitle>Hero Carousel Images</CardTitle>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Manage the rotating images on the homepage hero section. Images will automatically rotate every 3 seconds on the customer site.
-                  </p>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 hover:border-primary/50 transition-colors bg-muted/30">
-                  <label
-                    htmlFor="hero-image-upload"
-                    className="flex flex-col items-center justify-center cursor-pointer"
-                  >
-                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                      {uploadingHeroImage ? (
-                        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-                      ) : (
-                        <Upload className="h-8 w-8 text-primary" />
-                      )}
-                    </div>
-                    <p className="text-sm font-medium mb-1">
-                      {uploadingHeroImage ? 'Uploading...' : 'Click to upload hero image'}
-                    </p>
-                    <p className="text-xs text-muted-foreground">PNG, JPG, WEBP up to 5MB</p>
-                    <p className="text-xs text-muted-foreground mt-1">Recommended size: 1920x1080px or 16:9 aspect ratio</p>
-                  </label>
-                  <input
-                    id="hero-image-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        uploadHeroImage(file);
-                        e.target.value = '';
-                      }
-                    }}
-                    disabled={uploadingHeroImage}
-                    className="hidden"
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            {heroImages.length === 0 ? (
-              <Card>
-                <CardContent className="py-12 text-center text-muted-foreground">
-                  <ImageIcon className="h-16 w-16 mx-auto mb-4 opacity-20" />
-                  <p className="text-lg mb-2">No hero images uploaded yet</p>
-                  <p className="text-sm">Upload your first image above to start building your hero carousel</p>
-                </CardContent>
-              </Card>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {heroImages.map((image, index) => (
-                  <Card key={image.id} className="overflow-hidden shadow-card">
-                    <div className="relative aspect-video bg-muted">
-                      <img
-                        src={image.image_url}
-                        alt={`Hero image ${index + 1}`}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.currentTarget.src = '/placeholder.svg';
-                        }}
-                      />
-                      <div className="absolute top-2 right-2">
-                        <Badge variant="secondary" className="bg-black/60 text-white backdrop-blur-sm">
-                          Image {index + 1}
-                        </Badge>
-                      </div>
-                    </div>
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1 min-w-0 mr-2">
-                          <p className="text-xs text-muted-foreground truncate">
-                            {image.image_url}
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-1">
-                            Added: {new Date(image.created_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                        <Button
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => deleteHeroImage(image.id)}
-                          className="gap-2 shrink-0"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                          Delete
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
           </TabsContent>
 
           {/* Reviews Tab */}

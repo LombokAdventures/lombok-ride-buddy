@@ -14,6 +14,8 @@ export const Header = () => {
   const navItems = [
     { label: t.nav.fleet, href: '#fleet' },
     { label: t.nav.about, href: '#benefits' },
+    { label: 'Reviews', href: '#reviews' },
+    { label: 'FAQ', href: '#faq' },
     { label: t.nav.tours, href: '#coming-soon' },
     { label: t.nav.contact, href: '#footer' },
   ];
