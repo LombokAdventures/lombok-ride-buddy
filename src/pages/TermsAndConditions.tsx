@@ -44,7 +44,7 @@ export default function TermsAndConditions() {
         </Button>
       </div>
 
-      <main className="flex-1 bg-background pt-24 pb-16">
+      <main className="flex-1 bg-background pt-32 sm:pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
 
           {/* Header */}

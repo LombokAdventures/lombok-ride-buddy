@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
-import { Lock, CheckCircle, XCircle, Trash2, Star, LogOut, Upload, Image as ImageIcon, Plus, Sun, Moon } from 'lucide-react';
+import { Lock, CheckCircle, XCircle, Trash2, Star, LogOut, Upload, Image as ImageIcon, Plus, Sun, Moon, ExternalLink } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -782,6 +782,14 @@ const Admin = () => {
                 <Sun className="h-4 w-4" />
               )}
             </Button>
+            <Button
+              onClick={() => window.open('/lombok-ride-buddy', '_blank')}
+              variant="outline"
+              className="gap-2"
+            >
+              <ExternalLink className="h-4 w-4" />
+              <span className="hidden sm:inline">Customer Side</span>
+            </Button>
             <Button onClick={handleLogout} variant="outline" className="gap-2">
               <LogOut className="h-4 w-4" />
               Logout
@@ -1139,7 +1147,7 @@ const Admin = () => {
                           value={bike.daily_price || ''}
                           onChange={(e) => handlePriceChange(bike.id, 'daily_price', e.target.value)}
                           onBlur={(e) => updateBikePrice(bike.id, 'daily_price', parseFloat(e.target.value) || 0)}
-                          className="flex-1 px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm font-bold"
+                          className="flex-1 px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm font-bold bg-background text-foreground"
                         />
                         <span className="text-xs text-muted-foreground">/day</span>
                       </div>
@@ -1161,7 +1169,7 @@ const Admin = () => {
                           onChange={(e) => handlePriceChange(bike.id, 'weekly_price', e.target.value)}
                           onBlur={(e) => updateBikePrice(bike.id, 'weekly_price', e.target.value ? parseFloat(e.target.value) : null)}
                           placeholder="Optional"
-                          className="flex-1 px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm font-bold"
+                          className="flex-1 px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm font-bold bg-background text-foreground"
                         />
                         <span className="text-xs text-muted-foreground">/week</span>
                       </div>
@@ -1183,7 +1191,7 @@ const Admin = () => {
                           onChange={(e) => handlePriceChange(bike.id, 'monthly_price', e.target.value)}
                           onBlur={(e) => updateBikePrice(bike.id, 'monthly_price', e.target.value ? parseFloat(e.target.value) : null)}
                           placeholder="Optional"
-                          className="flex-1 px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm font-bold"
+                          className="flex-1 px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm font-bold bg-background text-foreground"
                         />
                         <span className="text-xs text-muted-foreground">/month</span>
                       </div>

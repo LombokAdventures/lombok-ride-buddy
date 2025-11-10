@@ -6,8 +6,8 @@ export const FloatingBackHome = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Only show on non-home pages
-  if (location.pathname === '/') return null;
+  // Only show on non-home pages, but hide on Terms page (has its own back button)
+  if (location.pathname === '/' || location.pathname === '/terms') return null;
 
   const handleBackToTop = () => {
     navigate('/');
