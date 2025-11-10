@@ -2,11 +2,14 @@ import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { Menu, X, Bike } from 'lucide-react';
 import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t } = useLanguage();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const navItems = [
     { label: t.nav.fleet, href: '#fleet' },
@@ -14,6 +17,19 @@ export const Header = () => {
     { label: t.nav.tours, href: '#coming-soon' },
     { label: t.nav.contact, href: '#footer' },
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    // If we're not on the home page, navigate to home first
+    if (location.pathname !== '/') {
+      navigate('/' + href);
+    } else {
+      // If we're on home page, just scroll to section
+      const element = document.querySelector(href);
+      element?.scrollIntoView({ behavior: 'smooth' });
+    }
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border shadow-sm">
@@ -35,7 +51,8 @@ export const Header = () => {
               <a
                 key={item.href}
                 href={item.href}
-                className="text-foreground hover:text-primary transition-colors font-medium"
+                onClick={(e) => handleNavClick(e, item.href)}
+                className="text-foreground hover:text-primary transition-colors font-medium cursor-pointer"
               >
                 {item.label}
               </a>
@@ -66,8 +83,8 @@ export const Header = () => {
                 <a
                   key={item.href}
                   href={item.href}
-                  className="text-foreground hover:text-primary transition-colors font-medium py-2"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className="text-foreground hover:text-primary transition-colors font-medium py-2 cursor-pointer"
                 >
                   {item.label}
                 </a>
