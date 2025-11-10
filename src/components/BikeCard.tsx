@@ -6,6 +6,7 @@ import { MessageCircle, CheckCircle, XCircle, Gauge, Fuel, Settings } from 'luci
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
 import { BikeDetailModal } from './BikeDetailModal';
+import { translateFeature } from '@/utils/featureTranslator';
 
 interface BikeCardProps {
   bike: {
@@ -27,7 +28,7 @@ interface BikeCardProps {
 }
 
 export const BikeCard = ({ bike }: BikeCardProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [selectedPeriod, setSelectedPeriod] = useState<'daily' | 'weekly' | 'monthly'>('daily');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isAvailable = bike.status === 'available';
@@ -102,7 +103,12 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
           <p className="text-sm text-muted-foreground">{bike.model}</p>
         </div>
 
-        <Tabs value={selectedPeriod} onValueChange={(value) => setSelectedPeriod(value as 'daily' | 'weekly' | 'monthly')} className="mb-4">
+        <Tabs
+          value={selectedPeriod}
+          onValueChange={(value) => setSelectedPeriod(value as 'daily' | 'weekly' | 'monthly')}
+          className="mb-4"
+          onClick={(e) => e.stopPropagation()}
+        >
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="daily">Day</TabsTrigger>
             <TabsTrigger value="weekly">Week</TabsTrigger>
@@ -135,7 +141,7 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
         <div className="flex flex-wrap gap-2">
           {bike.features.map((feature, idx) => (
             <Badge key={idx} variant="outline" className="text-xs">
-              {feature}
+              {translateFeature(feature, language)}
             </Badge>
           ))}
         </div>

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -7,6 +6,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { CheckCircle, XCircle, Gauge, Fuel, Settings, Calendar, Bike as BikeIcon, MessageCircle, Send } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { contactConfig } from '@/data/bikes';
+import { translateFeature } from '@/utils/featureTranslator';
 
 interface Bike {
   id: string;
@@ -32,7 +32,7 @@ interface BikeDetailModalProps {
 }
 
 export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [termsAgreed, setTermsAgreed] = useState(false);
   const [showTermsError, setShowTermsError] = useState(false);
 
@@ -179,7 +179,7 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
             <div className="flex flex-wrap gap-2">
               {bike.features.map((feature, idx) => (
                 <Badge key={idx} variant="outline" className="text-sm">
-                  {feature}
+                  {translateFeature(feature, language)}
                 </Badge>
               ))}
             </div>
@@ -202,13 +202,15 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
                 className="text-sm leading-relaxed cursor-pointer"
               >
                 {t.bikeModal.termsAgreement}{' '}
-                <Link
-                  to="/terms"
+                <a
+                  href="/lombok-ride-buddy/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-primary hover:underline font-semibold"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {t.bikeModal.termsLink}
-                </Link>
+                </a>
               </label>
             </div>
 
