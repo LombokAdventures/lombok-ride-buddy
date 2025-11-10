@@ -69,6 +69,9 @@ const Admin = () => {
     fuel_capacity: '',
     image: '',
   });
+  const [newBikeImageFile, setNewBikeImageFile] = useState<File | null>(null);
+  const [newBikeImagePreview, setNewBikeImagePreview] = useState<string>('');
+  const [isCreatingBike, setIsCreatingBike] = useState(false);
   const fileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
   const { toast } = useToast();
 
@@ -518,6 +521,38 @@ const Admin = () => {
     }
   };
 
+  const handleNewBikeImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: 'Invalid File',
+        description: 'Please upload an image file',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: 'File Too Large',
+        description: 'Image must be less than 5MB',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setNewBikeImageFile(file);
+
+    // Create preview URL
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setNewBikeImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const createBike = async () => {
     if (!newBike.name || !newBike.model || !newBike.daily_price) {
       toast({
@@ -528,52 +563,103 @@ const Admin = () => {
       return;
     }
 
-    const bikeData = {
-      name: newBike.name,
-      model: newBike.model,
-      daily_price: parseFloat(newBike.daily_price),
-      weekly_price: newBike.weekly_price ? parseFloat(newBike.weekly_price) : null,
-      monthly_price: newBike.monthly_price ? parseFloat(newBike.monthly_price) : null,
-      features: newBike.features.split(',').map(f => f.trim()).filter(f => f),
-      engine: newBike.engine || '110cc',
-      transmission: newBike.transmission || 'Automatic',
-      fuel_capacity: newBike.fuel_capacity || '4L',
-      status: 'available',
-      image: newBike.image || '/placeholder.svg',
-    };
+    setIsCreatingBike(true);
 
-    const { error } = await supabase
-      .from('bikes')
-      .insert([bikeData]);
+    try {
+      // Generate a UUID for the new bike
+      const bikeId = crypto.randomUUID();
 
-    if (error) {
+      let imageUrl = '/placeholder.svg';
+
+      // Upload image if provided
+      if (newBikeImageFile) {
+        try {
+          const fileExt = newBikeImageFile.name.split('.').pop();
+          const fileName = `${bikeId}-${Date.now()}.${fileExt}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from('bike-images')
+            .upload(fileName, newBikeImageFile, {
+              cacheControl: '3600',
+              upsert: true,
+            });
+
+          if (uploadError) throw uploadError;
+
+          const { data: { publicUrl } } = supabase.storage
+            .from('bike-images')
+            .getPublicUrl(fileName);
+
+          imageUrl = publicUrl;
+        } catch (uploadError: any) {
+          toast({
+            title: 'Image Upload Failed',
+            description: uploadError.message,
+            variant: 'destructive',
+          });
+          setIsCreatingBike(false);
+          return;
+        }
+      }
+
+      const bikeData = {
+        id: bikeId,
+        name: newBike.name,
+        model: newBike.model,
+        daily_price: parseFloat(newBike.daily_price),
+        weekly_price: newBike.weekly_price ? parseFloat(newBike.weekly_price) : null,
+        monthly_price: newBike.monthly_price ? parseFloat(newBike.monthly_price) : null,
+        features: newBike.features.split(',').map(f => f.trim()).filter(f => f),
+        engine: newBike.engine || '110cc',
+        transmission: newBike.transmission || 'Automatic',
+        fuel_capacity: newBike.fuel_capacity || '4L',
+        status: 'available',
+        image: imageUrl,
+      };
+
+      const { error } = await supabase
+        .from('bikes')
+        .insert([bikeData]);
+
+      if (error) {
+        toast({
+          title: 'Error',
+          description: `Failed to create bike: ${error.message}`,
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      toast({
+        title: 'Bike Created',
+        description: 'New bike has been added to the fleet',
+      });
+
+      setIsAddBikeOpen(false);
+      setNewBike({
+        name: '',
+        model: '',
+        daily_price: '',
+        weekly_price: '',
+        monthly_price: '',
+        features: '',
+        engine: '',
+        transmission: '',
+        fuel_capacity: '',
+        image: '',
+      });
+      setNewBikeImageFile(null);
+      setNewBikeImagePreview('');
+      fetchBikes();
+    } catch (error: any) {
       toast({
         title: 'Error',
-        description: `Failed to create bike: ${error.message}`,
+        description: error.message,
         variant: 'destructive',
       });
-      return;
+    } finally {
+      setIsCreatingBike(false);
     }
-
-    toast({
-      title: 'Bike Created',
-      description: 'New bike has been added to the fleet',
-    });
-
-    setIsAddBikeOpen(false);
-    setNewBike({
-      name: '',
-      model: '',
-      daily_price: '',
-      weekly_price: '',
-      monthly_price: '',
-      features: '',
-      engine: '',
-      transmission: '',
-      fuel_capacity: '',
-      image: '',
-    });
-    fetchBikes();
   };
 
   const deleteBike = async (bikeId: string, bikeName: string) => {
@@ -712,120 +798,221 @@ const Admin = () => {
                   </DialogTrigger>
                   <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
-                      <DialogTitle>Add New Bike</DialogTitle>
+                      <DialogTitle className="text-2xl">Add New Bike</DialogTitle>
+                      <p className="text-sm text-muted-foreground">Fill in the details below to add a new bike to your fleet</p>
                     </DialogHeader>
-                    <div className="space-y-4 py-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="name">Name *</Label>
-                          <Input
-                            id="name"
-                            value={newBike.name}
-                            onChange={(e) => setNewBike({ ...newBike, name: e.target.value })}
-                            placeholder="Honda Beat"
-                          />
+                    <div className="space-y-6 py-4">
+                      {/* Basic Information */}
+                      <div className="space-y-4">
+                        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Basic Information</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="name">Bike Name *</Label>
+                            <Input
+                              id="name"
+                              value={newBike.name}
+                              onChange={(e) => setNewBike({ ...newBike, name: e.target.value })}
+                              placeholder="e.g. Honda Beat"
+                              className="h-11"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="model">Model Year *</Label>
+                            <Input
+                              id="model"
+                              value={newBike.model}
+                              onChange={(e) => setNewBike({ ...newBike, model: e.target.value })}
+                              placeholder="e.g. 2024 Model"
+                              className="h-11"
+                            />
+                          </div>
                         </div>
-                        <div>
-                          <Label htmlFor="model">Model *</Label>
-                          <Input
-                            id="model"
-                            value={newBike.model}
-                            onChange={(e) => setNewBike({ ...newBike, model: e.target.value })}
-                            placeholder="2024 Model"
+                      </div>
+
+                      {/* Pricing */}
+                      <div className="space-y-4">
+                        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Pricing</h3>
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="daily_price">Daily Rate ($) *</Label>
+                            <Input
+                              id="daily_price"
+                              type="number"
+                              step="0.01"
+                              value={newBike.daily_price}
+                              onChange={(e) => setNewBike({ ...newBike, daily_price: e.target.value })}
+                              placeholder="5"
+                              className="h-11"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="weekly_price">Weekly Rate ($)</Label>
+                            <Input
+                              id="weekly_price"
+                              type="number"
+                              step="0.01"
+                              value={newBike.weekly_price}
+                              onChange={(e) => setNewBike({ ...newBike, weekly_price: e.target.value })}
+                              placeholder="30"
+                              className="h-11"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="monthly_price">Monthly Rate ($)</Label>
+                            <Input
+                              id="monthly_price"
+                              type="number"
+                              step="0.01"
+                              value={newBike.monthly_price}
+                              onChange={(e) => setNewBike({ ...newBike, monthly_price: e.target.value })}
+                              placeholder="100"
+                              className="h-11"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Specifications */}
+                      <div className="space-y-4">
+                        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Specifications</h3>
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="engine">Engine</Label>
+                            <Input
+                              id="engine"
+                              value={newBike.engine}
+                              onChange={(e) => setNewBike({ ...newBike, engine: e.target.value })}
+                              placeholder="110cc"
+                              className="h-11"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="transmission">Transmission</Label>
+                            <Input
+                              id="transmission"
+                              value={newBike.transmission}
+                              onChange={(e) => setNewBike({ ...newBike, transmission: e.target.value })}
+                              placeholder="Automatic"
+                              className="h-11"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="fuel_capacity">Fuel Capacity</Label>
+                            <Input
+                              id="fuel_capacity"
+                              value={newBike.fuel_capacity}
+                              onChange={(e) => setNewBike({ ...newBike, fuel_capacity: e.target.value })}
+                              placeholder="4L"
+                              className="h-11"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Features */}
+                      <div className="space-y-4">
+                        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Features</h3>
+                        <div className="space-y-2">
+                          <Label htmlFor="features">Features (comma separated)</Label>
+                          <Textarea
+                            id="features"
+                            value={newBike.features}
+                            onChange={(e) => setNewBike({ ...newBike, features: e.target.value })}
+                            placeholder="Helmet included, Insurance, 24/7 Support, Free GPS"
+                            rows={3}
+                            className="resize-none"
+                          />
+                          <p className="text-xs text-muted-foreground">Separate each feature with a comma</p>
+                        </div>
+                      </div>
+
+                      {/* Image Upload Section */}
+                      <div className="space-y-4">
+                        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Bike Image</h3>
+                        <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 hover:border-primary/50 transition-colors bg-muted/30">
+                          {newBikeImagePreview ? (
+                            <div className="space-y-3">
+                              <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted">
+                                <img
+                                  src={newBikeImagePreview}
+                                  alt="Preview"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div className="flex gap-2">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => {
+                                    setNewBikeImageFile(null);
+                                    setNewBikeImagePreview('');
+                                  }}
+                                  className="w-full"
+                                >
+                                  Remove Image
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => document.getElementById('new-bike-image')?.click()}
+                                  className="w-full"
+                                >
+                                  Change Image
+                                </Button>
+                              </div>
+                            </div>
+                          ) : (
+                            <label
+                              htmlFor="new-bike-image"
+                              className="flex flex-col items-center justify-center cursor-pointer py-8"
+                            >
+                              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                                <Upload className="h-8 w-8 text-primary" />
+                              </div>
+                              <p className="text-sm font-medium mb-1">Click to upload bike image</p>
+                              <p className="text-xs text-muted-foreground">PNG, JPG, WEBP up to 5MB</p>
+                            </label>
+                          )}
+                          <input
+                            id="new-bike-image"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleNewBikeImageChange}
+                            className="hidden"
                           />
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-3 gap-4">
-                        <div>
-                          <Label htmlFor="daily_price">Daily Price ($) *</Label>
-                          <Input
-                            id="daily_price"
-                            type="number"
-                            value={newBike.daily_price}
-                            onChange={(e) => setNewBike({ ...newBike, daily_price: e.target.value })}
-                            placeholder="5"
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="weekly_price">Weekly Price ($)</Label>
-                          <Input
-                            id="weekly_price"
-                            type="number"
-                            value={newBike.weekly_price}
-                            onChange={(e) => setNewBike({ ...newBike, weekly_price: e.target.value })}
-                            placeholder="30"
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="monthly_price">Monthly Price ($)</Label>
-                          <Input
-                            id="monthly_price"
-                            type="number"
-                            value={newBike.monthly_price}
-                            onChange={(e) => setNewBike({ ...newBike, monthly_price: e.target.value })}
-                            placeholder="100"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-3 gap-4">
-                        <div>
-                          <Label htmlFor="engine">Engine</Label>
-                          <Input
-                            id="engine"
-                            value={newBike.engine}
-                            onChange={(e) => setNewBike({ ...newBike, engine: e.target.value })}
-                            placeholder="110cc"
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="transmission">Transmission</Label>
-                          <Input
-                            id="transmission"
-                            value={newBike.transmission}
-                            onChange={(e) => setNewBike({ ...newBike, transmission: e.target.value })}
-                            placeholder="Automatic"
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="fuel_capacity">Fuel Capacity</Label>
-                          <Input
-                            id="fuel_capacity"
-                            value={newBike.fuel_capacity}
-                            onChange={(e) => setNewBike({ ...newBike, fuel_capacity: e.target.value })}
-                            placeholder="4L"
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <Label htmlFor="features">Features (comma separated)</Label>
-                        <Textarea
-                          id="features"
-                          value={newBike.features}
-                          onChange={(e) => setNewBike({ ...newBike, features: e.target.value })}
-                          placeholder="Helmet included, Insurance, 24/7 Support"
-                          rows={3}
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="image">Image URL</Label>
-                        <Input
-                          id="image"
-                          value={newBike.image}
-                          onChange={(e) => setNewBike({ ...newBike, image: e.target.value })}
-                          placeholder="https://example.com/bike.jpg or /bikes/honda-beat.jpg"
-                        />
-                      </div>
-
-                      <div className="flex gap-2 justify-end">
-                        <Button variant="outline" onClick={() => setIsAddBikeOpen(false)}>
+                      <div className="flex gap-2 justify-end pt-4 border-t">
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            setIsAddBikeOpen(false);
+                            setNewBikeImageFile(null);
+                            setNewBikeImagePreview('');
+                          }}
+                          disabled={isCreatingBike}
+                        >
                           Cancel
                         </Button>
-                        <Button onClick={createBike}>
-                          Create Bike
+                        <Button
+                          onClick={createBike}
+                          disabled={isCreatingBike}
+                          className="gap-2"
+                        >
+                          {isCreatingBike ? (
+                            <>
+                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                              Creating...
+                            </>
+                          ) : (
+                            <>
+                              <Plus className="h-4 w-4" />
+                              Create Bike
+                            </>
+                          )}
                         </Button>
                       </div>
                     </div>
