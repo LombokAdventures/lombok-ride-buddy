@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { CheckCircle, AlertCircle, Shield, DollarSign, FileText } from 'lucide-react';
+import { CheckCircle, AlertCircle, Shield, DollarSign, FileText, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Button } from '@/components/ui/button';
 
 export default function TermsAndConditions() {
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -18,6 +21,18 @@ export default function TermsAndConditions() {
 
       <main className="flex-1 bg-background pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
+          {/* Back Button */}
+          <div className="mb-6">
+            <Button
+              variant="ghost"
+              onClick={() => navigate(-1)}
+              className="gap-2 hover:bg-primary/10"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </Button>
+          </div>
+
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">{t.terms.title}</h1>
