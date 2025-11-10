@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Review Test</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <h1>Quick Review Test</h1>
+  <button onclick="test()">Test Reviews</button>
+  <pre id="output"></pre>
+
+  <script>
+    const supabase = window.supabase.createClient(
+      'https://mbbdaettoxezvftsfiff.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1iYmRhZXR0b3hlenZmdHNmaWZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI2NTE1OTcsImV4cCI6MjA3ODIyNzU5N30.RId5ppgNW9EmSbZLXJ1Smmko5389J59vGgIvkfzXZo0'
+    );
+
+    async function test() {
+      const output = document.getElementById('output');
+      output.textContent = 'Testing...\n';
+
+      try {
+        const { data, error } = await supabase
+          .from('reviews')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          output.textContent += 'ERROR: ' + JSON.stringify(error, null, 2);
+        } else {
+          output.textContent += 'SUCCESS!\n';
+          output.textContent += 'Total reviews: ' + data.length + '\n\n';
+          output.textContent += JSON.stringify(data, null, 2);
+        }
+      } catch (e) {
+        output.textContent += 'EXCEPTION: ' + e.message;
+      }
+    }
+  </script>
+</body>
+</html>
