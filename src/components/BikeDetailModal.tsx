@@ -41,26 +41,28 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <div className="flex items-start justify-between">
-            <DialogTitle className="text-2xl font-bold">{bike.name}</DialogTitle>
-            <Badge
-              variant={isAvailable ? 'default' : 'destructive'}
-              className={isAvailable ? 'bg-success' : 'bg-warning'}
-            >
-              {isAvailable ? (
-                <>
-                  <CheckCircle className="h-3 w-3 mr-1" />
-                  {t.fleet.available}
-                </>
-              ) : (
-                <>
-                  <XCircle className="h-3 w-3 mr-1" />
-                  {t.fleet.rented}
-                </>
-              )}
-            </Badge>
+          <div className="space-y-2">
+            <DialogTitle className="text-2xl font-bold pr-8">{bike.name}</DialogTitle>
+            <div className="flex items-center gap-3">
+              <p className="text-muted-foreground">{bike.model}</p>
+              <Badge
+                variant={isAvailable ? 'default' : 'destructive'}
+                className={isAvailable ? 'bg-success' : 'bg-warning'}
+              >
+                {isAvailable ? (
+                  <>
+                    <CheckCircle className="h-3 w-3 mr-1" />
+                    {t.fleet.available}
+                  </>
+                ) : (
+                  <>
+                    <XCircle className="h-3 w-3 mr-1" />
+                    {t.fleet.rented}
+                  </>
+                )}
+              </Badge>
+            </div>
           </div>
-          <p className="text-muted-foreground">{bike.model}</p>
         </DialogHeader>
 
         <div className="space-y-6 mt-4">
