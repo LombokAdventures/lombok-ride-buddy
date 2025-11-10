@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -6,7 +6,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Lock, CheckCircle, XCircle, Trash2, Star, LogOut } from 'lucide-react';
+import { Lock, CheckCircle, XCircle, Trash2, Star, LogOut, Upload, Image as ImageIcon } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import type { User } from '@supabase/supabase-js';
@@ -53,6 +53,8 @@ const Admin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [activeTab, setActiveTab] = useState('bikes');
+  const [uploadingImageFor, setUploadingImageFor] = useState<string | null>(null);
+  const fileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
   const { toast } = useToast();
 
   useEffect(() => {
@@ -367,6 +369,67 @@ const Admin = () => {
     });
   };
 
+  const handleImageUpload = async (bikeId: string, file: File) => {
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: 'Invalid File',
+        description: 'Please upload an image file',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: 'File Too Large',
+        description: 'Image must be less than 5MB',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setUploadingImageFor(bikeId);
+
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${bikeId}-${Date.now()}.${fileExt}`;
+      const filePath = fileName;
+
+      const { error: uploadError } = await supabase.storage
+        .from('bike-images')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: true,
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('bike-images')
+        .getPublicUrl(filePath);
+
+      const { error: updateError } = await supabase
+        .from('bikes')
+        .update({ image: publicUrl })
+        .eq('id', bikeId);
+
+      if (updateError) throw updateError;
+
+      toast({
+        title: 'Image Updated',
+        description: 'Bike image has been updated successfully',
+      });
+    } catch (error: any) {
+      toast({
+        title: 'Upload Failed',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } finally {
+      setUploadingImageFor(null);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted/30">
@@ -498,6 +561,42 @@ const Admin = () => {
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
+                    {/* Bike Image */}
+                    <div className="relative aspect-video bg-muted rounded-lg overflow-hidden">
+                      {bike.image ? (
+                        <img
+                          src={bike.image}
+                          alt={bike.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <ImageIcon className="h-12 w-12 text-muted-foreground/50" />
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => fileInputRefs.current[bike.id]?.click()}
+                          disabled={uploadingImageFor === bike.id}
+                          className="gap-2"
+                        >
+                          <Upload className="h-4 w-4" />
+                          {uploadingImageFor === bike.id ? 'Uploading...' : 'Change Image'}
+                        </Button>
+                      </div>
+                      <input
+                        ref={(el) => (fileInputRefs.current[bike.id] = el)}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleImageUpload(bike.id, file);
+                        }}
+                      />
+                    </div>
                     {/* Daily Price */}
                     <div className="p-3 bg-muted rounded-lg">
                       <Label htmlFor={`daily-${bike.id}`} className="text-xs font-semibold mb-2 block">
