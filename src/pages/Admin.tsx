@@ -57,6 +57,11 @@ const Admin = () => {
   const fileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
   const { toast } = useToast();
 
+  // DEBUG: Log reviews state changes
+  useEffect(() => {
+    console.log('🔄 Reviews state changed:', reviews.length, reviews);
+  }, [reviews]);
+
   useEffect(() => {
     checkAuth();
 
@@ -778,17 +783,27 @@ const Admin = () => {
                 <CardTitle>Review Management</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground mb-4">
                   Approve or reject customer reviews. Only approved reviews will be visible on the website.
                 </p>
+                <div className="flex gap-2 items-center">
+                  <Button onClick={fetchReviews} variant="outline" size="sm">
+                    Refresh Reviews
+                  </Button>
+                  <span className="text-sm text-muted-foreground">
+                    {reviews.length} review{reviews.length !== 1 ? 's' : ''} loaded
+                  </span>
+                </div>
               </CardContent>
             </Card>
 
             <div className="space-y-4">
+              {console.log('🎨 RENDERING REVIEWS:', reviews.length, reviews)}
               {reviews.length === 0 ? (
                 <Card>
                   <CardContent className="py-8 text-center text-muted-foreground">
-                    No reviews submitted yet. Reviews will appear here after customers submit them from the website.
+                    <p className="mb-2">No reviews submitted yet. Reviews will appear here after customers submit them from the website.</p>
+                    <p className="text-xs">Debug: reviews.length = {reviews.length}</p>
                   </CardContent>
                 </Card>
               ) : (
