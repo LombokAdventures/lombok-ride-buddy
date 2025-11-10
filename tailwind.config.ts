@@ -56,6 +56,10 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        footer: {
+          DEFAULT: "hsl(var(--footer-background))",
+          foreground: "hsl(var(--footer-foreground))",
+        },
       },
       backgroundImage: {
         'gradient-hero': 'var(--gradient-hero)',

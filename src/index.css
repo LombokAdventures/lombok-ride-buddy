@@ -51,6 +51,10 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
+    /* Footer */
+    --footer-background: 220 15% 20%;
+    --footer-foreground: 0 0% 98%;
+
     /* Gradients */
     --gradient-hero: linear-gradient(135deg, hsl(200 95% 40%), hsl(200 95% 55%));
     --gradient-sunset: linear-gradient(135deg, hsl(15 100% 60%), hsl(30 100% 55%));
@@ -107,6 +111,10 @@ All colors MUST be HSL.
     --border: 220 18% 25%;
     --input: 220 18% 25%;
     --ring: 200 90% 50%;
+
+    /* Footer - Slightly lighter than background in dark mode */
+    --footer-background: 220 18% 16%;
+    --footer-foreground: 0 0% 95%;
 
     /* Gradients - Adjusted for dark mode */
     --gradient-hero: linear-gradient(135deg, hsl(200 90% 45%), hsl(200 90% 60%));

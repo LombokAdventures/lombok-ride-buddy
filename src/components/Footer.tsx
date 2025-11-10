@@ -8,13 +8,13 @@ export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-foreground text-background py-12">
+    <footer className="bg-footer text-footer-foreground py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* About */}
           <div>
             <h3 className="text-2xl font-bold mb-4">Lombok Local</h3>
-            <p className="text-background/80 mb-4">
+            <p className="text-footer-foreground/80 mb-4">
               {t.footer.description}
             </p>
           </div>
@@ -22,26 +22,26 @@ export const Footer = () => {
           {/* Quick Links */}
           <div>
             <h4 className="text-lg font-semibold mb-4">{t.footer.quickLinks}</h4>
-            <ul className="space-y-2 text-background/80">
-              <li><a href="#fleet" className="hover:text-background transition-colors">Our Fleet</a></li>
-              <li><a href="#benefits" className="hover:text-background transition-colors">Why Us</a></li>
-              <li><a href="#reviews" className="hover:text-background transition-colors">Reviews</a></li>
-              <li><a href="#faq" className="hover:text-background transition-colors">FAQ</a></li>
-              <li><Link to="/terms" className="hover:text-background transition-colors">Terms & Conditions</Link></li>
+            <ul className="space-y-2 text-footer-foreground/80">
+              <li><a href="#fleet" className="hover:text-footer-foreground transition-colors">Our Fleet</a></li>
+              <li><a href="#benefits" className="hover:text-footer-foreground transition-colors">Why Us</a></li>
+              <li><a href="#reviews" className="hover:text-footer-foreground transition-colors">Reviews</a></li>
+              <li><a href="#faq" className="hover:text-footer-foreground transition-colors">FAQ</a></li>
+              <li><Link to="/terms" className="hover:text-footer-foreground transition-colors">Terms & Conditions</Link></li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
             <h4 className="text-lg font-semibold mb-4">{t.footer.contact}</h4>
-            <ul className="space-y-3 text-background/80">
+            <ul className="space-y-3 text-footer-foreground/80">
               <li className="flex items-start gap-2">
                 <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
                 <span>{contactConfig.address}</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-5 w-5 flex-shrink-0" />
-                <a href={`mailto:${contactConfig.email}`} className="hover:text-background transition-colors">
+                <a href={`mailto:${contactConfig.email}`} className="hover:text-footer-foreground transition-colors">
                   {contactConfig.email}
                 </a>
               </li>
@@ -56,23 +56,23 @@ export const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">{t.footer.followUs}</h4>
             <div className="flex gap-4">
-              <a 
-                href="#" 
-                className="w-10 h-10 rounded-full bg-background/10 hover:bg-background/20 flex items-center justify-center transition-colors"
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-footer-foreground/10 hover:bg-footer-foreground/20 flex items-center justify-center transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram className="h-5 w-5" />
               </a>
-              <a 
-                href="#" 
-                className="w-10 h-10 rounded-full bg-background/10 hover:bg-background/20 flex items-center justify-center transition-colors"
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-footer-foreground/10 hover:bg-footer-foreground/20 flex items-center justify-center transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook className="h-5 w-5" />
               </a>
-              <a 
-                href="#" 
-                className="w-10 h-10 rounded-full bg-background/10 hover:bg-background/20 flex items-center justify-center transition-colors"
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-footer-foreground/10 hover:bg-footer-foreground/20 flex items-center justify-center transition-colors"
                 aria-label="YouTube"
               >
                 <Youtube className="h-5 w-5" />
@@ -94,7 +94,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-background/20 pt-8 text-center text-background/60">
+        <div className="border-t border-footer-foreground/20 pt-8 text-center text-footer-foreground/60">
           <p>&copy; {currentYear} Lombok Local. {t.footer.rights}</p>
         </div>
       </div>
