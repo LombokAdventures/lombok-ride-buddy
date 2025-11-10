@@ -102,6 +102,10 @@ export interface Translations {
     mileage: string;
     features: string;
     currentlyUnavailable: string;
+    // Tab labels for pricing periods
+    dayTab: string;
+    weekTab: string;
+    monthTab: string;
   };
   termsContent: {
     backToHome: string;
@@ -300,7 +304,10 @@ export const translations: Record<Language, Translations> = {
       year: 'Year',
       mileage: 'Mileage',
       features: 'Features',
-      currentlyUnavailable: 'Currently Unavailable'
+      currentlyUnavailable: 'Currently Unavailable',
+      dayTab: 'Day',
+      weekTab: 'Week',
+      monthTab: 'Month'
     },
     termsContent: {
       backToHome: 'Back to Home',
@@ -526,7 +533,10 @@ export const translations: Record<Language, Translations> = {
       year: 'Год',
       mileage: 'Пробег',
       features: 'Особенности',
-      currentlyUnavailable: 'Сейчас недоступен'
+      currentlyUnavailable: 'Сейчас недоступен',
+      dayTab: 'День',
+      weekTab: 'Неделя',
+      monthTab: 'Месяц'
     },
     termsContent: {
       backToHome: 'На главную',
@@ -752,7 +762,10 @@ export const translations: Record<Language, Translations> = {
       year: 'Tahun',
       mileage: 'Jarak Tempuh',
       features: 'Fitur',
-      currentlyUnavailable: 'Saat Ini Tidak Tersedia'
+      currentlyUnavailable: 'Saat Ini Tidak Tersedia',
+      dayTab: 'Hari',
+      weekTab: 'Minggu',
+      monthTab: 'Bulan'
     },
     termsContent: {
       backToHome: 'Kembali ke Beranda',
@@ -978,7 +991,10 @@ export const translations: Record<Language, Translations> = {
       year: 'Jahr',
       mileage: 'Laufleistung',
       features: 'Ausstattung',
-      currentlyUnavailable: 'Derzeit nicht verfügbar'
+      currentlyUnavailable: 'Derzeit nicht verfügbar',
+      dayTab: 'Tag',
+      weekTab: 'Woche',
+      monthTab: 'Monat'
     },
     termsContent: {
       backToHome: 'Zurück zur Startseite',
@@ -1204,7 +1220,10 @@ export const translations: Record<Language, Translations> = {
       year: 'Yil',
       mileage: 'Yugurilgan Masofa',
       features: 'Xususiyatlar',
-      currentlyUnavailable: 'Hozirda Mavjud Emas'
+      currentlyUnavailable: 'Hozirda Mavjud Emas',
+      dayTab: 'Kun',
+      weekTab: 'Hafta',
+      monthTab: 'Oy'
     },
     termsContent: {
       backToHome: 'Bosh Sahifaga Qaytish',

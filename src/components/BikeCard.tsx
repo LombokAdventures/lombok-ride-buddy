@@ -7,6 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
 import { BikeDetailModal } from './BikeDetailModal';
 import { translateFeature } from '@/utils/featureTranslator';
+import { translateTransmission } from '@/utils/transmissionTranslator';
 
 interface BikeCardProps {
   bike: {
@@ -110,9 +111,9 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
           onClick={(e) => e.stopPropagation()}
         >
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="daily">Day</TabsTrigger>
-            <TabsTrigger value="weekly">Week</TabsTrigger>
-            <TabsTrigger value="monthly">Month</TabsTrigger>
+            <TabsTrigger value="daily">{t.bikeModal.dayTab}</TabsTrigger>
+            <TabsTrigger value="weekly">{t.bikeModal.weekTab}</TabsTrigger>
+            <TabsTrigger value="monthly">{t.bikeModal.monthTab}</TabsTrigger>
           </TabsList>
         </Tabs>
 
@@ -130,7 +131,7 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
           </div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Settings className="h-4 w-4 text-secondary" />
-            <span>{bike.transmission}</span>
+            <span>{translateTransmission(bike.transmission, language)}</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Fuel className="h-4 w-4 text-secondary" />
