@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { CheckCircle, AlertCircle, Shield, DollarSign, FileText } from 'lucide-react';
@@ -5,6 +6,11 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function TermsAndConditions() {
   const { t } = useLanguage();
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
