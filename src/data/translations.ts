@@ -85,6 +85,11 @@ export interface Translations {
     questionsTitle: string;
     questionsSubtitle: string;
   };
+  bikeModal: {
+    termsAgreement: string;
+    termsLink: string;
+    termsRequired: string;
+  };
 }
 
 export const translations: Record<Language, Translations> = {
@@ -137,6 +142,10 @@ export const translations: Record<Language, Translations> = {
         {
           title: 'Best Price Guarantee',
           description: 'Competitive rates with no hidden fees'
+        },
+        {
+          title: 'Clear Terms & Policies',
+          description: 'Transparent rental terms with no surprises'
         }
       ]
     },
@@ -240,6 +249,11 @@ export const translations: Record<Language, Translations> = {
       agreement: 'Agreement',
       questionsTitle: 'Questions About Our Terms?',
       questionsSubtitle: 'If you have any questions or need clarification about our terms and conditions, please don\'t hesitate to contact us.'
+    },
+    bikeModal: {
+      termsAgreement: 'I agree to the',
+      termsLink: 'Terms & Conditions',
+      termsRequired: 'Please agree to the terms before contacting us'
     }
   },
   ru: {
@@ -291,6 +305,10 @@ export const translations: Record<Language, Translations> = {
         {
           title: 'Лучшие цены',
           description: 'Конкурентные цены без скрытых платежей'
+        },
+        {
+          title: 'Прозрачные условия',
+          description: 'Четкие правила аренды без сюрпризов'
         }
       ]
     },
@@ -394,6 +412,11 @@ export const translations: Record<Language, Translations> = {
       agreement: 'Соглашение',
       questionsTitle: 'Вопросы об условиях?',
       questionsSubtitle: 'Если у вас есть вопросы или нужны разъяснения наших условий, пожалуйста, свяжитесь с нами.'
+    },
+    bikeModal: {
+      termsAgreement: 'Я согласен с',
+      termsLink: 'Условиями использования',
+      termsRequired: 'Пожалуйста, согласитесь с условиями перед связью с нами'
     }
   },
   id: {
@@ -445,6 +468,10 @@ export const translations: Record<Language, Translations> = {
         {
           title: 'Harga Terbaik',
           description: 'Tarif kompetitif tanpa biaya tersembunyi'
+        },
+        {
+          title: 'Syarat Jelas & Transparan',
+          description: 'Ketentuan sewa yang jelas tanpa kejutan'
         }
       ]
     },
@@ -548,6 +575,11 @@ export const translations: Record<Language, Translations> = {
       agreement: 'Perjanjian',
       questionsTitle: 'Pertanyaan Tentang Syarat Kami?',
       questionsSubtitle: 'Jika Anda memiliki pertanyaan atau memerlukan klarifikasi tentang syarat dan ketentuan kami, jangan ragu untuk menghubungi kami.'
+    },
+    bikeModal: {
+      termsAgreement: 'Saya setuju dengan',
+      termsLink: 'Syarat & Ketentuan',
+      termsRequired: 'Harap setuju dengan syarat sebelum menghubungi kami'
     }
   },
   de: {
@@ -599,6 +631,10 @@ export const translations: Record<Language, Translations> = {
         {
           title: 'Bestpreisgarantie',
           description: 'Wettbewerbsfähige Preise ohne versteckte Gebühren'
+        },
+        {
+          title: 'Klare Bedingungen',
+          description: 'Transparente Mietbedingungen ohne Überraschungen'
         }
       ]
     },
@@ -702,6 +738,11 @@ export const translations: Record<Language, Translations> = {
       agreement: 'Vereinbarung',
       questionsTitle: 'Fragen zu unseren Bedingungen?',
       questionsSubtitle: 'Wenn Sie Fragen haben oder Klarstellung zu unseren Geschäftsbedingungen benötigen, zögern Sie bitte nicht, uns zu kontaktieren.'
+    },
+    bikeModal: {
+      termsAgreement: 'Ich stimme den',
+      termsLink: 'Allgemeinen Geschäftsbedingungen',
+      termsRequired: 'Bitte stimmen Sie den Bedingungen zu, bevor Sie uns kontaktieren'
     }
   }
 };
