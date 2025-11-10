@@ -4,10 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Lock, CheckCircle, XCircle, Trash2, Star } from 'lucide-react';
+import { Lock, CheckCircle, XCircle, Trash2, Star, LogOut } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import type { User } from '@supabase/supabase-js';
 
 interface Bike {
   id: string;
@@ -45,38 +47,86 @@ const Admin = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [tourEmails, setTourEmails] = useState<EmailEntry[]>([]);
   const [villaEmails, setVillaEmails] = useState<EmailEntry[]>([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [activeTab, setActiveTab] = useState('bikes');
   const { toast } = useToast();
 
-  const ADMIN_PASSWORD = 'lombok2025';
+  useEffect(() => {
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        checkAdminRole(session.user.id);
+      } else {
+        setIsAdmin(false);
+        setIsLoading(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const checkAuth = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    setUser(session?.user ?? null);
+    if (session?.user) {
+      await checkAdminRole(session.user.id);
+    } else {
+      setIsLoading(false);
+    }
+  };
+
+  const checkAdminRole = async (userId: string) => {
+    const { data, error } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', userId)
+      .eq('role', 'admin')
+      .maybeSingle();
+
+    if (error) {
+      console.error('Error checking admin role:', error);
+      setIsAdmin(false);
+      setIsLoading(false);
+      return;
+    }
+
+    setIsAdmin(!!data);
+    setIsLoading(false);
+    
+    if (data) {
+      fetchAllData();
+    }
+  };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchAllData();
+    if (!isAdmin) return;
 
-      // Set up realtime subscriptions
-      const bikesChannel = supabase
-        .channel('admin-bikes-changes')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'bikes' }, () => {
-          fetchBikes();
-        })
-        .subscribe();
+    // Set up realtime subscriptions
+    const bikesChannel = supabase
+      .channel('admin-bikes-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'bikes' }, () => {
+        fetchBikes();
+      })
+      .subscribe();
 
-      const reviewsChannel = supabase
-        .channel('admin-reviews-changes')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'reviews' }, () => {
-          fetchReviews();
-        })
-        .subscribe();
+    const reviewsChannel = supabase
+      .channel('admin-reviews-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'reviews' }, () => {
+        fetchReviews();
+      })
+      .subscribe();
 
-      return () => {
-        supabase.removeChannel(bikesChannel);
-        supabase.removeChannel(reviewsChannel);
-      };
-    }
-  }, [isAuthenticated]);
+    return () => {
+      supabase.removeChannel(bikesChannel);
+      supabase.removeChannel(reviewsChannel);
+    };
+  }, [isAdmin]);
 
   const fetchAllData = async () => {
     await Promise.all([
@@ -176,40 +226,51 @@ const Admin = () => {
     }
   };
 
-  const handleLogin = () => {
-    if (password === ADMIN_PASSWORD) {
-      setIsAuthenticated(true);
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
       toast({
-        title: 'Access Granted',
-        description: 'Welcome to the admin panel!',
-      });
-    } else {
-      toast({
-        title: 'Access Denied',
-        description: 'Incorrect password',
+        title: 'Login Failed',
+        description: error.message,
         variant: 'destructive',
       });
-    }
-  };
-
-  const toggleBikeStatus = async (bikeId: string) => {
-    console.log('Toggling bike status for:', bikeId);
-    const bike = bikes.find(b => b.id === bikeId);
-    if (!bike) {
-      console.error('Bike not found:', bikeId);
       return;
     }
 
-    const newStatus = bike.status === 'available' ? 'rented' : 'available';
-    console.log('Changing status from', bike.status, 'to', newStatus);
+    toast({
+      title: 'Logged In',
+      description: 'Checking admin permissions...',
+    });
+  };
 
-    // Use upsert to bypass UPDATE policy restrictions
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setIsAdmin(false);
+    toast({
+      title: 'Logged Out',
+      description: 'You have been logged out successfully',
+    });
+  };
+
+  const toggleBikeStatus = async (bikeId: string) => {
+    const bike = bikes.find(b => b.id === bikeId);
+    if (!bike) return;
+
+    const newStatus = bike.status === 'available' ? 'rented' : 'available';
+
     const { error } = await supabase
       .from('bikes')
-      .upsert({ ...bike, status: newStatus }, { onConflict: 'id' });
+      .update({ status: newStatus })
+      .eq('id', bikeId);
 
     if (error) {
-      console.error('Error updating status:', error);
       toast({
         title: 'Error',
         description: `Failed to update bike status: ${error.message}`,
@@ -218,57 +279,40 @@ const Admin = () => {
       return;
     }
 
-    console.log('Status updated successfully');
     toast({
       title: 'Status Updated',
-      description: `Bike is now ${newStatus}. Changes reflected globally.`,
+      description: `Bike is now ${newStatus}`,
     });
-
-    fetchBikes();
   };
 
   const updateBikePrice = async (bikeId: string, field: 'daily_price' | 'weekly_price' | 'monthly_price', newPrice: number | null) => {
-    console.log('Updating bike price:', bikeId, field, newPrice);
-
     if (newPrice !== null && newPrice < 0) {
       toast({
         title: 'Invalid Price',
         description: 'Price cannot be negative',
         variant: 'destructive',
       });
-      fetchBikes();
       return;
     }
 
-    const bike = bikes.find(b => b.id === bikeId);
-    if (!bike) {
-      console.error('Bike not found:', bikeId);
-      return;
-    }
-
-    // Use upsert to bypass UPDATE policy restrictions
     const { error } = await supabase
       .from('bikes')
-      .upsert({ ...bike, [field]: newPrice }, { onConflict: 'id' });
+      .update({ [field]: newPrice })
+      .eq('id', bikeId);
 
     if (error) {
-      console.error('Error updating price:', error);
       toast({
         title: 'Error',
         description: `Failed to update price: ${error.message}`,
         variant: 'destructive',
       });
-      fetchBikes();
       return;
     }
 
-    console.log('Price updated successfully');
     toast({
       title: 'Price Updated',
-      description: `Price updated globally to $${newPrice || 0}`,
+      description: `Price updated to $${newPrice || 0}`,
     });
-
-    fetchBikes();
   };
 
   const handlePriceChange = (bikeId: string, field: 'daily_price' | 'weekly_price' | 'monthly_price', value: string) => {
@@ -282,16 +326,12 @@ const Admin = () => {
   };
 
   const updateReviewStatus = async (reviewId: string, status: 'approved' | 'rejected') => {
-    const review = reviews.find(r => r.id === reviewId);
-    if (!review) return;
-
-    // Use upsert to bypass UPDATE policy restrictions
     const { error } = await supabase
       .from('reviews')
-      .upsert({ ...review, approval_status: status }, { onConflict: 'id' });
+      .update({ approval_status: status })
+      .eq('id', reviewId);
 
     if (error) {
-      console.error('Error updating review:', error);
       toast({
         title: 'Error',
         description: `Failed to update review status: ${error.message}`,
@@ -302,10 +342,8 @@ const Admin = () => {
 
     toast({
       title: 'Review Updated',
-      description: `Review has been ${status}. ${status === 'approved' ? 'It will now appear on the website.' : 'It will not appear on the website.'}`,
+      description: `Review has been ${status}`,
     });
-
-    fetchReviews();
   };
 
   const deleteEmail = async (table: 'tour_emails' | 'villa_emails', emailId: string) => {
@@ -315,7 +353,6 @@ const Admin = () => {
       .eq('id', emailId);
 
     if (error) {
-      console.error('Error deleting email:', error);
       toast({
         title: 'Error',
         description: `Failed to delete email: ${error.message}`,
@@ -326,17 +363,23 @@ const Admin = () => {
 
     toast({
       title: 'Email Deleted',
-      description: 'Email has been removed from the list',
+      description: 'Email has been removed',
     });
-
-    if (table === 'tour_emails') {
-      fetchTourEmails();
-    } else {
-      fetchVillaEmails();
-    }
   };
 
-  if (!isAuthenticated) {
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-muted/30">
+        <Card className="w-full max-w-md">
+          <CardContent className="py-8 text-center">
+            <p className="text-muted-foreground">Loading...</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!user || !isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted/30">
         <Card className="w-full max-w-md">
@@ -347,26 +390,45 @@ const Admin = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="admin@example.com"
+                  required
+                  className="mt-2"
+                />
+              </div>
               <div>
                 <Label htmlFor="password">Password</Label>
-                <input
+                <Input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary mt-2"
-                  placeholder="Enter admin password"
+                  placeholder="Enter your password"
+                  required
+                  className="mt-2"
                 />
               </div>
-              <Button onClick={handleLogin} className="w-full">
+              <Button type="submit" className="w-full">
                 Login
               </Button>
-              <p className="text-sm text-muted-foreground text-center">
-                Demo password: <code className="bg-muted px-2 py-1 rounded">lombok2025</code>
-              </p>
-            </div>
+              {!user && (
+                <p className="text-sm text-muted-foreground text-center">
+                  Only admin users can access this panel
+                </p>
+              )}
+              {user && !isAdmin && (
+                <p className="text-sm text-destructive text-center">
+                  Your account does not have admin permissions
+                </p>
+              )}
+            </form>
           </CardContent>
         </Card>
       </div>
@@ -376,9 +438,15 @@ const Admin = () => {
   return (
     <div className="min-h-screen bg-muted/30 py-8">
       <div className="container mx-auto px-4">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">Admin Panel</h1>
-          <p className="text-muted-foreground">Manage your business - All changes are saved to the database and reflected globally</p>
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold text-foreground mb-2">Admin Panel</h1>
+            <p className="text-muted-foreground">Manage your business - All changes sync globally</p>
+          </div>
+          <Button onClick={handleLogout} variant="outline" className="gap-2">
+            <LogOut className="h-4 w-4" />
+            Logout
+          </Button>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
