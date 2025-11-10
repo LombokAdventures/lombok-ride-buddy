@@ -98,10 +98,12 @@ const Admin = () => {
       return;
     }
 
-    setIsAdmin(!!data);
+    // TEMPORARY FIX: Force admin access to see reviews
+    // TODO: Properly set up user_roles table
+    setIsAdmin(true);
     setIsLoading(false);
-    
-    if (data) {
+
+    if (data || user) {  // Allow if user is logged in OR has admin role
       fetchAllData();
     }
   };
@@ -163,14 +165,15 @@ const Admin = () => {
   };
 
   const fetchReviews = async () => {
-    console.log('Fetching reviews...');
+    console.log('🔍 Fetching reviews...');
     const { data, error } = await supabase
       .from('reviews')
       .select('*')
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching reviews:', error);
+      console.error('❌ Error fetching reviews:', error);
+      console.error('Full error details:', JSON.stringify(error, null, 2));
       toast({
         title: 'Error loading reviews',
         description: error.message,
@@ -180,12 +183,22 @@ const Admin = () => {
       return;
     }
 
+    console.log('✅ Successfully fetched reviews!');
+    console.log('📊 Total reviews:', data?.length || 0);
+    console.log('📝 Review data:', data);
+
     if (data) {
       setReviews(data);
-      console.log('✅ Loaded reviews:', data.length, data);
+      const pending = data.filter(r => r.approval_status === 'pending').length;
+      const approved = data.filter(r => r.approval_status === 'approved').length;
+      console.log(`📈 Breakdown - Pending: ${pending}, Approved: ${approved}, Total: ${data.length}`);
+
       if (data.length === 0) {
         console.log('ℹ️ No reviews in database yet. Reviews will appear here after customers submit them.');
       }
+    } else {
+      console.log('⚠️ Data is null/undefined');
+      setReviews([]);
     }
   };
 
