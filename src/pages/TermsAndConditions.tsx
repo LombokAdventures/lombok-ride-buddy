@@ -19,16 +19,19 @@ export default function TermsAndConditions() {
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      {/* Floating Back Button */}
-      <div className="fixed top-20 left-4 z-40 md:left-6">
+      {/* Floating Back Button - Sticky position */}
+      <div className="fixed top-20 left-4 z-50 md:left-6">
         <Button
           variant="default"
-          onClick={() => navigate(-1)}
-          className="gap-2 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 bg-primary hover:bg-primary/90"
-          size="default"
+          onClick={() => {
+            navigate('/');
+            setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+          }}
+          className="gap-2 shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary"
+          size="lg"
         >
-          <ArrowLeft className="h-4 w-4" />
-          <span className="hidden sm:inline">Back</span>
+          <ArrowLeft className="h-5 w-5" />
+          <span className="hidden sm:inline font-semibold">Back to Home</span>
         </Button>
       </div>
 

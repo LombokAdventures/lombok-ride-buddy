@@ -36,6 +36,15 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
   const [termsAgreed, setTermsAgreed] = useState(false);
   const [showTermsError, setShowTermsError] = useState(false);
 
+  // Reset terms when modal closes
+  const handleClose = (open: boolean) => {
+    if (!open) {
+      setTermsAgreed(false);
+      setShowTermsError(false);
+      onClose();
+    }
+  };
+
   if (!bike) return null;
 
   const isAvailable = bike.status === 'available';
@@ -52,7 +61,7 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <div className="space-y-2">
