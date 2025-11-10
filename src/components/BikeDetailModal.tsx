@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -33,16 +34,29 @@ interface BikeDetailModalProps {
 
 export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps) => {
   const { t, language } = useLanguage();
+  const navigate = useNavigate();
   const [termsAgreed, setTermsAgreed] = useState(false);
   const [showTermsError, setShowTermsError] = useState(false);
+  const [showTermsContent, setShowTermsContent] = useState(false);
 
   // Reset terms when modal closes
   const handleClose = (open: boolean) => {
     if (!open) {
       setTermsAgreed(false);
       setShowTermsError(false);
+      setShowTermsContent(false);
       onClose();
     }
+  };
+
+  const handleTermsClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // Store the bike ID before navigating
+    sessionStorage.setItem('returnToBike', bike?.id || '');
+    // Navigate to terms page
+    navigate('/terms');
+    // Close the modal
+    onClose();
   };
 
   if (!bike) return null;
@@ -202,15 +216,13 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
                 className="text-sm leading-relaxed cursor-pointer"
               >
                 {t.bikeModal.termsAgreement}{' '}
-                <a
-                  href="/lombok-ride-buddy/terms"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
                   className="text-primary hover:underline font-semibold"
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={handleTermsClick}
                 >
                   {t.bikeModal.termsLink}
-                </a>
+                </button>
               </label>
             </div>
 

@@ -24,8 +24,17 @@ export default function TermsAndConditions() {
         <Button
           variant="default"
           onClick={() => {
+            const returnToBike = sessionStorage.getItem('returnToBike');
+            if (returnToBike) {
+              sessionStorage.setItem('openBikeModal', returnToBike);
+              sessionStorage.removeItem('returnToBike');
+            }
             navigate('/');
-            setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+            setTimeout(() => {
+              if (!returnToBike) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }, 100);
           }}
           className="gap-2 shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary"
           size="lg"
