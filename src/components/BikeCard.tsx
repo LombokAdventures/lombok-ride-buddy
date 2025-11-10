@@ -3,7 +3,6 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { MessageCircle, CheckCircle, XCircle, Gauge, Fuel, Settings } from 'lucide-react';
-import { contactConfig } from '@/data/bikes';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
 import { BikeDetailModal } from './BikeDetailModal';
@@ -54,9 +53,6 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
         return t.fleet.perDay;
     }
   };
-  
-  const whatsappMessage = `Hi! I'm interested in renting the ${bike.name} (${bike.model}) for ${selectedPeriod} rental from Lombok Local. Is it available?`;
-  const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
     <>
@@ -146,22 +142,18 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
       </CardContent>
 
       <CardFooter className="p-6 pt-0">
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-full"
-          onClick={(e) => e.stopPropagation()}
+        <Button
+          className="w-full gap-2"
+          disabled={!isAvailable}
+          variant={isAvailable ? "default" : "outline"}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsModalOpen(true);
+          }}
         >
-          <Button
-            className="w-full gap-2"
-            disabled={!isAvailable}
-            variant={isAvailable ? "default" : "outline"}
-          >
-            <MessageCircle className="h-4 w-4" />
-            {t.fleet.reserve}
-          </Button>
-        </a>
+          <MessageCircle className="h-4 w-4" />
+          {t.fleet.reserve}
+        </Button>
       </CardFooter>
     </Card>
 

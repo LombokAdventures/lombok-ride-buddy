@@ -19,19 +19,21 @@ export default function TermsAndConditions() {
     <div className="min-h-screen flex flex-col">
       <Header />
 
+      {/* Floating Back Button */}
+      <div className="fixed top-20 left-4 z-40 md:left-6">
+        <Button
+          variant="default"
+          onClick={() => navigate(-1)}
+          className="gap-2 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 bg-primary hover:bg-primary/90"
+          size="default"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span className="hidden sm:inline">Back</span>
+        </Button>
+      </div>
+
       <main className="flex-1 bg-background pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
-          {/* Back Button */}
-          <div className="mb-6">
-            <Button
-              variant="ghost"
-              onClick={() => navigate(-1)}
-              className="gap-2 hover:bg-primary/10"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back
-            </Button>
-          </div>
 
           {/* Header */}
           <div className="text-center mb-12">
