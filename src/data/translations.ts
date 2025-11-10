@@ -90,7 +90,7 @@ export interface Translations {
 export const translations: Record<Language, Translations> = {
   en: {
     hero: {
-      title: 'Explore Lombok Freedom',
+      title: 'From Beaches to Mountains - Lombok is Yours to Explore',
       subtitle: 'Premium Scooters from $5/Day',
       cta: 'Check Availability',
       trustBadge: 'Trusted by travelers since 2025'
@@ -244,7 +244,7 @@ export const translations: Record<Language, Translations> = {
   },
   ru: {
     hero: {
-      title: 'Исследуйте Ломбок',
+      title: 'От Пляжей до Гор - Ломбок Ваш для Исследования',
       subtitle: 'Премиум скутеры от $5/день',
       cta: 'Проверить наличие',
       trustBadge: 'Доверие путешественников с 2025'
@@ -398,7 +398,7 @@ export const translations: Record<Language, Translations> = {
   },
   id: {
     hero: {
-      title: 'Jelajahi Kebebasan Lombok',
+      title: 'Dari Pantai ke Gunung - Lombok Milik Anda untuk Dijelajahi',
       subtitle: 'Skuter Premium dari $5/Hari',
       cta: 'Cek Ketersediaan',
       trustBadge: 'Dipercaya oleh wisatawan sejak 2025'
@@ -552,7 +552,7 @@ export const translations: Record<Language, Translations> = {
   },
   de: {
     hero: {
-      title: 'Erkunde Lombok Freiheit',
+      title: 'Von Stränden zu Bergen - Lombok Gehört Dir zum Erkunden',
       subtitle: 'Premium Roller ab $5/Tag',
       cta: 'Verfügbarkeit prüfen',
       trustBadge: 'Vertraut von Reisenden seit 2025'
