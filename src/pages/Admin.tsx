@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Lock, CheckCircle, XCircle, Trash2, Star } from 'lucide-react';
+import { Lock, CheckCircle, XCircle, Trash2, Star, LogOut, Upload, Image as ImageIcon } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import type { User } from '@supabase/supabase-js';
 
 interface Bike {
   id: string;
@@ -45,38 +47,88 @@ const Admin = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [tourEmails, setTourEmails] = useState<EmailEntry[]>([]);
   const [villaEmails, setVillaEmails] = useState<EmailEntry[]>([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [activeTab, setActiveTab] = useState('bikes');
+  const [uploadingImageFor, setUploadingImageFor] = useState<string | null>(null);
+  const fileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
   const { toast } = useToast();
 
-  const ADMIN_PASSWORD = 'lombok2025';
+  useEffect(() => {
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        checkAdminRole(session.user.id);
+      } else {
+        setIsAdmin(false);
+        setIsLoading(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const checkAuth = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    setUser(session?.user ?? null);
+    if (session?.user) {
+      await checkAdminRole(session.user.id);
+    } else {
+      setIsLoading(false);
+    }
+  };
+
+  const checkAdminRole = async (userId: string) => {
+    const { data, error } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', userId)
+      .eq('role', 'admin')
+      .maybeSingle();
+
+    if (error) {
+      console.error('Error checking admin role:', error);
+      setIsAdmin(false);
+      setIsLoading(false);
+      return;
+    }
+
+    setIsAdmin(!!data);
+    setIsLoading(false);
+    
+    if (data) {
+      fetchAllData();
+    }
+  };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchAllData();
+    if (!isAdmin) return;
 
-      // Set up realtime subscriptions
-      const bikesChannel = supabase
-        .channel('admin-bikes-changes')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'bikes' }, () => {
-          fetchBikes();
-        })
-        .subscribe();
+    // Set up realtime subscriptions
+    const bikesChannel = supabase
+      .channel('admin-bikes-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'bikes' }, () => {
+        fetchBikes();
+      })
+      .subscribe();
 
-      const reviewsChannel = supabase
-        .channel('admin-reviews-changes')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'reviews' }, () => {
-          fetchReviews();
-        })
-        .subscribe();
+    const reviewsChannel = supabase
+      .channel('admin-reviews-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'reviews' }, () => {
+        fetchReviews();
+      })
+      .subscribe();
 
-      return () => {
-        supabase.removeChannel(bikesChannel);
-        supabase.removeChannel(reviewsChannel);
-      };
-    }
-  }, [isAuthenticated]);
+    return () => {
+      supabase.removeChannel(bikesChannel);
+      supabase.removeChannel(reviewsChannel);
+    };
+  }, [isAdmin]);
 
   const fetchAllData = async () => {
     await Promise.all([
@@ -105,7 +157,7 @@ const Admin = () => {
     }
 
     if (data) {
-      console.log('Loaded bikes:', data.length, data);
+      console.log('✅ Loaded bikes:', data.length, data);
       setBikes(data);
     }
   };
@@ -181,20 +233,37 @@ const Admin = () => {
     }
   };
 
-  const handleLogin = () => {
-    if (password === ADMIN_PASSWORD) {
-      setIsAuthenticated(true);
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
       toast({
-        title: 'Access Granted',
-        description: 'Welcome to the admin panel!',
-      });
-    } else {
-      toast({
-        title: 'Access Denied',
-        description: 'Incorrect password',
+        title: 'Login Failed',
+        description: error.message,
         variant: 'destructive',
       });
+      return;
     }
+
+    toast({
+      title: 'Logged In',
+      description: 'Checking admin permissions...',
+    });
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setIsAdmin(false);
+    toast({
+      title: 'Logged Out',
+      description: 'You have been logged out successfully',
+    });
   };
 
   const toggleBikeStatus = async (bikeId: string) => {
@@ -213,10 +282,10 @@ const Admin = () => {
       prevBikes.map(b => b.id === bikeId ? { ...b, status: newStatus } : b)
     );
 
-    // Use upsert to bypass UPDATE policy restrictions
     const { error } = await supabase
       .from('bikes')
-      .upsert({ ...bike, status: newStatus }, { onConflict: 'id' });
+      .update({ status: newStatus })
+      .eq('id', bikeId);
 
     if (error) {
       console.error('Error updating status:', error);
@@ -251,20 +320,13 @@ const Admin = () => {
         description: 'Price cannot be negative',
         variant: 'destructive',
       });
-      fetchBikes();
       return;
     }
 
-    const bike = bikes.find(b => b.id === bikeId);
-    if (!bike) {
-      console.error('Bike not found:', bikeId);
-      return;
-    }
-
-    // Use upsert to bypass UPDATE policy restrictions
     const { error } = await supabase
       .from('bikes')
-      .upsert({ ...bike, [field]: newPrice }, { onConflict: 'id' });
+      .update({ [field]: newPrice })
+      .eq('id', bikeId);
 
     if (error) {
       console.error('Error updating price:', error);
@@ -273,7 +335,6 @@ const Admin = () => {
         description: `Failed to update price: ${error.message}`,
         variant: 'destructive',
       });
-      fetchBikes();
       return;
     }
 
@@ -282,8 +343,6 @@ const Admin = () => {
       title: 'Price Updated',
       description: `Price updated globally to $${newPrice || 0}`,
     });
-
-    fetchBikes();
   };
 
   const handlePriceChange = (bikeId: string, field: 'daily_price' | 'weekly_price' | 'monthly_price', value: string) => {
@@ -297,16 +356,12 @@ const Admin = () => {
   };
 
   const updateReviewStatus = async (reviewId: string, status: 'approved' | 'rejected') => {
-    const review = reviews.find(r => r.id === reviewId);
-    if (!review) return;
-
-    // Use upsert to bypass UPDATE policy restrictions
     const { error } = await supabase
       .from('reviews')
-      .upsert({ ...review, approval_status: status }, { onConflict: 'id' });
+      .update({ approval_status: status })
+      .eq('id', reviewId);
 
     if (error) {
-      console.error('Error updating review:', error);
       toast({
         title: 'Error',
         description: `Failed to update review status: ${error.message}`,
@@ -319,8 +374,6 @@ const Admin = () => {
       title: 'Review Updated',
       description: `Review has been ${status}. ${status === 'approved' ? 'It will now appear on the website.' : 'It will not appear on the website.'}`,
     });
-
-    fetchReviews();
   };
 
   const deleteEmail = async (table: 'tour_emails' | 'villa_emails', emailId: string) => {
@@ -330,7 +383,6 @@ const Admin = () => {
       .eq('id', emailId);
 
     if (error) {
-      console.error('Error deleting email:', error);
       toast({
         title: 'Error',
         description: `Failed to delete email: ${error.message}`,
@@ -343,15 +395,108 @@ const Admin = () => {
       title: 'Email Deleted',
       description: 'Email has been removed from the list',
     });
+  };
 
-    if (table === 'tour_emails') {
-      fetchTourEmails();
-    } else {
-      fetchVillaEmails();
+  const handleImageUpload = async (bikeId: string, file: File) => {
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: 'Invalid File',
+        description: 'Please upload an image file',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: 'File Too Large',
+        description: 'Image must be less than 5MB',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setUploadingImageFor(bikeId);
+
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${bikeId}-${Date.now()}.${fileExt}`;
+      const filePath = fileName;
+
+      const { error: uploadError } = await supabase.storage
+        .from('bike-images')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: true,
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('bike-images')
+        .getPublicUrl(filePath);
+
+      const { error: updateError } = await supabase
+        .from('bikes')
+        .update({ image: publicUrl })
+        .eq('id', bikeId);
+
+      if (updateError) throw updateError;
+
+      toast({
+        title: 'Image Updated',
+        description: 'Bike image has been updated successfully',
+      });
+
+      fetchBikes();
+    } catch (error: any) {
+      toast({
+        title: 'Upload Failed',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } finally {
+      setUploadingImageFor(null);
     }
   };
 
-  if (!isAuthenticated) {
+  const updateBikeImage = async (bikeId: string, imageUrl: string) => {
+    const bike = bikes.find(b => b.id === bikeId);
+    if (!bike) return;
+
+    const { error } = await supabase
+      .from('bikes')
+      .update({ image: imageUrl })
+      .eq('id', bikeId);
+
+    if (error) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } else {
+      toast({
+        title: 'Image Updated',
+        description: 'Changes saved globally',
+      });
+      fetchBikes();
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-muted/30">
+        <Card className="w-full max-w-md">
+          <CardContent className="py-8 text-center">
+            <p className="text-muted-foreground">Loading...</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!user || !isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted/30">
         <Card className="w-full max-w-md">
@@ -362,26 +507,45 @@ const Admin = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="admin@example.com"
+                  required
+                  className="mt-2"
+                />
+              </div>
               <div>
                 <Label htmlFor="password">Password</Label>
-                <input
+                <Input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary mt-2"
-                  placeholder="Enter admin password"
+                  placeholder="Enter your password"
+                  required
+                  className="mt-2"
                 />
               </div>
-              <Button onClick={handleLogin} className="w-full">
+              <Button type="submit" className="w-full">
                 Login
               </Button>
-              <p className="text-sm text-muted-foreground text-center">
-                Demo password: <code className="bg-muted px-2 py-1 rounded">lombok2025</code>
-              </p>
-            </div>
+              {!user && (
+                <p className="text-sm text-muted-foreground text-center">
+                  Only admin users can access this panel
+                </p>
+              )}
+              {user && !isAdmin && (
+                <p className="text-sm text-destructive text-center">
+                  Your account does not have admin permissions
+                </p>
+              )}
+            </form>
           </CardContent>
         </Card>
       </div>
@@ -391,9 +555,15 @@ const Admin = () => {
   return (
     <div className="min-h-screen bg-muted/30 py-8">
       <div className="container mx-auto px-4">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">Admin Panel</h1>
-          <p className="text-muted-foreground">Manage your business - All changes are saved to the database and reflected globally</p>
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold text-foreground mb-2">Admin Panel</h1>
+            <p className="text-muted-foreground">Manage your business - All changes sync globally</p>
+          </div>
+          <Button onClick={handleLogout} variant="outline" className="gap-2">
+            <LogOut className="h-4 w-4" />
+            Logout
+          </Button>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
@@ -445,6 +615,63 @@ const Admin = () => {
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
+                    {/* Bike Image */}
+                    <div className="relative aspect-video bg-muted rounded-lg overflow-hidden">
+                      {bike.image ? (
+                        <img
+                          src={bike.image}
+                          alt={bike.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <ImageIcon className="h-12 w-12 text-muted-foreground/50" />
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => fileInputRefs.current[bike.id]?.click()}
+                          disabled={uploadingImageFor === bike.id}
+                          className="gap-2"
+                        >
+                          <Upload className="h-4 w-4" />
+                          {uploadingImageFor === bike.id ? 'Uploading...' : 'Change Image'}
+                        </Button>
+                      </div>
+                      <input
+                        ref={(el) => (fileInputRefs.current[bike.id] = el)}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleImageUpload(bike.id, file);
+                        }}
+                      />
+                    </div>
+
+                    {/* Image URL Field */}
+                    <div className="p-3 bg-muted rounded-lg">
+                      <Label htmlFor={`image-${bike.id}`} className="text-xs font-semibold mb-2 block">
+                        Image URL (or upload above)
+                      </Label>
+                      <input
+                        id={`image-${bike.id}`}
+                        type="text"
+                        value={bike.image || ''}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setBikes(prevBikes => prevBikes.map(b => b.id === bike.id ? { ...b, image: value } : b));
+                        }}
+                        onBlur={(e) => updateBikeImage(bike.id, e.target.value)}
+                        placeholder="https://example.com/bike.jpg or /bikes/honda-beat.jpg"
+                        className="w-full px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-xs"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Image will display on client side</p>
+                    </div>
+
                     {/* Daily Price */}
                     <div className="p-3 bg-muted rounded-lg">
                       <Label htmlFor={`daily-${bike.id}`} className="text-xs font-semibold mb-2 block">
@@ -522,32 +749,6 @@ const Admin = () => {
                     </div>
 
                     <div className="text-xs text-muted-foreground">
-
-
-                    {/* Image URL */}
-                    <div className="p-3 bg-muted rounded-lg">
-                      <Label htmlFor={`image-${bike.id}`} className="text-xs font-semibold mb-2 block">
-                        Image URL
-                      </Label>
-                      <input
-                        id={`image-${bike.id}`}
-                        type="text"
-                        value={bike.image || ''}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setBikes(prevBikes => prevBikes.map(b => b.id === bike.id ? { ...b, image: value } : b));
-                        }}
-                        onBlur={async (e) => {
-                          const value = e.target.value;
-                          const { error } = await supabase.from('bikes').upsert({ ...bike, image: value }, { onConflict: 'id' });
-                          if (error) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); }
-                          else { toast({ title: 'Image Updated', description: 'Changes saved globally' }); fetchBikes(); }
-                        }}
-                        placeholder="https://example.com/bike.jpg or /bikes/honda-beat.jpg"
-                        className="w-full px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-xs"
-                      />
-                      <p className="text-xs text-muted-foreground mt-1">Image will display on client side</p>
-                    </div>
                       <p><strong>Engine:</strong> {bike.engine}</p>
                       <p><strong>Transmission:</strong> {bike.transmission}</p>
                     </div>
