@@ -59,7 +59,7 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
   return (
     <>
       <Card
-        className={`overflow-hidden shadow-card hover:shadow-elegant transition-all duration-300 cursor-pointer flex flex-col ${!isAvailable ? 'opacity-70' : ''}`}
+        className={`overflow-hidden shadow-card hover:shadow-elegant transition-all duration-300 cursor-pointer ${!isAvailable ? 'opacity-70' : ''}`}
         onClick={() => setIsModalOpen(true)}
       >
       <div className="relative h-64 bg-muted overflow-hidden">
@@ -98,7 +98,7 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
         </div>
       </div>
       
-      <CardContent className="p-6 flex-grow">
+      <CardContent className="p-6">
         <div className="mb-4">
           <h3 className="text-2xl font-bold text-foreground mb-1">{bike.name}</h3>
           <p className="text-sm text-muted-foreground">{bike.model}</p>
@@ -139,7 +139,7 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 min-h-[60px]">
+        <div className="flex flex-wrap gap-2">
           {bike.features.map((feature, idx) => (
             <Badge key={idx} variant="outline" className="text-xs">
               {translateFeature(feature, language)}
