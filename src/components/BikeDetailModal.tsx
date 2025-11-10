@@ -8,6 +8,7 @@ import { CheckCircle, XCircle, Gauge, Fuel, Settings, Calendar, Bike as BikeIcon
 import { useLanguage } from '@/contexts/LanguageContext';
 import { contactConfig } from '@/data/bikes';
 import { translateFeature } from '@/utils/featureTranslator';
+import { translateTransmission } from '@/utils/transmissionTranslator';
 
 interface Bike {
   id: string;
@@ -121,22 +122,22 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
           {/* Pricing */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="p-4 bg-primary/10 rounded-lg text-center">
-              <p className="text-sm text-muted-foreground mb-1">Daily</p>
+              <p className="text-sm text-muted-foreground mb-1">{t.bikeModal.daily}</p>
               <p className="text-2xl font-bold text-primary">${bike.daily_price}</p>
-              <p className="text-xs text-muted-foreground">per day</p>
+              <p className="text-xs text-muted-foreground">{t.bikeModal.perDay}</p>
             </div>
             {bike.weekly_price && (
               <div className="p-4 bg-primary/10 rounded-lg text-center">
-                <p className="text-sm text-muted-foreground mb-1">Weekly</p>
+                <p className="text-sm text-muted-foreground mb-1">{t.bikeModal.weekly}</p>
                 <p className="text-2xl font-bold text-primary">${bike.weekly_price}</p>
-                <p className="text-xs text-muted-foreground">per week</p>
+                <p className="text-xs text-muted-foreground">{t.bikeModal.perWeek}</p>
               </div>
             )}
             {bike.monthly_price && (
               <div className="p-4 bg-primary/10 rounded-lg text-center">
-                <p className="text-sm text-muted-foreground mb-1">Monthly</p>
+                <p className="text-sm text-muted-foreground mb-1">{t.bikeModal.monthly}</p>
                 <p className="text-2xl font-bold text-primary">${bike.monthly_price}</p>
-                <p className="text-xs text-muted-foreground">per month</p>
+                <p className="text-xs text-muted-foreground">{t.bikeModal.perMonth}</p>
               </div>
             )}
           </div>
@@ -148,21 +149,21 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
               <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
                 <Gauge className="h-5 w-5 text-primary" />
                 <div>
-                  <p className="text-xs text-muted-foreground">Engine</p>
+                  <p className="text-xs text-muted-foreground">{t.bikeModal.engine}</p>
                   <p className="font-semibold">{bike.engine}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
                 <Settings className="h-5 w-5 text-primary" />
                 <div>
-                  <p className="text-xs text-muted-foreground">Transmission</p>
-                  <p className="font-semibold">{bike.transmission}</p>
+                  <p className="text-xs text-muted-foreground">{t.bikeModal.transmission}</p>
+                  <p className="font-semibold">{translateTransmission(bike.transmission, language)}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
                 <Fuel className="h-5 w-5 text-primary" />
                 <div>
-                  <p className="text-xs text-muted-foreground">Fuel Capacity</p>
+                  <p className="text-xs text-muted-foreground">{t.bikeModal.fuelCapacity}</p>
                   <p className="font-semibold">{bike.fuel_capacity}</p>
                 </div>
               </div>
@@ -170,7 +171,7 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
                 <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
                   <Calendar className="h-5 w-5 text-primary" />
                   <div>
-                    <p className="text-xs text-muted-foreground">Year</p>
+                    <p className="text-xs text-muted-foreground">{t.bikeModal.year}</p>
                     <p className="font-semibold">{bike.year}</p>
                   </div>
                 </div>
@@ -179,7 +180,7 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
                 <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
                   <BikeIcon className="h-5 w-5 text-primary" />
                   <div>
-                    <p className="text-xs text-muted-foreground">Mileage</p>
+                    <p className="text-xs text-muted-foreground">{t.bikeModal.mileage}</p>
                     <p className="font-semibold">{bike.kilometers.toLocaleString()} km</p>
                   </div>
                 </div>
@@ -189,7 +190,7 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
 
           {/* Features */}
           <div>
-            <h3 className="text-lg font-semibold mb-3">Features</h3>
+            <h3 className="text-lg font-semibold mb-3">{t.bikeModal.features}</h3>
             <div className="flex flex-wrap gap-2">
               {bike.features.map((feature, idx) => (
                 <Badge key={idx} variant="outline" className="text-sm">
@@ -269,7 +270,7 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
             </div>
             {!isAvailable && (
               <p className="text-center text-sm text-muted-foreground">
-                Currently Unavailable
+                {t.bikeModal.currentlyUnavailable}
               </p>
             )}
           </div>

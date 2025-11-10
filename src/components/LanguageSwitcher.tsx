@@ -13,14 +13,16 @@ const languageNames = {
   en: 'English',
   ru: 'Русский',
   id: 'Bahasa',
-  de: 'Deutsch'
+  de: 'Deutsch',
+  uz: 'O\'zbekcha'
 };
 
 const languageFlags = {
   en: '🇬🇧',
   ru: '🇷🇺',
   id: '🇮🇩',
-  de: '🇩🇪'
+  de: '🇩🇪',
+  uz: '🇺🇿'
 };
 
 export const LanguageSwitcher = () => {
