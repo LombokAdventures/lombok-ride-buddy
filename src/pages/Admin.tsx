@@ -157,12 +157,13 @@ const Admin = () => {
     }
 
     if (data) {
-      console.log('Loaded bikes:', data.length, data);
+      console.log('✅ Loaded bikes:', data.length, data);
       setBikes(data);
     }
   };
 
   const fetchReviews = async () => {
+    console.log('Fetching reviews...');
     const { data, error } = await supabase
       .from('reviews')
       .select('*')
@@ -175,12 +176,16 @@ const Admin = () => {
         description: error.message,
         variant: 'destructive',
       });
+      setReviews([]);
       return;
     }
 
     if (data) {
       setReviews(data);
-      console.log('Loaded reviews:', data.length);
+      console.log('✅ Loaded reviews:', data.length, data);
+      if (data.length === 0) {
+        console.log('ℹ️ No reviews in database yet. Reviews will appear here after customers submit them.');
+      }
     }
   };
 
@@ -262,10 +267,20 @@ const Admin = () => {
   };
 
   const toggleBikeStatus = async (bikeId: string) => {
+    console.log('Toggling bike status for:', bikeId);
     const bike = bikes.find(b => b.id === bikeId);
-    if (!bike) return;
+    if (!bike) {
+      console.error('Bike not found:', bikeId);
+      return;
+    }
 
     const newStatus = bike.status === 'available' ? 'rented' : 'available';
+    console.log('Changing status from', bike.status, 'to', newStatus);
+
+    // Optimistically update UI immediately for instant feedback
+    setBikes(prevBikes =>
+      prevBikes.map(b => b.id === bikeId ? { ...b, status: newStatus } : b)
+    );
 
     const { error } = await supabase
       .from('bikes')
@@ -273,6 +288,11 @@ const Admin = () => {
       .eq('id', bikeId);
 
     if (error) {
+      console.error('Error updating status:', error);
+      // Revert optimistic update on error
+      setBikes(prevBikes =>
+        prevBikes.map(b => b.id === bikeId ? { ...b, status: bike.status } : b)
+      );
       toast({
         title: 'Error',
         description: `Failed to update bike status: ${error.message}`,
@@ -281,13 +301,19 @@ const Admin = () => {
       return;
     }
 
+    console.log('Status updated successfully');
     toast({
       title: 'Status Updated',
-      description: `Bike is now ${newStatus}`,
+      description: `Bike is now ${newStatus}. Changes reflected globally.`,
     });
+
+    // Refetch to ensure sync with database
+    await fetchBikes();
   };
 
   const updateBikePrice = async (bikeId: string, field: 'daily_price' | 'weekly_price' | 'monthly_price', newPrice: number | null) => {
+    console.log('Updating bike price:', bikeId, field, newPrice);
+
     if (newPrice !== null && newPrice < 0) {
       toast({
         title: 'Invalid Price',
@@ -303,6 +329,7 @@ const Admin = () => {
       .eq('id', bikeId);
 
     if (error) {
+      console.error('Error updating price:', error);
       toast({
         title: 'Error',
         description: `Failed to update price: ${error.message}`,
@@ -311,9 +338,10 @@ const Admin = () => {
       return;
     }
 
+    console.log('Price updated successfully');
     toast({
       title: 'Price Updated',
-      description: `Price updated to $${newPrice || 0}`,
+      description: `Price updated globally to $${newPrice || 0}`,
     });
   };
 
@@ -344,7 +372,7 @@ const Admin = () => {
 
     toast({
       title: 'Review Updated',
-      description: `Review has been ${status}`,
+      description: `Review has been ${status}. ${status === 'approved' ? 'It will now appear on the website.' : 'It will not appear on the website.'}`,
     });
   };
 
@@ -365,7 +393,7 @@ const Admin = () => {
 
     toast({
       title: 'Email Deleted',
-      description: 'Email has been removed',
+      description: 'Email has been removed from the list',
     });
   };
 
@@ -419,6 +447,8 @@ const Admin = () => {
         title: 'Image Updated',
         description: 'Bike image has been updated successfully',
       });
+
+      fetchBikes();
     } catch (error: any) {
       toast({
         title: 'Upload Failed',
@@ -427,6 +457,30 @@ const Admin = () => {
       });
     } finally {
       setUploadingImageFor(null);
+    }
+  };
+
+  const updateBikeImage = async (bikeId: string, imageUrl: string) => {
+    const bike = bikes.find(b => b.id === bikeId);
+    if (!bike) return;
+
+    const { error } = await supabase
+      .from('bikes')
+      .update({ image: imageUrl })
+      .eq('id', bikeId);
+
+    if (error) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } else {
+      toast({
+        title: 'Image Updated',
+        description: 'Changes saved globally',
+      });
+      fetchBikes();
     }
   };
 
@@ -597,6 +651,27 @@ const Admin = () => {
                         }}
                       />
                     </div>
+
+                    {/* Image URL Field */}
+                    <div className="p-3 bg-muted rounded-lg">
+                      <Label htmlFor={`image-${bike.id}`} className="text-xs font-semibold mb-2 block">
+                        Image URL (or upload above)
+                      </Label>
+                      <input
+                        id={`image-${bike.id}`}
+                        type="text"
+                        value={bike.image || ''}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setBikes(prevBikes => prevBikes.map(b => b.id === bike.id ? { ...b, image: value } : b));
+                        }}
+                        onBlur={(e) => updateBikeImage(bike.id, e.target.value)}
+                        placeholder="https://example.com/bike.jpg or /bikes/honda-beat.jpg"
+                        className="w-full px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-xs"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Image will display on client side</p>
+                    </div>
+
                     {/* Daily Price */}
                     <div className="p-3 bg-muted rounded-lg">
                       <Label htmlFor={`daily-${bike.id}`} className="text-xs font-semibold mb-2 block">
@@ -700,7 +775,7 @@ const Admin = () => {
               {reviews.length === 0 ? (
                 <Card>
                   <CardContent className="py-8 text-center text-muted-foreground">
-                    No reviews yet
+                    No reviews submitted yet. Reviews will appear here after customers submit them from the website.
                   </CardContent>
                 </Card>
               ) : (
