@@ -291,7 +291,7 @@ const Admin = () => {
     toast({
       title: '✅ Login Successful',
       description: 'Welcome to admin panel!',
-      className: 'bg-green-50 border-green-200',
+      className: 'bg-success/10 border-success text-success-foreground',
     });
   };
 
@@ -798,11 +798,19 @@ const Admin = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 gap-2 sm:grid-cols-4 lg:w-auto lg:inline-grid p-2">
-            <TabsTrigger value="bikes">Bikes ({bikes.length})</TabsTrigger>
-            <TabsTrigger value="reviews">Reviews ({reviews.filter(r => r.approval_status === 'pending').length} pending)</TabsTrigger>
-            <TabsTrigger value="tour-emails">Tour Emails ({tourEmails.length})</TabsTrigger>
-            <TabsTrigger value="villa-emails">Villa Emails ({villaEmails.length})</TabsTrigger>
+          <TabsList className="flex flex-wrap justify-center gap-2 sm:gap-3 p-3 bg-muted/50 h-auto">
+            <TabsTrigger value="bikes" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
+              Bikes ({bikes.length})
+            </TabsTrigger>
+            <TabsTrigger value="reviews" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
+              Reviews ({reviews.filter(r => r.approval_status === 'pending').length})
+            </TabsTrigger>
+            <TabsTrigger value="tour-emails" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
+              Tour Emails ({tourEmails.length})
+            </TabsTrigger>
+            <TabsTrigger value="villa-emails" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
+              Villa Emails ({villaEmails.length})
+            </TabsTrigger>
           </TabsList>
 
           {/* Bikes Tab */}
