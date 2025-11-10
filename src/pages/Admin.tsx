@@ -269,8 +269,9 @@ const Admin = () => {
     }
 
     toast({
-      title: 'Logged In',
-      description: 'Checking admin permissions...',
+      title: '✅ Login Successful',
+      description: 'Welcome to admin panel!',
+      className: 'bg-green-50 border-green-200',
     });
   };
 
@@ -585,7 +586,7 @@ const Admin = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid">
+          <TabsList className="grid w-full grid-cols-2 gap-2 sm:grid-cols-4 lg:w-auto lg:inline-grid p-2">
             <TabsTrigger value="bikes">Bikes ({bikes.length})</TabsTrigger>
             <TabsTrigger value="reviews">Reviews ({reviews.filter(r => r.approval_status === 'pending').length} pending)</TabsTrigger>
             <TabsTrigger value="tour-emails">Tour Emails ({tourEmails.length})</TabsTrigger>

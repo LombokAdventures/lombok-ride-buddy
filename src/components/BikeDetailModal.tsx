@@ -1,0 +1,181 @@
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { CheckCircle, XCircle, Gauge, Fuel, Settings, Calendar, Bike as BikeIcon, MessageCircle } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { contactConfig } from '@/data/bikes';
+
+interface Bike {
+  id: string;
+  name: string;
+  model: string;
+  daily_price: number;
+  weekly_price: number | null;
+  monthly_price: number | null;
+  features: string[];
+  engine: string;
+  transmission: string;
+  fuel_capacity: string;
+  status: string;
+  image: string;
+  year?: number;
+  kilometers?: number;
+}
+
+interface BikeDetailModalProps {
+  bike: Bike | null;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps) => {
+  const { t } = useLanguage();
+
+  if (!bike) return null;
+
+  const isAvailable = bike.status === 'available';
+  const whatsappMessage = `Hi! I'm interested in renting the ${bike.name} (${bike.model}) from Lombok Local. Is it available?`;
+  const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <div className="flex items-start justify-between">
+            <DialogTitle className="text-2xl font-bold">{bike.name}</DialogTitle>
+            <Badge
+              variant={isAvailable ? 'default' : 'destructive'}
+              className={isAvailable ? 'bg-success' : 'bg-warning'}
+            >
+              {isAvailable ? (
+                <>
+                  <CheckCircle className="h-3 w-3 mr-1" />
+                  {t.fleet.available}
+                </>
+              ) : (
+                <>
+                  <XCircle className="h-3 w-3 mr-1" />
+                  {t.fleet.rented}
+                </>
+              )}
+            </Badge>
+          </div>
+          <p className="text-muted-foreground">{bike.model}</p>
+        </DialogHeader>
+
+        <div className="space-y-6 mt-4">
+          {/* Bike Image */}
+          {bike.image ? (
+            <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted">
+              <img
+                src={bike.image}
+                alt={bike.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="w-full aspect-video rounded-lg bg-muted flex items-center justify-center">
+              <BikeIcon className="h-24 w-24 text-muted-foreground/30" />
+            </div>
+          )}
+
+          {/* Pricing */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="p-4 bg-primary/10 rounded-lg text-center">
+              <p className="text-sm text-muted-foreground mb-1">Daily</p>
+              <p className="text-2xl font-bold text-primary">${bike.daily_price}</p>
+              <p className="text-xs text-muted-foreground">per day</p>
+            </div>
+            {bike.weekly_price && (
+              <div className="p-4 bg-primary/10 rounded-lg text-center">
+                <p className="text-sm text-muted-foreground mb-1">Weekly</p>
+                <p className="text-2xl font-bold text-primary">${bike.weekly_price}</p>
+                <p className="text-xs text-muted-foreground">per week</p>
+              </div>
+            )}
+            {bike.monthly_price && (
+              <div className="p-4 bg-primary/10 rounded-lg text-center">
+                <p className="text-sm text-muted-foreground mb-1">Monthly</p>
+                <p className="text-2xl font-bold text-primary">${bike.monthly_price}</p>
+                <p className="text-xs text-muted-foreground">per month</p>
+              </div>
+            )}
+          </div>
+
+          {/* Specifications */}
+          <div>
+            <h3 className="text-lg font-semibold mb-3">{t.fleet.specifications}</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                <Gauge className="h-5 w-5 text-primary" />
+                <div>
+                  <p className="text-xs text-muted-foreground">Engine</p>
+                  <p className="font-semibold">{bike.engine}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                <Settings className="h-5 w-5 text-primary" />
+                <div>
+                  <p className="text-xs text-muted-foreground">Transmission</p>
+                  <p className="font-semibold">{bike.transmission}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                <Fuel className="h-5 w-5 text-primary" />
+                <div>
+                  <p className="text-xs text-muted-foreground">Fuel Capacity</p>
+                  <p className="font-semibold">{bike.fuel_capacity}</p>
+                </div>
+              </div>
+              {bike.year && (
+                <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                  <Calendar className="h-5 w-5 text-primary" />
+                  <div>
+                    <p className="text-xs text-muted-foreground">Year</p>
+                    <p className="font-semibold">{bike.year}</p>
+                  </div>
+                </div>
+              )}
+              {bike.kilometers !== undefined && (
+                <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                  <BikeIcon className="h-5 w-5 text-primary" />
+                  <div>
+                    <p className="text-xs text-muted-foreground">Mileage</p>
+                    <p className="font-semibold">{bike.kilometers.toLocaleString()} km</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Features */}
+          <div>
+            <h3 className="text-lg font-semibold mb-3">Features</h3>
+            <div className="flex flex-wrap gap-2">
+              {bike.features.map((feature, idx) => (
+                <Badge key={idx} variant="outline" className="text-sm">
+                  {feature}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          {/* Reserve Button */}
+          <div className="sticky bottom-0 bg-background pt-4 border-t">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="block">
+              <Button
+                className="w-full gap-2"
+                size="lg"
+                disabled={!isAvailable}
+                variant={isAvailable ? "default" : "outline"}
+              >
+                <MessageCircle className="h-5 w-5" />
+                {isAvailable ? t.fleet.reserve : 'Currently Unavailable'}
+              </Button>
+            </a>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};

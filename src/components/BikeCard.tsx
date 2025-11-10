@@ -6,6 +6,7 @@ import { MessageCircle, CheckCircle, XCircle, Gauge, Fuel, Settings } from 'luci
 import { contactConfig } from '@/data/bikes';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
+import { BikeDetailModal } from './BikeDetailModal';
 
 interface BikeCardProps {
   bike: {
@@ -21,12 +22,15 @@ interface BikeCardProps {
     fuel_capacity: string;
     status: string;
     image: string;
+    year?: number;
+    kilometers?: number;
   };
 }
 
 export const BikeCard = ({ bike }: BikeCardProps) => {
   const { t } = useLanguage();
   const [selectedPeriod, setSelectedPeriod] = useState<'daily' | 'weekly' | 'monthly'>('daily');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const isAvailable = bike.status === 'available';
   
   const getPrice = () => {
@@ -55,7 +59,11 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
   const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
-    <Card className={`overflow-hidden shadow-card hover:shadow-elegant transition-all duration-300 ${!isAvailable ? 'opacity-70' : ''}`}>
+    <>
+      <Card
+        className={`overflow-hidden shadow-card hover:shadow-elegant transition-all duration-300 cursor-pointer ${!isAvailable ? 'opacity-70' : ''}`}
+        onClick={() => setIsModalOpen(true)}
+      >
       <div className="relative h-64 bg-muted overflow-hidden">
         {bike.image ? (
           <img
@@ -138,9 +146,15 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
       </CardContent>
 
       <CardFooter className="p-6 pt-0">
-        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="w-full">
-          <Button 
-            className="w-full gap-2" 
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <Button
+            className="w-full gap-2"
             disabled={!isAvailable}
             variant={isAvailable ? "default" : "outline"}
           >
@@ -150,5 +164,11 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
         </a>
       </CardFooter>
     </Card>
+
+    <BikeDetailModal
+      bike={bike}
+      isOpen={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
+    />
   );
 };
