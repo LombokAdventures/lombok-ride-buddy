@@ -6,7 +6,9 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Lock, CheckCircle, XCircle, Trash2, Star, LogOut, Upload, Image as ImageIcon } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { Lock, CheckCircle, XCircle, Trash2, Star, LogOut, Upload, Image as ImageIcon, Plus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import type { User } from '@supabase/supabase-js';
@@ -54,6 +56,19 @@ const Admin = () => {
   const [password, setPassword] = useState('');
   const [activeTab, setActiveTab] = useState('bikes');
   const [uploadingImageFor, setUploadingImageFor] = useState<string | null>(null);
+  const [isAddBikeOpen, setIsAddBikeOpen] = useState(false);
+  const [newBike, setNewBike] = useState({
+    name: '',
+    model: '',
+    daily_price: '',
+    weekly_price: '',
+    monthly_price: '',
+    features: '',
+    engine: '',
+    transmission: '',
+    fuel_capacity: '',
+    image: '',
+  });
   const fileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
   const { toast } = useToast();
 
@@ -503,6 +518,91 @@ const Admin = () => {
     }
   };
 
+  const createBike = async () => {
+    if (!newBike.name || !newBike.model || !newBike.daily_price) {
+      toast({
+        title: 'Missing Fields',
+        description: 'Please fill in at least name, model, and daily price',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    const bikeData = {
+      name: newBike.name,
+      model: newBike.model,
+      daily_price: parseFloat(newBike.daily_price),
+      weekly_price: newBike.weekly_price ? parseFloat(newBike.weekly_price) : null,
+      monthly_price: newBike.monthly_price ? parseFloat(newBike.monthly_price) : null,
+      features: newBike.features.split(',').map(f => f.trim()).filter(f => f),
+      engine: newBike.engine || '110cc',
+      transmission: newBike.transmission || 'Automatic',
+      fuel_capacity: newBike.fuel_capacity || '4L',
+      status: 'available',
+      image: newBike.image || '/placeholder.svg',
+    };
+
+    const { error } = await supabase
+      .from('bikes')
+      .insert([bikeData]);
+
+    if (error) {
+      toast({
+        title: 'Error',
+        description: `Failed to create bike: ${error.message}`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    toast({
+      title: 'Bike Created',
+      description: 'New bike has been added to the fleet',
+    });
+
+    setIsAddBikeOpen(false);
+    setNewBike({
+      name: '',
+      model: '',
+      daily_price: '',
+      weekly_price: '',
+      monthly_price: '',
+      features: '',
+      engine: '',
+      transmission: '',
+      fuel_capacity: '',
+      image: '',
+    });
+    fetchBikes();
+  };
+
+  const deleteBike = async (bikeId: string, bikeName: string) => {
+    if (!confirm(`Are you sure you want to delete "${bikeName}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    const { error} = await supabase
+      .from('bikes')
+      .delete()
+      .eq('id', bikeId);
+
+    if (error) {
+      toast({
+        title: 'Error',
+        description: `Failed to delete bike: ${error.message}`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    toast({
+      title: 'Bike Deleted',
+      description: `${bikeName} has been removed from the fleet`,
+    });
+
+    fetchBikes();
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted/30">
@@ -596,14 +696,142 @@ const Admin = () => {
           {/* Bikes Tab */}
           <TabsContent value="bikes" className="space-y-6">
             <Card>
-              <CardHeader>
-                <CardTitle>Bike Fleet Management</CardTitle>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle>Bike Fleet Management</CardTitle>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Update prices and availability. Changes are saved to the database and will reflect across all devices immediately.
+                  </p>
+                </div>
+                <Dialog open={isAddBikeOpen} onOpenChange={setIsAddBikeOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="gap-2">
+                      <Plus className="h-4 w-4" />
+                      Add New Bike
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle>Add New Bike</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="name">Name *</Label>
+                          <Input
+                            id="name"
+                            value={newBike.name}
+                            onChange={(e) => setNewBike({ ...newBike, name: e.target.value })}
+                            placeholder="Honda Beat"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="model">Model *</Label>
+                          <Input
+                            id="model"
+                            value={newBike.model}
+                            onChange={(e) => setNewBike({ ...newBike, model: e.target.value })}
+                            placeholder="2024 Model"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-4">
+                        <div>
+                          <Label htmlFor="daily_price">Daily Price ($) *</Label>
+                          <Input
+                            id="daily_price"
+                            type="number"
+                            value={newBike.daily_price}
+                            onChange={(e) => setNewBike({ ...newBike, daily_price: e.target.value })}
+                            placeholder="5"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="weekly_price">Weekly Price ($)</Label>
+                          <Input
+                            id="weekly_price"
+                            type="number"
+                            value={newBike.weekly_price}
+                            onChange={(e) => setNewBike({ ...newBike, weekly_price: e.target.value })}
+                            placeholder="30"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="monthly_price">Monthly Price ($)</Label>
+                          <Input
+                            id="monthly_price"
+                            type="number"
+                            value={newBike.monthly_price}
+                            onChange={(e) => setNewBike({ ...newBike, monthly_price: e.target.value })}
+                            placeholder="100"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-4">
+                        <div>
+                          <Label htmlFor="engine">Engine</Label>
+                          <Input
+                            id="engine"
+                            value={newBike.engine}
+                            onChange={(e) => setNewBike({ ...newBike, engine: e.target.value })}
+                            placeholder="110cc"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="transmission">Transmission</Label>
+                          <Input
+                            id="transmission"
+                            value={newBike.transmission}
+                            onChange={(e) => setNewBike({ ...newBike, transmission: e.target.value })}
+                            placeholder="Automatic"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="fuel_capacity">Fuel Capacity</Label>
+                          <Input
+                            id="fuel_capacity"
+                            value={newBike.fuel_capacity}
+                            onChange={(e) => setNewBike({ ...newBike, fuel_capacity: e.target.value })}
+                            placeholder="4L"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <Label htmlFor="features">Features (comma separated)</Label>
+                        <Textarea
+                          id="features"
+                          value={newBike.features}
+                          onChange={(e) => setNewBike({ ...newBike, features: e.target.value })}
+                          placeholder="Helmet included, Insurance, 24/7 Support"
+                          rows={3}
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="image">Image URL</Label>
+                        <Input
+                          id="image"
+                          value={newBike.image}
+                          onChange={(e) => setNewBike({ ...newBike, image: e.target.value })}
+                          placeholder="https://example.com/bike.jpg or /bikes/honda-beat.jpg"
+                        />
+                      </div>
+
+                      <div className="flex gap-2 justify-end">
+                        <Button variant="outline" onClick={() => setIsAddBikeOpen(false)}>
+                          Cancel
+                        </Button>
+                        <Button onClick={createBike}>
+                          Create Bike
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Update prices and availability. Changes are saved to the database and will reflect across all devices immediately.
-                </p>
-              </CardContent>
             </Card>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -771,6 +999,16 @@ const Admin = () => {
                       <p><strong>Engine:</strong> {bike.engine}</p>
                       <p><strong>Transmission:</strong> {bike.transmission}</p>
                     </div>
+
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      className="w-full gap-2"
+                      onClick={() => deleteBike(bike.id, bike.name)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      Delete Bike
+                    </Button>
                   </CardContent>
                 </Card>
               ))}
