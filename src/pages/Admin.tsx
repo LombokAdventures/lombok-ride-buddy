@@ -8,9 +8,10 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
-import { Lock, CheckCircle, XCircle, Trash2, Star, LogOut, Upload, Image as ImageIcon, Plus } from 'lucide-react';
+import { Lock, CheckCircle, XCircle, Trash2, Star, LogOut, Upload, Image as ImageIcon, Plus, Sun, Moon } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { useTheme } from '@/contexts/ThemeContext';
 import type { User } from '@supabase/supabase-js';
 
 interface Bike {
@@ -57,6 +58,7 @@ const Admin = () => {
   const [activeTab, setActiveTab] = useState('bikes');
   const [uploadingImageFor, setUploadingImageFor] = useState<string | null>(null);
   const [isAddBikeOpen, setIsAddBikeOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
   const [newBike, setNewBike] = useState({
     name: '',
     model: '',
@@ -765,10 +767,26 @@ const Admin = () => {
             <h1 className="text-4xl font-bold text-foreground mb-2">Admin Panel</h1>
             <p className="text-muted-foreground">Manage your business - All changes sync globally</p>
           </div>
-          <Button onClick={handleLogout} variant="outline" className="gap-2">
-            <LogOut className="h-4 w-4" />
-            Logout
-          </Button>
+          <div className="flex items-center gap-2">
+            {/* Theme Toggle */}
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleTheme}
+              className="hover:bg-muted transition-colors"
+              aria-label="Toggle theme"
+            >
+              {theme === 'light' ? (
+                <Moon className="h-4 w-4" />
+              ) : (
+                <Sun className="h-4 w-4" />
+              )}
+            </Button>
+            <Button onClick={handleLogout} variant="outline" className="gap-2">
+              <LogOut className="h-4 w-4" />
+              Logout
+            </Button>
+          </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
