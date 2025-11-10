@@ -53,7 +53,7 @@ export const Hero = () => {
                 <Star key={i} className="h-5 w-5 fill-accent text-accent" />
               ))}
             </div>
-            <span className="text-foreground font-semibold">{t.hero.trustBadge}</span>
+            <span className="text-gray-900 font-semibold">{t.hero.trustBadge}</span>
           </div>
         </div>
       </div>
