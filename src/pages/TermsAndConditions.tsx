@@ -1,10 +1,8 @@
-import { useLanguage } from '@/contexts/LanguageContext';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { CheckCircle, AlertCircle, Shield, DollarSign, FileText } from 'lucide-react';
 
 export default function TermsAndConditions() {
-  const { t } = useLanguage();
 
   return (
     <div className="min-h-screen flex flex-col">
