@@ -18,11 +18,11 @@ const Index = () => {
         <Fleet />
         <Benefits />
         <HowItWorks />
-        <div id="reviews">
-          <Reviews />
-        </div>
         <div id="coming-soon">
           <ComingSoon />
+        </div>
+        <div id="reviews">
+          <Reviews />
         </div>
         <div id="faq">
           <FAQ />
