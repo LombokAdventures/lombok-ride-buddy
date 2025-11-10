@@ -57,11 +57,23 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
   return (
     <Card className={`overflow-hidden shadow-card hover:shadow-elegant transition-all duration-300 ${!isAvailable ? 'opacity-70' : ''}`}>
       <div className="relative h-64 bg-muted overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
+        {bike.image ? (
+          <img
+            src={bike.image}
+            alt={bike.name}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              // Fallback to placeholder if image fails to load
+              e.currentTarget.style.display = 'none';
+              e.currentTarget.nextElementSibling?.classList.remove('hidden');
+            }}
+          />
+        ) : null}
+        <div className={`absolute inset-0 flex items-center justify-center text-muted-foreground ${bike.image ? 'hidden' : ''}`}>
           <Gauge className="h-24 w-24 opacity-20" />
         </div>
         <div className="absolute top-3 right-3 z-10">
-          <Badge 
+          <Badge
             variant={isAvailable ? 'default' : 'destructive'}
             className={isAvailable ? 'bg-success hover:bg-success/90' : 'bg-warning hover:bg-warning/90'}
           >

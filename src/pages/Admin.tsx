@@ -111,6 +111,7 @@ const Admin = () => {
   };
 
   const fetchReviews = async () => {
+    console.log('Fetching reviews...');
     const { data, error } = await supabase
       .from('reviews')
       .select('*')
@@ -123,12 +124,16 @@ const Admin = () => {
         description: error.message,
         variant: 'destructive',
       });
+      setReviews([]);
       return;
     }
 
     if (data) {
       setReviews(data);
-      console.log('Loaded reviews:', data.length);
+      console.log('✅ Loaded reviews:', data.length, data);
+      if (data.length === 0) {
+        console.log('ℹ️ No reviews in database yet. Reviews will appear here after customers submit them.');
+      }
     }
   };
 
@@ -194,7 +199,7 @@ const Admin = () => {
 
   const toggleBikeStatus = async (bikeId: string) => {
     console.log('Toggling bike status for:', bikeId);
-    const bike = bikes.find(b => b.id === bikeId);
+    const updateBike = bikes.find(b => b.id === bike.id);
     if (!bike) {
       console.error('Bike not found:', bikeId);
       return;
@@ -203,6 +208,11 @@ const Admin = () => {
     const newStatus = bike.status === 'available' ? 'rented' : 'available';
     console.log('Changing status from', bike.status, 'to', newStatus);
 
+    // Optimistically update UI immediately for instant feedback
+    setBikes(prevBikes =>
+      prevBikes.map(b => b.id === bikeId ? { ...b, status: newStatus } : b)
+    );
+
     // Use upsert to bypass UPDATE policy restrictions
     const { error } = await supabase
       .from('bikes')
@@ -210,6 +220,10 @@ const Admin = () => {
 
     if (error) {
       console.error('Error updating status:', error);
+      // Revert optimistic update on error
+      setBikes(prevBikes =>
+        prevBikes.map(b => b.id === bikeId ? { ...b, status: bike.status } : b)
+      );
       toast({
         title: 'Error',
         description: `Failed to update bike status: ${error.message}`,
@@ -224,7 +238,8 @@ const Admin = () => {
       description: `Bike is now ${newStatus}. Changes reflected globally.`,
     });
 
-    fetchBikes();
+    // Refetch to ensure sync with database
+    await fetchBikes();
   };
 
   const updateBikePrice = async (bikeId: string, field: 'daily_price' | 'weekly_price' | 'monthly_price', newPrice: number | null) => {
@@ -240,7 +255,7 @@ const Admin = () => {
       return;
     }
 
-    const bike = bikes.find(b => b.id === bikeId);
+    const updateBike = bikes.find(b => b.id === bike.id);
     if (!bike) {
       console.error('Bike not found:', bikeId);
       return;
@@ -507,6 +522,32 @@ const Admin = () => {
                     </div>
 
                     <div className="text-xs text-muted-foreground">
+
+
+                    {/* Image URL */}
+                    <div className="p-3 bg-muted rounded-lg">
+                      <Label htmlFor={`image-${bike.id}`} className="text-xs font-semibold mb-2 block">
+                        Image URL
+                      </Label>
+                      <input
+                        id={`image-${bike.id}`}
+                        type="text"
+                        value={bike.image || ''}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setBikes(prevBikes => prevBikes.map(b => b.id === bike.id ? { ...b, image: value } : b));
+                        }}
+                        onBlur={async (e) => {
+                          const value = e.target.value;
+                          const { error } = await supabase.from('bikes').upsert({ ...bike, image: value }, { onConflict: 'id' });
+                          if (error) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); }
+                          else { toast({ title: 'Image Updated', description: 'Changes saved globally' }); fetchBikes(); }
+                        }}
+                        placeholder="https://example.com/bike.jpg or /bikes/honda-beat.jpg"
+                        className="w-full px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-xs"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Image will display on client side</p>
+                    </div>
                       <p><strong>Engine:</strong> {bike.engine}</p>
                       <p><strong>Transmission:</strong> {bike.transmission}</p>
                     </div>
@@ -533,7 +574,7 @@ const Admin = () => {
               {reviews.length === 0 ? (
                 <Card>
                   <CardContent className="py-8 text-center text-muted-foreground">
-                    No reviews yet
+                    No reviews submitted yet. Reviews will appear here after customers submit them from the website.
                   </CardContent>
                 </Card>
               ) : (
