@@ -227,11 +227,11 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
           )}
 
           {/* Condition & Mileage */}
-          {(bike.kilometers_driven !== undefined || bike.purchase_date) && (
+          {(bike.kilometers_driven != null || bike.purchase_date) && (
             <div>
               <h3 className="text-lg font-semibold mb-3">Bike Condition</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {bike.kilometers_driven !== undefined && (
+                {bike.kilometers_driven != null && (
                   <div className="flex items-center gap-3 p-4 bg-muted rounded-lg border border-border">
                     <Zap className="h-5 w-5 text-amber-500 flex-shrink-0" />
                     <div>
@@ -254,14 +254,14 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
           )}
 
           {/* Maintenance Information */}
-          {(bike.last_maintenance_date || bike.next_maintenance_due) && (
+          {(bike.last_maintenance_date != null || bike.next_maintenance_due != null) && (
             <div>
               <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
                 <Wrench className="h-5 w-5 text-green-600" />
                 Maintenance Schedule
               </h3>
               <div className="space-y-3">
-                {bike.last_maintenance_date && (
+                {bike.last_maintenance_date != null && (
                   <div className="flex items-start gap-3 p-4 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-800">
                     <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
                     <div className="flex-1">
@@ -270,7 +270,7 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
                     </div>
                   </div>
                 )}
-                {bike.next_maintenance_due && (
+                {bike.next_maintenance_due != null && (
                   <div className="flex items-start gap-3 p-4 bg-orange-50 dark:bg-orange-950/30 rounded-lg border border-orange-200 dark:border-orange-800">
                     <AlertCircle className="h-5 w-5 text-orange-600 flex-shrink-0 mt-0.5" />
                     <div className="flex-1">
