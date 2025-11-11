@@ -48,12 +48,6 @@ interface Review {
   created_at: string;
 }
 
-interface EmailEntry {
-  id: string;
-  email: string;
-  created_at: string;
-}
-
 interface HeroImage {
   id: string;
   image_url: string;
@@ -64,8 +58,6 @@ interface HeroImage {
 const Admin = () => {
   const [bikes, setBikes] = useState<Bike[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [tourEmails, setTourEmails] = useState<EmailEntry[]>([]);
-  const [villaEmails, setVillaEmails] = useState<EmailEntry[]>([]);
   const [heroImages, setHeroImages] = useState<HeroImage[]>([]);
   const [waitlistRequests, setWaitlistRequests] = useState<any[]>([]);
   const [user, setUser] = useState<User | null>(null);
@@ -192,8 +184,6 @@ const Admin = () => {
     await Promise.all([
       fetchBikes(),
       fetchReviews(),
-      fetchTourEmails(),
-      fetchVillaEmails(),
       fetchHeroImages(),
       fetchWaitlistRequests()
     ]);
@@ -257,50 +247,6 @@ const Admin = () => {
     } else {
       console.log('⚠️ Data is null/undefined');
       setReviews([]);
-    }
-  };
-
-  const fetchTourEmails = async () => {
-    const { data, error } = await supabase
-      .from('tour_emails')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Error fetching tour emails:', error);
-      toast({
-        title: 'Error loading tour emails',
-        description: error.message,
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    if (data) {
-      setTourEmails(data);
-      console.log('Loaded tour emails:', data.length);
-    }
-  };
-
-  const fetchVillaEmails = async () => {
-    const { data, error } = await supabase
-      .from('villa_emails')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Error fetching villa emails:', error);
-      toast({
-        title: 'Error loading villa emails',
-        description: error.message,
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    if (data) {
-      setVillaEmails(data);
-      console.log('Loaded villa emails:', data.length);
     }
   };
 
@@ -509,27 +455,6 @@ const Admin = () => {
     toast({
       title: 'Review Updated',
       description: `Review has been ${status}. ${status === 'approved' ? 'It will now appear on the website.' : 'It will not appear on the website.'}`,
-    });
-  };
-
-  const deleteEmail = async (table: 'tour_emails' | 'villa_emails', emailId: string) => {
-    const { error } = await supabase
-      .from(table)
-      .delete()
-      .eq('id', emailId);
-
-    if (error) {
-      toast({
-        title: 'Error',
-        description: `Failed to delete email: ${error.message}`,
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    toast({
-      title: 'Email Deleted',
-      description: 'Email has been removed from the list',
     });
   };
 
@@ -917,15 +842,6 @@ const Admin = () => {
             </TabsTrigger>
             <TabsTrigger value="waitlist" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
               Waitlist ({waitlistRequests.filter(r => r.status === 'pending').length})
-            </TabsTrigger>
-            <TabsTrigger value="hero-images" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
-              Hero Images
-            </TabsTrigger>
-            <TabsTrigger value="tour-emails" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
-              Tour Emails ({tourEmails.length})
-            </TabsTrigger>
-            <TabsTrigger value="villa-emails" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
-              Villa Emails ({villaEmails.length})
             </TabsTrigger>
           </TabsList>
 
@@ -1768,79 +1684,6 @@ const Admin = () => {
             <AdminHeroImages />
           </TabsContent>
 
-          {/* Tour Emails Tab */}
-          <TabsContent value="tour-emails" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Tour Inquiry Emails</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Manage email addresses from customers interested in tours and adventures.
-                </p>
-                {tourEmails.length > 0 ? (
-                  <div className="space-y-3">
-                    {tourEmails.map((entry) => (
-                      <div key={entry.id} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                        <div>
-                          <p className="font-medium">{entry.email}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {new Date(entry.created_at).toLocaleString()}
-                          </p>
-                        </div>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => deleteEmail('tour_emails', entry.id)}
-                        >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-center text-muted-foreground py-8">No tour email inquiries yet</p>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Villa Emails Tab */}
-          <TabsContent value="villa-emails" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Villa Inquiry Emails</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Manage email addresses from customers interested in villas and houses.
-                </p>
-                {villaEmails.length > 0 ? (
-                  <div className="space-y-3">
-                    {villaEmails.map((entry) => (
-                      <div key={entry.id} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                        <div>
-                          <p className="font-medium">{entry.email}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {new Date(entry.created_at).toLocaleString()}
-                          </p>
-                        </div>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => deleteEmail('villa_emails', entry.id)}
-                        >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-center text-muted-foreground py-8">No villa email inquiries yet</p>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
         </Tabs>
       </div>
     </div>
