@@ -26,6 +26,11 @@ interface BikeCardProps {
     image: string;
     year?: number;
     kilometers?: number;
+    description?: string;
+    purchase_date?: string;
+    kilometers_driven?: number;
+    last_maintenance_date?: string;
+    next_maintenance_due?: string;
   };
 }
 
