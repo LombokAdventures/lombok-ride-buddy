@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { CheckCircle, XCircle, Gauge, Fuel, Settings, Calendar, Bike as BikeIcon, MessageCircle, Send } from 'lucide-react';
+import { CheckCircle, XCircle, Gauge, Fuel, Settings, Calendar, Bike as BikeIcon, MessageCircle, Send, Wrench, AlertCircle, Zap } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { contactConfig } from '@/data/bikes';
 import { translateFeature } from '@/utils/featureTranslator';
@@ -25,6 +25,11 @@ interface Bike {
   image: string;
   year?: number;
   kilometers?: number;
+  description?: string;
+  purchase_date?: string;
+  kilometers_driven?: number;
+  last_maintenance_date?: string;
+  next_maintenance_due?: string;
 }
 
 interface BikeDetailModalProps {
@@ -72,6 +77,19 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
       e.preventDefault();
       setShowTermsError(true);
       setTimeout(() => setShowTermsError(false), 3000);
+    }
+  };
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return null;
+    try {
+      return new Date(dateString).toLocaleDateString(language === 'en' ? 'en-US' : language === 'ru' ? 'ru-RU' : 'id-ID', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    } catch {
+      return dateString;
     }
   };
 
@@ -199,6 +217,71 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
               ))}
             </div>
           </div>
+
+          {/* Description */}
+          {bike.description && (
+            <div className="bg-gradient-to-r from-primary/5 to-secondary/5 p-4 rounded-lg border border-primary/10">
+              <h3 className="text-lg font-semibold mb-2">Description</h3>
+              <p className="text-muted-foreground leading-relaxed">{bike.description}</p>
+            </div>
+          )}
+
+          {/* Condition & Mileage */}
+          {(bike.kilometers_driven !== undefined || bike.purchase_date) && (
+            <div>
+              <h3 className="text-lg font-semibold mb-3">Bike Condition</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {bike.kilometers_driven !== undefined && (
+                  <div className="flex items-center gap-3 p-4 bg-muted rounded-lg border border-border">
+                    <Zap className="h-5 w-5 text-amber-500 flex-shrink-0" />
+                    <div>
+                      <p className="text-xs text-muted-foreground font-medium">Total Kilometers</p>
+                      <p className="text-xl font-bold text-foreground">{bike.kilometers_driven.toLocaleString()} km</p>
+                    </div>
+                  </div>
+                )}
+                {bike.purchase_date && (
+                  <div className="flex items-center gap-3 p-4 bg-muted rounded-lg border border-border">
+                    <Calendar className="h-5 w-5 text-blue-500 flex-shrink-0" />
+                    <div>
+                      <p className="text-xs text-muted-foreground font-medium">Purchase Date</p>
+                      <p className="text-lg font-bold text-foreground">{formatDate(bike.purchase_date)}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Maintenance Information */}
+          {(bike.last_maintenance_date || bike.next_maintenance_due) && (
+            <div>
+              <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
+                <Wrench className="h-5 w-5 text-green-600" />
+                Maintenance Schedule
+              </h3>
+              <div className="space-y-3">
+                {bike.last_maintenance_date && (
+                  <div className="flex items-start gap-3 p-4 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-800">
+                    <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-green-900 dark:text-green-200">Last Maintenance</p>
+                      <p className="text-sm text-green-700 dark:text-green-300 mt-1">{formatDate(bike.last_maintenance_date)}</p>
+                    </div>
+                  </div>
+                )}
+                {bike.next_maintenance_due && (
+                  <div className="flex items-start gap-3 p-4 bg-orange-50 dark:bg-orange-950/30 rounded-lg border border-orange-200 dark:border-orange-800">
+                    <AlertCircle className="h-5 w-5 text-orange-600 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-orange-900 dark:text-orange-200">Next Maintenance Due</p>
+                      <p className="text-sm text-orange-700 dark:text-orange-300 mt-1">{formatDate(bike.next_maintenance_due)}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Terms & Conditions Agreement */}
           <div className="sticky bottom-0 bg-background pt-4 border-t space-y-4">
