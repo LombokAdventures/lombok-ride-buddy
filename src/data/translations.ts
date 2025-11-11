@@ -55,6 +55,8 @@ export interface Translations {
       description: string;
       cta: string;
       emailPlaceholder: string;
+      whatsappPlaceholder: string;
+      telegramPlaceholder: string;
       thankYou: string;
     };
     villas: {
@@ -62,6 +64,8 @@ export interface Translations {
       description: string;
       cta: string;
       emailPlaceholder: string;
+      whatsappPlaceholder: string;
+      telegramPlaceholder: string;
       thankYou: string;
     };
   };
@@ -221,6 +225,8 @@ export const translations: Record<Language, Translations> = {
         description: 'Multi-day tours, waterfall expeditions, cultural experiences - Coming 2025',
         cta: 'Notify Me',
         emailPlaceholder: 'Enter your email',
+        whatsappPlaceholder: 'Enter your WhatsApp number',
+        telegramPlaceholder: 'Enter your Telegram username',
         thankYou: 'Thanks! We\'ll notify you when tours are available.'
       },
       villas: {
@@ -228,6 +234,8 @@ export const translations: Record<Language, Translations> = {
         description: 'Beachfront villas and mountain retreats - Coming Soon',
         cta: 'Get Early Access',
         emailPlaceholder: 'Enter your email',
+        whatsappPlaceholder: 'Enter your WhatsApp number',
+        telegramPlaceholder: 'Enter your Telegram username',
         thankYou: 'Thanks! We\'ll notify you when villas are available.'
       }
     },
@@ -450,6 +458,8 @@ export const translations: Record<Language, Translations> = {
         description: 'Многодневные туры, экспедиции к водопадам - Скоро в 2025',
         cta: 'Уведомить меня',
         emailPlaceholder: 'Введите email',
+        whatsappPlaceholder: 'Введите номер WhatsApp',
+        telegramPlaceholder: 'Введите имя пользователя Telegram',
         thankYou: 'Спасибо! Мы уведомим вас, когда туры будут доступны.'
       },
       villas: {
@@ -457,6 +467,8 @@ export const translations: Record<Language, Translations> = {
         description: 'Виллы на пляже и горные убежища - Скоро',
         cta: 'Ранний доступ',
         emailPlaceholder: 'Введите email',
+        whatsappPlaceholder: 'Введите номер WhatsApp',
+        telegramPlaceholder: 'Введите имя пользователя Telegram',
         thankYou: 'Спасибо! Мы уведомим вас, когда виллы будут доступны.'
       }
     },
@@ -679,6 +691,8 @@ export const translations: Record<Language, Translations> = {
         description: 'Tur multi-hari, ekspedisi air terjun - Segera 2025',
         cta: 'Beritahu Saya',
         emailPlaceholder: 'Masukkan email',
+        whatsappPlaceholder: 'Masukkan nomor WhatsApp',
+        telegramPlaceholder: 'Masukkan username Telegram',
         thankYou: 'Terima kasih! Kami akan memberi tahu Anda saat tur tersedia.'
       },
       villas: {
@@ -686,6 +700,8 @@ export const translations: Record<Language, Translations> = {
         description: 'Vila tepi pantai dan pegunungan - Segera',
         cta: 'Akses Awal',
         emailPlaceholder: 'Masukkan email',
+        whatsappPlaceholder: 'Masukkan nomor WhatsApp',
+        telegramPlaceholder: 'Masukkan username Telegram',
         thankYou: 'Terima kasih! Kami akan memberi tahu Anda saat vila tersedia.'
       }
     },
@@ -908,6 +924,8 @@ export const translations: Record<Language, Translations> = {
         description: 'Mehrtägige Touren, Wasserfallexpeditionen - Bald 2025',
         cta: 'Benachrichtigen',
         emailPlaceholder: 'E-Mail eingeben',
+        whatsappPlaceholder: 'WhatsApp-Nummer eingeben',
+        telegramPlaceholder: 'Telegram-Benutzername eingeben',
         thankYou: 'Danke! Wir benachrichtigen Sie, wenn Touren verfügbar sind.'
       },
       villas: {
@@ -915,6 +933,8 @@ export const translations: Record<Language, Translations> = {
         description: 'Strandvillen und Berghütten - Bald verfügbar',
         cta: 'Früher Zugang',
         emailPlaceholder: 'E-Mail eingeben',
+        whatsappPlaceholder: 'WhatsApp-Nummer eingeben',
+        telegramPlaceholder: 'Telegram-Benutzername eingeben',
         thankYou: 'Danke! Wir benachrichtigen Sie, wenn Villen verfügbar sind.'
       }
     },
@@ -1137,6 +1157,8 @@ export const translations: Record<Language, Translations> = {
         description: 'Ko\'p kunlik sayohatlar, sharsharaga ekspeditsiyalar - 2025 yilda',
         cta: 'Menga Xabar Bering',
         emailPlaceholder: 'Emailingizni kiriting',
+        whatsappPlaceholder: 'WhatsApp raqamingizni kiriting',
+        telegramPlaceholder: 'Telegram foydalanuvchi nomingizni kiriting',
         thankYou: 'Rahmat! Sayohatlar mavjud bo\'lganda sizga xabar beramiz.'
       },
       villas: {
@@ -1144,6 +1166,8 @@ export const translations: Record<Language, Translations> = {
         description: 'Plyaj villalari va tog\' panohgahlari - Tez Orada',
         cta: 'Erta Kirish',
         emailPlaceholder: 'Emailingizni kiriting',
+        whatsappPlaceholder: 'WhatsApp raqamingizni kiriting',
+        telegramPlaceholder: 'Telegram foydalanuvchi nomingizni kiriting',
         thankYou: 'Rahmat! Villalar mavjud bo\'lganda sizga xabar beramiz.'
       }
     },

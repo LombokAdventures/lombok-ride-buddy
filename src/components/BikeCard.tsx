@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { MessageCircle, CheckCircle, XCircle, Gauge, Fuel, Settings, Bell } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
-import { BikeDetailDialog } from './BikeDetailDialog';
+import { BikeDetailModal } from './BikeDetailModal';
 import { WaitlistModal } from './WaitlistModal';
 import { translateFeature } from '@/utils/featureTranslator';
 import { translateTransmission } from '@/utils/transmissionTranslator';
@@ -179,10 +179,10 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
       </CardFooter>
     </Card>
 
-    <BikeDetailDialog
+    <BikeDetailModal
       bike={bike}
-      open={isModalOpen}
-      onOpenChange={setIsModalOpen}
+      isOpen={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
     />
 
     <WaitlistModal
