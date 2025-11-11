@@ -26,67 +26,19 @@ export const ComingSoon = () => {
   const handleTourSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (tourContactMethod === 'whatsapp') {
-      if (!tourWhatsapp.trim()) return;
-      setIsSubmittingTour(true);
-      try {
-        const { error } = await supabase
-          .from('tour_whatsapp')
-          .insert([{ whatsapp_number: tourWhatsapp.trim() }]);
-
-        if (error) throw error;
-
-        toast({
-          title: t.comingSoon.tours.thankYou,
-        });
-        setTourWhatsapp('');
-      } catch (error) {
-        console.error('Error submitting WhatsApp:', error);
-        toast({
-          title: 'Error',
-          description: 'Failed to submit. Please try again.',
-          variant: 'destructive',
-        });
-      } finally {
-        setIsSubmittingTour(false);
-      }
-      return;
-    }
-
-    if (tourContactMethod === 'telegram') {
-      if (!tourTelegram.trim()) return;
-      setIsSubmittingTour(true);
-      try {
-        const { error } = await supabase
-          .from('tour_telegram')
-          .insert([{ telegram_username: tourTelegram.trim() }]);
-
-        if (error) throw error;
-
-        toast({
-          title: t.comingSoon.tours.thankYou,
-        });
-        setTourTelegram('');
-      } catch (error) {
-        console.error('Error submitting Telegram:', error);
-        toast({
-          title: 'Error',
-          description: 'Failed to submit. Please try again.',
-          variant: 'destructive',
-        });
-      } finally {
-        setIsSubmittingTour(false);
-      }
-      return;
-    }
-
-    // Email submission
-    if (!tourEmail.trim()) return;
     setIsSubmittingTour(true);
     try {
       const { error } = await supabase
-        .from('tour_emails')
-        .insert([{ email: tourEmail.trim() }]);
+        .from('waitlist_requests')
+        .insert([{
+          item_type: 'tour',
+          item_id: 'general-tour',
+          customer_name: 'Tour Inquiry',
+          whatsapp: tourContactMethod === 'whatsapp' ? tourWhatsapp.trim() : null,
+          telegram: tourContactMethod === 'telegram' ? tourTelegram.trim() : null,
+          email: tourContactMethod === 'email' ? tourEmail.trim() : null,
+          preferred_contact_method: tourContactMethod,
+        }]);
 
       if (error) throw error;
 
@@ -94,11 +46,13 @@ export const ComingSoon = () => {
         title: t.comingSoon.tours.thankYou,
       });
       setTourEmail('');
+      setTourWhatsapp('');
+      setTourTelegram('');
     } catch (error) {
-      console.error('Error submitting tour email:', error);
+      console.error('Error submitting tour inquiry:', error);
       toast({
         title: 'Error',
-        description: 'Failed to submit email. Please try again.',
+        description: 'Failed to submit. Please try again.',
         variant: 'destructive',
       });
     } finally {
@@ -109,67 +63,19 @@ export const ComingSoon = () => {
   const handleVillaSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (villaContactMethod === 'whatsapp') {
-      if (!villaWhatsapp.trim()) return;
-      setIsSubmittingVilla(true);
-      try {
-        const { error } = await supabase
-          .from('villa_whatsapp')
-          .insert([{ whatsapp_number: villaWhatsapp.trim() }]);
-
-        if (error) throw error;
-
-        toast({
-          title: t.comingSoon.villas.thankYou,
-        });
-        setVillaWhatsapp('');
-      } catch (error) {
-        console.error('Error submitting WhatsApp:', error);
-        toast({
-          title: 'Error',
-          description: 'Failed to submit. Please try again.',
-          variant: 'destructive',
-        });
-      } finally {
-        setIsSubmittingVilla(false);
-      }
-      return;
-    }
-
-    if (villaContactMethod === 'telegram') {
-      if (!villaTelegram.trim()) return;
-      setIsSubmittingVilla(true);
-      try {
-        const { error } = await supabase
-          .from('villa_telegram')
-          .insert([{ telegram_username: villaTelegram.trim() }]);
-
-        if (error) throw error;
-
-        toast({
-          title: t.comingSoon.villas.thankYou,
-        });
-        setVillaTelegram('');
-      } catch (error) {
-        console.error('Error submitting Telegram:', error);
-        toast({
-          title: 'Error',
-          description: 'Failed to submit. Please try again.',
-          variant: 'destructive',
-        });
-      } finally {
-        setIsSubmittingVilla(false);
-      }
-      return;
-    }
-
-    // Email submission
-    if (!villaEmail.trim()) return;
     setIsSubmittingVilla(true);
     try {
       const { error } = await supabase
-        .from('villa_emails')
-        .insert([{ email: villaEmail.trim() }]);
+        .from('waitlist_requests')
+        .insert([{
+          item_type: 'house',
+          item_id: 'general-house',
+          customer_name: 'Villa Inquiry',
+          whatsapp: villaContactMethod === 'whatsapp' ? villaWhatsapp.trim() : null,
+          telegram: villaContactMethod === 'telegram' ? villaTelegram.trim() : null,
+          email: villaContactMethod === 'email' ? villaEmail.trim() : null,
+          preferred_contact_method: villaContactMethod,
+        }]);
 
       if (error) throw error;
 
@@ -177,11 +83,13 @@ export const ComingSoon = () => {
         title: t.comingSoon.villas.thankYou,
       });
       setVillaEmail('');
+      setVillaWhatsapp('');
+      setVillaTelegram('');
     } catch (error) {
-      console.error('Error submitting villa email:', error);
+      console.error('Error submitting villa inquiry:', error);
       toast({
         title: 'Error',
-        description: 'Failed to submit email. Please try again.',
+        description: 'Failed to submit. Please try again.',
         variant: 'destructive',
       });
     } finally {
