@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Trash2, GripVertical, Plus } from "lucide-react";
+import { Trash2, GripVertical, Plus, Upload, Loader2 } from "lucide-react";
 
 interface HeroImage {
   id: string;
@@ -25,6 +25,8 @@ export const AdminHeroImages = () => {
     subtitle: "",
   });
   const [isAdding, setIsAdding] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
 
   useEffect(() => {
     fetchHeroImages();
@@ -38,6 +40,104 @@ export const AdminHeroImages = () => {
 
     if (!error && data) {
       setImages(data);
+    }
+  };
+
+  const uploadFile = async (file: File): Promise<string | null> => {
+    try {
+      setIsUploading(true);
+      const timestamp = Date.now();
+      const fileName = `${timestamp}-${file.name}`;
+      const filePath = `hero-images/${fileName}`;
+
+      const { data, error } = await supabase.storage
+        .from("hero-images")
+        .upload(filePath, file, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+
+      if (error) {
+        // Check if error is about bucket not existing
+        if (error.message.includes("not found") || error.message.includes("Bucket not found")) {
+          toast({
+            title: "Setup Required",
+            description: "Please create a 'hero-images' bucket in Supabase Storage first",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Upload Error",
+            description: error.message,
+            variant: "destructive",
+          });
+        }
+        return null;
+      }
+
+      const { data: publicData } = supabase.storage
+        .from("hero-images")
+        .getPublicUrl(data.path);
+
+      return publicData.publicUrl;
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : "Failed to upload file";
+      toast({
+        title: "Upload Error",
+        description: errorMsg,
+        variant: "destructive",
+      });
+      return null;
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleFileUpload = async (file: File) => {
+    if (!file.type.startsWith("image/")) {
+      toast({
+        title: "Invalid File",
+        description: "Please upload an image file",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const imageUrl = await uploadFile(file);
+    if (imageUrl) {
+      setNewImage({ ...newImage, image_url: imageUrl });
+      toast({
+        title: "Success",
+        description: "Image uploaded successfully",
+      });
+    }
+  };
+
+  const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      handleFileUpload(files[0]);
+    }
+  };
+
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.currentTarget.files;
+    if (files && files.length > 0) {
+      handleFileUpload(files[0]);
     }
   };
 
@@ -162,12 +262,51 @@ export const AdminHeroImages = () => {
           <Card className="p-4 bg-muted/50">
             <div className="space-y-4">
               <div>
-                <Label>Image URL *</Label>
-                <Input
-                  placeholder="https://example.com/image.jpg"
-                  value={newImage.image_url}
-                  onChange={(e) => setNewImage({ ...newImage, image_url: e.target.value })}
-                />
+                <Label className="mb-2 block">Upload Image * (Drag & Drop or Click)</Label>
+                <div
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                  className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+                    dragActive
+                      ? "border-primary bg-primary/5"
+                      : "border-border bg-muted/50"
+                  }`}
+                >
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileInput}
+                    disabled={isUploading}
+                    className="absolute inset-0 opacity-0 cursor-pointer"
+                    aria-label="Upload image"
+                  />
+                  <div className="flex flex-col items-center gap-2 pointer-events-none">
+                    {isUploading ? (
+                      <>
+                        <Loader2 className="h-8 w-8 text-primary animate-spin" />
+                        <p className="text-sm text-muted-foreground">Uploading...</p>
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="h-8 w-8 text-muted-foreground" />
+                        <p className="text-sm font-medium">Drag image here or click to select</p>
+                        <p className="text-xs text-muted-foreground">Supports JPG, PNG, WebP, etc.</p>
+                      </>
+                    )}
+                  </div>
+                </div>
+                {newImage.image_url && (
+                  <div className="mt-2">
+                    <p className="text-xs text-muted-foreground mb-1">Preview:</p>
+                    <img
+                      src={newImage.image_url}
+                      alt="Preview"
+                      className="h-32 w-full object-cover rounded-lg border border-border"
+                    />
+                  </div>
+                )}
               </div>
               <div>
                 <Label>Title</Label>
@@ -186,8 +325,10 @@ export const AdminHeroImages = () => {
                 />
               </div>
               <div className="flex gap-2">
-                <Button onClick={addHeroImage}>Add Image</Button>
-                <Button variant="outline" onClick={() => setIsAdding(false)}>
+                <Button onClick={addHeroImage} disabled={!newImage.image_url || isUploading}>
+                  Add Image
+                </Button>
+                <Button variant="outline" onClick={() => setIsAdding(false)} disabled={isUploading}>
                   Cancel
                 </Button>
               </div>
