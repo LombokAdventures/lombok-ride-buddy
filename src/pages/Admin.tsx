@@ -29,6 +29,13 @@ interface Bike {
   fuel_capacity: string;
   status: string;
   image: string;
+  year?: number;
+  kilometers?: number;
+  description?: string;
+  purchase_date?: string;
+  kilometers_driven?: number;
+  last_maintenance_date?: string;
+  next_maintenance_due?: string;
 }
 
 interface Review {
@@ -457,6 +464,31 @@ const Admin = () => {
           : bike
       )
     );
+  };
+
+  const updateBikeMetadata = async (bikeId: string, field: string, value: any) => {
+    console.log('Updating bike metadata:', bikeId, field, value);
+
+    const { error } = await supabase
+      .from('bikes')
+      .update({ [field]: value })
+      .eq('id', bikeId);
+
+    if (error) {
+      console.error('Error updating bike metadata:', error);
+      toast({
+        title: 'Error',
+        description: `Failed to update: ${error.message}`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    console.log('Metadata updated successfully');
+    toast({
+      title: 'Updated',
+      description: 'Bike information updated',
+    });
   };
 
   const updateReviewStatus = async (reviewId: string, status: 'approved' | 'rejected') => {
@@ -1374,6 +1406,98 @@ const Admin = () => {
                     <div className="text-xs text-muted-foreground">
                       <p><strong>Engine:</strong> {bike.engine}</p>
                       <p><strong>Transmission:</strong> {bike.transmission}</p>
+                    </div>
+
+                    {/* Description */}
+                    <div className="p-3 bg-muted rounded-lg">
+                      <Label htmlFor={`description-${bike.id}`} className="text-xs font-semibold mb-2 block">
+                        Description
+                      </Label>
+                      <textarea
+                        id={`description-${bike.id}`}
+                        value={bike.description || ''}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setBikes(prevBikes => prevBikes.map(b => b.id === bike.id ? { ...b, description: value } : b));
+                        }}
+                        onBlur={(e) => updateBikeMetadata(bike.id, 'description', e.target.value || null)}
+                        placeholder="Bike condition, special notes, etc."
+                        className="w-full px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-xs bg-background text-foreground min-h-20"
+                      />
+                    </div>
+
+                    {/* Purchase Date */}
+                    <div className="p-3 bg-muted rounded-lg">
+                      <Label htmlFor={`purchase-date-${bike.id}`} className="text-xs font-semibold mb-2 block">
+                        Purchase Date
+                      </Label>
+                      <input
+                        id={`purchase-date-${bike.id}`}
+                        type="date"
+                        value={bike.purchase_date ? bike.purchase_date.split('T')[0] : ''}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setBikes(prevBikes => prevBikes.map(b => b.id === bike.id ? { ...b, purchase_date: value } : b));
+                        }}
+                        onBlur={(e) => updateBikeMetadata(bike.id, 'purchase_date', e.target.value || null)}
+                        className="w-full px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-xs bg-background text-foreground"
+                      />
+                    </div>
+
+                    {/* Kilometers Driven */}
+                    <div className="p-3 bg-muted rounded-lg">
+                      <Label htmlFor={`kilometers-${bike.id}`} className="text-xs font-semibold mb-2 block">
+                        Total Kilometers Driven
+                      </Label>
+                      <input
+                        id={`kilometers-${bike.id}`}
+                        type="number"
+                        min="0"
+                        value={bike.kilometers_driven || ''}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setBikes(prevBikes => prevBikes.map(b => b.id === bike.id ? { ...b, kilometers_driven: value ? parseInt(value) : null } : b));
+                        }}
+                        onBlur={(e) => updateBikeMetadata(bike.id, 'kilometers_driven', e.target.value ? parseInt(e.target.value) : null)}
+                        placeholder="Total kilometers"
+                        className="w-full px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-xs bg-background text-foreground"
+                      />
+                    </div>
+
+                    {/* Last Maintenance Date */}
+                    <div className="p-3 bg-muted rounded-lg">
+                      <Label htmlFor={`last-maintenance-${bike.id}`} className="text-xs font-semibold mb-2 block">
+                        Last Maintenance Date
+                      </Label>
+                      <input
+                        id={`last-maintenance-${bike.id}`}
+                        type="date"
+                        value={bike.last_maintenance_date ? bike.last_maintenance_date.split('T')[0] : ''}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setBikes(prevBikes => prevBikes.map(b => b.id === bike.id ? { ...b, last_maintenance_date: value } : b));
+                        }}
+                        onBlur={(e) => updateBikeMetadata(bike.id, 'last_maintenance_date', e.target.value || null)}
+                        className="w-full px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-xs bg-background text-foreground"
+                      />
+                    </div>
+
+                    {/* Next Maintenance Due */}
+                    <div className="p-3 bg-muted rounded-lg">
+                      <Label htmlFor={`next-maintenance-${bike.id}`} className="text-xs font-semibold mb-2 block">
+                        Next Maintenance Due
+                      </Label>
+                      <input
+                        id={`next-maintenance-${bike.id}`}
+                        type="date"
+                        value={bike.next_maintenance_due ? bike.next_maintenance_due.split('T')[0] : ''}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setBikes(prevBikes => prevBikes.map(b => b.id === bike.id ? { ...b, next_maintenance_due: value } : b));
+                        }}
+                        onBlur={(e) => updateBikeMetadata(bike.id, 'next_maintenance_due', e.target.value || null)}
+                        className="w-full px-2 py-1 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-xs bg-background text-foreground"
+                      />
                     </div>
 
                     <Button
