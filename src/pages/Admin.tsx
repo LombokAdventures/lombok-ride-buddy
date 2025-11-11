@@ -60,6 +60,7 @@ const Admin = () => {
   const [tourEmails, setTourEmails] = useState<EmailEntry[]>([]);
   const [villaEmails, setVillaEmails] = useState<EmailEntry[]>([]);
   const [heroImages, setHeroImages] = useState<HeroImage[]>([]);
+  const [waitlistRequests, setWaitlistRequests] = useState<any[]>([]);
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -166,9 +167,17 @@ const Admin = () => {
       })
       .subscribe();
 
+    const waitlistChannel = supabase
+      .channel('admin-waitlist-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'waitlist_requests' }, () => {
+        fetchWaitlistRequests();
+      })
+      .subscribe();
+
     return () => {
       supabase.removeChannel(bikesChannel);
       supabase.removeChannel(reviewsChannel);
+      supabase.removeChannel(waitlistChannel);
     };
   }, [isAdmin]);
 
@@ -178,7 +187,8 @@ const Admin = () => {
       fetchReviews(),
       fetchTourEmails(),
       fetchVillaEmails(),
-      fetchHeroImages()
+      fetchHeroImages(),
+      fetchWaitlistRequests()
     ]);
   };
 
@@ -306,6 +316,23 @@ const Admin = () => {
     if (data) {
       setHeroImages(data);
       console.log('Loaded hero images:', data.length);
+    }
+  };
+
+  const fetchWaitlistRequests = async () => {
+    const { data, error } = await supabase
+      .from('waitlist_requests')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching waitlist requests:', error);
+      return;
+    }
+
+    if (data) {
+      setWaitlistRequests(data);
+      console.log('Loaded waitlist requests:', data.length);
     }
   };
 
@@ -857,7 +884,7 @@ const Admin = () => {
               Reviews ({reviews.filter(r => r.approval_status === 'pending').length})
             </TabsTrigger>
             <TabsTrigger value="waitlist" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
-              Waitlist
+              Waitlist ({waitlistRequests.filter(r => r.status === 'pending').length})
             </TabsTrigger>
             <TabsTrigger value="hero-images" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
               Hero Images

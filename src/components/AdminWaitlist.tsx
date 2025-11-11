@@ -231,22 +231,46 @@ export const AdminWaitlist = () => {
                         </td>
                         <td className="p-3 font-medium">{request.customer_name}</td>
                         <td className="p-3">
-                          <div className="flex flex-col gap-1 text-sm">
-                            {request.whatsapp && (
-                              <span className="flex items-center gap-1">
-                                <Phone className="h-3 w-3" /> {request.whatsapp}
-                              </span>
+                          <div className="flex flex-col gap-2">
+                            {request.preferred_contact_method && (
+                              <Badge className="w-fit capitalize">
+                                {request.preferred_contact_method === 'whatsapp' && (
+                                  <>
+                                    <Phone className="h-3 w-3 mr-1" />
+                                    {request.preferred_contact_method}
+                                  </>
+                                )}
+                                {request.preferred_contact_method === 'telegram' && (
+                                  <>
+                                    <Send className="h-3 w-3 mr-1" />
+                                    {request.preferred_contact_method}
+                                  </>
+                                )}
+                                {request.preferred_contact_method === 'email' && (
+                                  <>
+                                    <Mail className="h-3 w-3 mr-1" />
+                                    {request.preferred_contact_method}
+                                  </>
+                                )}
+                              </Badge>
                             )}
-                            {request.telegram && (
-                              <span className="flex items-center gap-1">
-                                <Send className="h-3 w-3" /> {request.telegram}
-                              </span>
-                            )}
-                            {request.email && (
-                              <span className="flex items-center gap-1">
-                                <Mail className="h-3 w-3" /> {request.email}
-                              </span>
-                            )}
+                            <div className="flex flex-col gap-1 text-sm">
+                              {request.whatsapp && (
+                                <span className="flex items-center gap-1">
+                                  <Phone className="h-3 w-3" /> {request.whatsapp}
+                                </span>
+                              )}
+                              {request.telegram && (
+                                <span className="flex items-center gap-1">
+                                  <Send className="h-3 w-3" /> {request.telegram}
+                                </span>
+                              )}
+                              {request.email && (
+                                <span className="flex items-center gap-1">
+                                  <Mail className="h-3 w-3" /> {request.email}
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </td>
                         <td className="p-3">
