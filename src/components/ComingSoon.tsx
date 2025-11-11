@@ -14,6 +14,10 @@ export const ComingSoon = () => {
   const { toast } = useToast();
   const [tourEmail, setTourEmail] = useState('');
   const [villaEmail, setVillaEmail] = useState('');
+  const [tourWhatsapp, setTourWhatsapp] = useState('');
+  const [villaWhatsapp, setVillaWhatsapp] = useState('');
+  const [tourTelegram, setTourTelegram] = useState('');
+  const [villaTelegram, setVillaTelegram] = useState('');
   const [isSubmittingTour, setIsSubmittingTour] = useState(false);
   const [isSubmittingVilla, setIsSubmittingVilla] = useState(false);
   const [tourContactMethod, setTourContactMethod] = useState<ContactMethod>('email');
@@ -23,19 +27,56 @@ export const ComingSoon = () => {
     e.preventDefault();
 
     if (tourContactMethod === 'whatsapp') {
-      const message = `Hi! I'm interested in Tours & Adventures in Lombok. Please send me more information.`;
-      window.open(`https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
-      toast({
-        title: t.comingSoon.tours.thankYou,
-      });
+      if (!tourWhatsapp.trim()) return;
+      setIsSubmittingTour(true);
+      try {
+        const { error } = await supabase
+          .from('tour_whatsapp')
+          .insert([{ whatsapp_number: tourWhatsapp.trim() }]);
+
+        if (error) throw error;
+
+        toast({
+          title: t.comingSoon.tours.thankYou,
+        });
+        setTourWhatsapp('');
+      } catch (error) {
+        console.error('Error submitting WhatsApp:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to submit. Please try again.',
+          variant: 'destructive',
+        });
+      } finally {
+        setIsSubmittingTour(false);
+      }
       return;
     }
 
     if (tourContactMethod === 'telegram') {
-      window.open(`https://t.me/${contactConfig.telegramUsername}`, '_blank');
-      toast({
-        title: t.comingSoon.tours.thankYou,
-      });
+      if (!tourTelegram.trim()) return;
+      setIsSubmittingTour(true);
+      try {
+        const { error } = await supabase
+          .from('tour_telegram')
+          .insert([{ telegram_username: tourTelegram.trim() }]);
+
+        if (error) throw error;
+
+        toast({
+          title: t.comingSoon.tours.thankYou,
+        });
+        setTourTelegram('');
+      } catch (error) {
+        console.error('Error submitting Telegram:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to submit. Please try again.',
+          variant: 'destructive',
+        });
+      } finally {
+        setIsSubmittingTour(false);
+      }
       return;
     }
 
@@ -69,19 +110,56 @@ export const ComingSoon = () => {
     e.preventDefault();
 
     if (villaContactMethod === 'whatsapp') {
-      const message = `Hi! I'm interested in Villas & Houses in Lombok. Please send me more information.`;
-      window.open(`https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
-      toast({
-        title: t.comingSoon.villas.thankYou,
-      });
+      if (!villaWhatsapp.trim()) return;
+      setIsSubmittingVilla(true);
+      try {
+        const { error } = await supabase
+          .from('villa_whatsapp')
+          .insert([{ whatsapp_number: villaWhatsapp.trim() }]);
+
+        if (error) throw error;
+
+        toast({
+          title: t.comingSoon.villas.thankYou,
+        });
+        setVillaWhatsapp('');
+      } catch (error) {
+        console.error('Error submitting WhatsApp:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to submit. Please try again.',
+          variant: 'destructive',
+        });
+      } finally {
+        setIsSubmittingVilla(false);
+      }
       return;
     }
 
     if (villaContactMethod === 'telegram') {
-      window.open(`https://t.me/${contactConfig.telegramUsername}`, '_blank');
-      toast({
-        title: t.comingSoon.villas.thankYou,
-      });
+      if (!villaTelegram.trim()) return;
+      setIsSubmittingVilla(true);
+      try {
+        const { error } = await supabase
+          .from('villa_telegram')
+          .insert([{ telegram_username: villaTelegram.trim() }]);
+
+        if (error) throw error;
+
+        toast({
+          title: t.comingSoon.villas.thankYou,
+        });
+        setVillaTelegram('');
+      } catch (error) {
+        console.error('Error submitting Telegram:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to submit. Please try again.',
+          variant: 'destructive',
+        });
+      } finally {
+        setIsSubmittingVilla(false);
+      }
       return;
     }
 
@@ -175,27 +253,34 @@ export const ComingSoon = () => {
                       {t.comingSoon.tours.cta}
                     </Button>
                   </div>
+                ) : tourContactMethod === 'whatsapp' ? (
+                  <div className="flex gap-2">
+                    <Input
+                      type="tel"
+                      placeholder={t.comingSoon.tours.whatsappPlaceholder}
+                      value={tourWhatsapp}
+                      onChange={(e) => setTourWhatsapp(e.target.value)}
+                      required
+                      className="flex-1"
+                    />
+                    <Button type="submit" disabled={isSubmittingTour} className="bg-[#25D366] hover:bg-[#20BA5A]">
+                      {t.comingSoon.tours.cta}
+                    </Button>
+                  </div>
                 ) : (
-                  <Button
-                    type="submit"
-                    className={`w-full ${
-                      tourContactMethod === 'whatsapp'
-                        ? 'bg-[#25D366] hover:bg-[#20BA5A]'
-                        : 'bg-[#0088cc] hover:bg-[#006699]'
-                    }`}
-                  >
-                    {tourContactMethod === 'whatsapp' ? (
-                      <>
-                        <MessageCircle className="h-5 w-5 mr-2" />
-                        Contact via WhatsApp
-                      </>
-                    ) : (
-                      <>
-                        <Send className="h-5 w-5 mr-2" />
-                        Contact via Telegram
-                      </>
-                    )}
-                  </Button>
+                  <div className="flex gap-2">
+                    <Input
+                      type="text"
+                      placeholder={t.comingSoon.tours.telegramPlaceholder}
+                      value={tourTelegram}
+                      onChange={(e) => setTourTelegram(e.target.value)}
+                      required
+                      className="flex-1"
+                    />
+                    <Button type="submit" disabled={isSubmittingTour} className="bg-[#0088cc] hover:bg-[#006699]">
+                      {t.comingSoon.tours.cta}
+                    </Button>
+                  </div>
                 )}
               </form>
             </div>
@@ -261,27 +346,34 @@ export const ComingSoon = () => {
                       {t.comingSoon.villas.cta}
                     </Button>
                   </div>
+                ) : villaContactMethod === 'whatsapp' ? (
+                  <div className="flex gap-2">
+                    <Input
+                      type="tel"
+                      placeholder={t.comingSoon.villas.whatsappPlaceholder}
+                      value={villaWhatsapp}
+                      onChange={(e) => setVillaWhatsapp(e.target.value)}
+                      required
+                      className="flex-1"
+                    />
+                    <Button type="submit" disabled={isSubmittingVilla} className="bg-[#25D366] hover:bg-[#20BA5A]">
+                      {t.comingSoon.villas.cta}
+                    </Button>
+                  </div>
                 ) : (
-                  <Button
-                    type="submit"
-                    className={`w-full ${
-                      villaContactMethod === 'whatsapp'
-                        ? 'bg-[#25D366] hover:bg-[#20BA5A]'
-                        : 'bg-[#0088cc] hover:bg-[#006699]'
-                    }`}
-                  >
-                    {villaContactMethod === 'whatsapp' ? (
-                      <>
-                        <MessageCircle className="h-5 w-5 mr-2" />
-                        Contact via WhatsApp
-                      </>
-                    ) : (
-                      <>
-                        <Send className="h-5 w-5 mr-2" />
-                        Contact via Telegram
-                      </>
-                    )}
-                  </Button>
+                  <div className="flex gap-2">
+                    <Input
+                      type="text"
+                      placeholder={t.comingSoon.villas.telegramPlaceholder}
+                      value={villaTelegram}
+                      onChange={(e) => setVillaTelegram(e.target.value)}
+                      required
+                      className="flex-1"
+                    />
+                    <Button type="submit" disabled={isSubmittingVilla} className="bg-[#0088cc] hover:bg-[#006699]">
+                      {t.comingSoon.villas.cta}
+                    </Button>
+                  </div>
                 )}
               </form>
             </div>
