@@ -12,6 +12,8 @@ import { Lock, CheckCircle, XCircle, Trash2, Star, LogOut, Upload, Image as Imag
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { useTheme } from '@/contexts/ThemeContext';
+import { AdminWaitlist } from '@/components/AdminWaitlist';
+import { AdminHeroImages } from '@/components/AdminHeroImages';
 import type { User } from '@supabase/supabase-js';
 
 interface Bike {
@@ -70,6 +72,11 @@ const Admin = () => {
     transmission: '',
     fuel_capacity: '',
     image: '',
+    description: '',
+    purchase_date: '',
+    kilometers_driven: '',
+    last_maintenance_date: '',
+    next_maintenance_due: '',
   });
   const [newBikeImageFile, setNewBikeImageFile] = useState<File | null>(null);
   const [newBikeImagePreview, setNewBikeImagePreview] = useState<string>('');
@@ -617,6 +624,11 @@ const Admin = () => {
         fuel_capacity: newBike.fuel_capacity || '4L',
         status: 'available',
         image: imageUrl,
+        description: newBike.description || null,
+        purchase_date: newBike.purchase_date || null,
+        kilometers_driven: newBike.kilometers_driven ? parseInt(newBike.kilometers_driven) : null,
+        last_maintenance_date: newBike.last_maintenance_date || null,
+        next_maintenance_due: newBike.next_maintenance_due || null,
       };
 
       const { error } = await supabase
@@ -649,6 +661,11 @@ const Admin = () => {
         transmission: '',
         fuel_capacity: '',
         image: '',
+        description: '',
+        purchase_date: '',
+        kilometers_driven: '',
+        last_maintenance_date: '',
+        next_maintenance_due: '',
       });
       setNewBikeImageFile(null);
       setNewBikeImagePreview('');
@@ -805,6 +822,12 @@ const Admin = () => {
             <TabsTrigger value="reviews" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
               Reviews ({reviews.filter(r => r.approval_status === 'pending').length})
             </TabsTrigger>
+            <TabsTrigger value="waitlist" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
+              Waitlist
+            </TabsTrigger>
+            <TabsTrigger value="hero-images" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
+              Hero Images
+            </TabsTrigger>
             <TabsTrigger value="tour-emails" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
               Tour Emails ({tourEmails.length})
             </TabsTrigger>
@@ -957,6 +980,77 @@ const Admin = () => {
                             className="resize-none"
                           />
                           <p className="text-xs text-muted-foreground">Separate each feature with a comma</p>
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <div className="space-y-4">
+                        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Description</h3>
+                        <div className="space-y-2">
+                          <Label htmlFor="description">Bike Description</Label>
+                          <Textarea
+                            id="description"
+                            value={newBike.description}
+                            onChange={(e) => setNewBike({ ...newBike, description: e.target.value })}
+                            placeholder="Detailed description of the bike..."
+                            rows={4}
+                            className="resize-none"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Additional Details */}
+                      <div className="space-y-4">
+                        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Additional Details</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="purchase_date">Purchase Date</Label>
+                            <Input
+                              id="purchase_date"
+                              type="date"
+                              value={newBike.purchase_date}
+                              onChange={(e) => setNewBike({ ...newBike, purchase_date: e.target.value })}
+                              className="h-11"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="kilometers_driven">Kilometers Driven</Label>
+                            <Input
+                              id="kilometers_driven"
+                              type="number"
+                              value={newBike.kilometers_driven}
+                              onChange={(e) => setNewBike({ ...newBike, kilometers_driven: e.target.value })}
+                              placeholder="15000"
+                              className="h-11"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Maintenance */}
+                      <div className="space-y-4">
+                        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Maintenance</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="last_maintenance">Last Maintenance</Label>
+                            <Input
+                              id="last_maintenance"
+                              type="date"
+                              value={newBike.last_maintenance_date}
+                              onChange={(e) => setNewBike({ ...newBike, last_maintenance_date: e.target.value })}
+                              className="h-11"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="next_maintenance">Next Maintenance Due</Label>
+                            <Input
+                              id="next_maintenance"
+                              type="date"
+                              value={newBike.next_maintenance_due}
+                              onChange={(e) => setNewBike({ ...newBike, next_maintenance_due: e.target.value })}
+                              className="h-11"
+                            />
+                          </div>
                         </div>
                       </div>
 
@@ -1258,7 +1352,6 @@ const Admin = () => {
             </Card>
 
             <div className="space-y-4">
-              {console.log('🎨 RENDERING REVIEWS:', reviews.length, reviews)}
               {reviews.length === 0 ? (
                 <Card>
                   <CardContent className="py-8 text-center text-muted-foreground">
@@ -1329,6 +1422,16 @@ const Admin = () => {
                 ))
               )}
             </div>
+          </TabsContent>
+
+          {/* Waitlist Tab */}
+          <TabsContent value="waitlist" className="space-y-6">
+            <AdminWaitlist />
+          </TabsContent>
+
+          {/* Hero Images Tab */}
+          <TabsContent value="hero-images" className="space-y-6">
+            <AdminHeroImages />
           </TabsContent>
 
           {/* Tour Emails Tab */}

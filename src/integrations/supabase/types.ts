@@ -14,18 +14,58 @@ export type Database = {
   }
   public: {
     Tables: {
+      bike_images: {
+        Row: {
+          bike_id: string
+          created_at: string | null
+          display_order: number | null
+          id: string
+          image_url: string
+          is_primary: boolean | null
+        }
+        Insert: {
+          bike_id: string
+          created_at?: string | null
+          display_order?: number | null
+          id?: string
+          image_url: string
+          is_primary?: boolean | null
+        }
+        Update: {
+          bike_id?: string
+          created_at?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string
+          is_primary?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bike_images_bike_id_fkey"
+            columns: ["bike_id"]
+            isOneToOne: false
+            referencedRelation: "bikes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bikes: {
         Row: {
           created_at: string | null
           daily_price: number
+          description: string | null
           engine: string
           features: string[]
           fuel_capacity: string
           id: string
           image: string
+          kilometers_driven: number | null
+          last_maintenance_date: string | null
           model: string
           monthly_price: number | null
           name: string
+          next_maintenance_due: string | null
+          purchase_date: string | null
           status: string
           transmission: string
           updated_at: string | null
@@ -34,14 +74,19 @@ export type Database = {
         Insert: {
           created_at?: string | null
           daily_price: number
+          description?: string | null
           engine: string
           features?: string[]
           fuel_capacity: string
           id: string
           image: string
+          kilometers_driven?: number | null
+          last_maintenance_date?: string | null
           model: string
           monthly_price?: number | null
           name: string
+          next_maintenance_due?: string | null
+          purchase_date?: string | null
           status: string
           transmission: string
           updated_at?: string | null
@@ -50,18 +95,53 @@ export type Database = {
         Update: {
           created_at?: string | null
           daily_price?: number
+          description?: string | null
           engine?: string
           features?: string[]
           fuel_capacity?: string
           id?: string
           image?: string
+          kilometers_driven?: number | null
+          last_maintenance_date?: string | null
           model?: string
           monthly_price?: number | null
           name?: string
+          next_maintenance_due?: string | null
+          purchase_date?: string | null
           status?: string
           transmission?: string
           updated_at?: string | null
           weekly_price?: number | null
+        }
+        Relationships: []
+      }
+      hero_images: {
+        Row: {
+          created_at: string | null
+          display_order: number | null
+          id: string
+          image_url: string
+          is_active: boolean | null
+          subtitle: string | null
+          title: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          display_order?: number | null
+          id?: string
+          image_url: string
+          is_active?: boolean | null
+          subtitle?: string | null
+          title?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string
+          is_active?: boolean | null
+          subtitle?: string | null
+          title?: string | null
         }
         Relationships: []
       }
@@ -152,6 +232,51 @@ export type Database = {
           created_at?: string | null
           email?: string
           id?: string
+        }
+        Relationships: []
+      }
+      waitlist_requests: {
+        Row: {
+          created_at: string | null
+          customer_name: string
+          email: string | null
+          id: string
+          item_id: string
+          item_type: string
+          message: string | null
+          preferred_contact_method: string | null
+          status: string | null
+          telegram: string | null
+          updated_at: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          customer_name: string
+          email?: string | null
+          id?: string
+          item_id: string
+          item_type: string
+          message?: string | null
+          preferred_contact_method?: string | null
+          status?: string | null
+          telegram?: string | null
+          updated_at?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          customer_name?: string
+          email?: string | null
+          id?: string
+          item_id?: string
+          item_type?: string
+          message?: string | null
+          preferred_contact_method?: string | null
+          status?: string | null
+          telegram?: string | null
+          updated_at?: string | null
+          whatsapp?: string | null
         }
         Relationships: []
       }

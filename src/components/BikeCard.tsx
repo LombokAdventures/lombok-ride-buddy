@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MessageCircle, CheckCircle, XCircle, Gauge, Fuel, Settings } from 'lucide-react';
+import { MessageCircle, CheckCircle, XCircle, Gauge, Fuel, Settings, Bell } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
-import { BikeDetailModal } from './BikeDetailModal';
+import { BikeDetailDialog } from './BikeDetailDialog';
+import { WaitlistModal } from './WaitlistModal';
 import { translateFeature } from '@/utils/featureTranslator';
 import { translateTransmission } from '@/utils/transmissionTranslator';
 
@@ -32,6 +33,7 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
   const { t, language } = useLanguage();
   const [selectedPeriod, setSelectedPeriod] = useState<'daily' | 'weekly' | 'monthly'>('daily');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
   const isAvailable = bike.status === 'available';
   
   const getPrice = () => {
@@ -149,25 +151,46 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
       </CardContent>
 
       <CardFooter className="p-6 pt-0">
-        <Button
-          className="w-full gap-2"
-          disabled={!isAvailable}
-          variant={isAvailable ? "default" : "outline"}
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsModalOpen(true);
-          }}
-        >
-          <MessageCircle className="h-4 w-4" />
-          {t.fleet.reserve}
-        </Button>
+        {isAvailable ? (
+          <Button
+            className="w-full gap-2"
+            variant="default"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsModalOpen(true);
+            }}
+          >
+            <MessageCircle className="h-4 w-4" />
+            {t.fleet.reserve}
+          </Button>
+        ) : (
+          <Button
+            className="w-full gap-2"
+            variant="outline"
+            onClick={(e) => {
+              e.stopPropagation();
+              setWaitlistOpen(true);
+            }}
+          >
+            <Bell className="h-4 w-4" />
+            Notify Me When Available
+          </Button>
+        )}
       </CardFooter>
     </Card>
 
-    <BikeDetailModal
+    <BikeDetailDialog
       bike={bike}
-      isOpen={isModalOpen}
-      onClose={() => setIsModalOpen(false)}
+      open={isModalOpen}
+      onOpenChange={setIsModalOpen}
+    />
+
+    <WaitlistModal
+      open={waitlistOpen}
+      onOpenChange={setWaitlistOpen}
+      itemType="bike"
+      itemId={bike.id}
+      itemName={bike.name}
     />
     </>
   );
