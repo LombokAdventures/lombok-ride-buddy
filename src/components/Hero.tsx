@@ -1,21 +1,74 @@
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Star, MapPin } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { supabase } from '@/integrations/supabase/client';
+
+interface HeroImage {
+  id: string;
+  image_url: string;
+  is_active: boolean;
+}
 
 export const Hero = () => {
   const { t } = useLanguage();
+  const [heroImages, setHeroImages] = useState<HeroImage[]>([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const defaultImage = new URL('@/assets/hero-background.jpg', import.meta.url).href;
+
+  useEffect(() => {
+    fetchHeroImages();
+  }, []);
+
+  useEffect(() => {
+    if (heroImages.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+      }, 5000); // Change image every 5 seconds
+
+      return () => clearInterval(interval);
+    }
+  }, [heroImages.length]);
+
+  const fetchHeroImages = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('hero_images')
+        .select('*')
+        .eq('is_active', true)
+        .order('created_at', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching hero images:', error);
+        setIsLoading(false);
+        return;
+      }
+
+      if (data && data.length > 0) {
+        setHeroImages(data);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching hero images:', error);
+      setIsLoading(false);
+    }
+  };
 
   const scrollToFleet = () => {
     document.getElementById('fleet')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const currentImage = heroImages.length > 0 ? heroImages[currentImageIndex].image_url : defaultImage;
+
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Hero Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out"
         style={{
-          backgroundImage: `url(${new URL('@/assets/hero-background.jpg', import.meta.url).href})`,
+          backgroundImage: `url(${currentImage})`,
         }}
       >
         {/* Overlay for better text readability */}

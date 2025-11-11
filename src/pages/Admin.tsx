@@ -45,11 +45,19 @@ interface EmailEntry {
   created_at: string;
 }
 
+interface HeroImage {
+  id: string;
+  image_url: string;
+  is_active: boolean;
+  created_at: string;
+}
+
 const Admin = () => {
   const [bikes, setBikes] = useState<Bike[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [tourEmails, setTourEmails] = useState<EmailEntry[]>([]);
   const [villaEmails, setVillaEmails] = useState<EmailEntry[]>([]);
+  const [heroImages, setHeroImages] = useState<HeroImage[]>([]);
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -162,7 +170,8 @@ const Admin = () => {
       fetchBikes(),
       fetchReviews(),
       fetchTourEmails(),
-      fetchVillaEmails()
+      fetchVillaEmails(),
+      fetchHeroImages()
     ]);
   };
 
@@ -268,6 +277,28 @@ const Admin = () => {
     if (data) {
       setVillaEmails(data);
       console.log('Loaded villa emails:', data.length);
+    }
+  };
+
+  const fetchHeroImages = async () => {
+    const { data, error } = await supabase
+      .from('hero_images')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching hero images:', error);
+      toast({
+        title: 'Error loading hero images',
+        description: error.message,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (data) {
+      setHeroImages(data);
+      console.log('Loaded hero images:', data.length);
     }
   };
 
@@ -802,6 +833,9 @@ const Admin = () => {
             <TabsTrigger value="bikes" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
               Bikes ({bikes.length})
             </TabsTrigger>
+            <TabsTrigger value="hero-images" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
+              Hero Images ({heroImages.length})
+            </TabsTrigger>
             <TabsTrigger value="reviews" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
               Reviews ({reviews.filter(r => r.approval_status === 'pending').length})
             </TabsTrigger>
@@ -1234,6 +1268,155 @@ const Admin = () => {
                 </Card>
               ))}
             </div>
+          </TabsContent>
+
+          {/* Hero Images Tab */}
+          <TabsContent value="hero-images" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Hero Images Management</CardTitle>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Manage hero background images that rotate on the homepage. Images rotate every 5 seconds.
+                </p>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {heroImages.map((image) => (
+                    <div key={image.id} className="flex items-center gap-4 p-4 border rounded-lg">
+                      <div className="w-32 h-20 bg-muted rounded overflow-hidden flex-shrink-0">
+                        <img
+                          src={image.image_url}
+                          alt="Hero"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-mono text-muted-foreground truncate">
+                          {image.image_url}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {new Date(image.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2">
+                          <Switch
+                            checked={image.is_active}
+                            onCheckedChange={async (checked) => {
+                              const { error } = await supabase
+                                .from('hero_images')
+                                .update({ is_active: checked })
+                                .eq('id', image.id);
+
+                              if (error) {
+                                toast({
+                                  title: 'Error',
+                                  description: 'Failed to update image status',
+                                  variant: 'destructive',
+                                });
+                                return;
+                              }
+
+                              toast({
+                                title: 'Updated',
+                                description: `Image ${checked ? 'activated' : 'deactivated'}`,
+                              });
+                              fetchHeroImages();
+                            }}
+                          />
+                          <Label className="text-sm">
+                            {image.is_active ? 'Active' : 'Inactive'}
+                          </Label>
+                        </div>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={async () => {
+                            if (!confirm('Delete this hero image?')) return;
+
+                            const { error } = await supabase
+                              .from('hero_images')
+                              .delete()
+                              .eq('id', image.id);
+
+                            if (error) {
+                              toast({
+                                title: 'Error',
+                                description: 'Failed to delete image',
+                                variant: 'destructive',
+                              });
+                              return;
+                            }
+
+                            toast({
+                              title: 'Deleted',
+                              description: 'Hero image removed',
+                            });
+                            fetchHeroImages();
+                          }}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                  {heroImages.length === 0 && (
+                    <div className="text-center py-12 text-muted-foreground">
+                      <ImageIcon className="h-12 w-12 mx-auto mb-3 opacity-20" />
+                      <p>No hero images yet</p>
+                      <p className="text-sm mt-1">Add image URLs below to get started</p>
+                    </div>
+                  )}
+                  <div className="border-t pt-4 mt-6">
+                    <h4 className="font-semibold mb-3">Add New Hero Image</h4>
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Enter image URL (e.g., https://example.com/image.jpg)"
+                        id="new-hero-image-url"
+                      />
+                      <Button
+                        onClick={async () => {
+                          const input = document.getElementById('new-hero-image-url') as HTMLInputElement;
+                          const url = input?.value?.trim();
+
+                          if (!url) {
+                            toast({
+                              title: 'Error',
+                              description: 'Please enter an image URL',
+                              variant: 'destructive',
+                            });
+                            return;
+                          }
+
+                          const { error } = await supabase
+                            .from('hero_images')
+                            .insert([{ image_url: url, is_active: true }]);
+
+                          if (error) {
+                            toast({
+                              title: 'Error',
+                              description: 'Failed to add image',
+                              variant: 'destructive',
+                            });
+                            return;
+                          }
+
+                          toast({
+                            title: 'Success',
+                            description: 'Hero image added',
+                          });
+                          input.value = '';
+                          fetchHeroImages();
+                        }}
+                      >
+                        <Plus className="h-4 w-4 mr-1" />
+                        Add Image
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* Reviews Tab */}
