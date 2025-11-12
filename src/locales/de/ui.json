@@ -1,0 +1,251 @@
+{
+  "hero": {
+    "title": "Von Stränden zu Bergen - Lombok Gehört Dir zum Erkunden",
+    "subtitle": "Premium Roller ab $5/Tag",
+    "cta": "Verfügbarkeit prüfen",
+    "trustBadge": "Vertraut von Reisenden seit 2025"
+  },
+  "nav": {
+    "fleet": "Unsere Flotte",
+    "about": "Warum Wir",
+    "tours": "Touren",
+    "villas": "Villen",
+    "contact": "Kontakt"
+  },
+  "fleet": {
+    "title": "Unsere Premium-Flotte",
+    "subtitle": "Wählen Sie aus unserer Auswahl gut gewarteter Honda und Yamaha Roller",
+    "available": "Verfügbar",
+    "rented": "Vermietet",
+    "perDay": "/Tag",
+    "reserve": "Jetzt reservieren",
+    "specifications": "Spezifikationen"
+  },
+  "benefits": {
+    "title": "Warum Lombok Local",
+    "items": [
+      {
+        "title": "Kostenlose Helme",
+        "description": "Sicherheitsausrüstung bei jeder Miete inklusive"
+      },
+      {
+        "title": "Flexible Lieferung",
+        "description": "Kostenlose Lieferung in Mataram/Praya oder Abholung bei uns"
+      },
+      {
+        "title": "24/7 Support",
+        "description": "Wir helfen Ihnen jederzeit"
+      },
+      {
+        "title": "Keine Kaution",
+        "description": "Flexible Buchung mit minimalen Vorabkosten"
+      },
+      {
+        "title": "Qualitätsflotte",
+        "description": "Gut gewartete Roller für Ihr Abenteuer"
+      },
+      {
+        "title": "Bestpreisgarantie",
+        "description": "Wettbewerbsfähige Preise ohne versteckte Gebühren"
+      },
+      {
+        "title": "Klare Bedingungen",
+        "description": "Transparente Mietbedingungen ohne Überraschungen"
+      }
+    ]
+  },
+  "howItWorks": {
+    "title": "So funktioniert es",
+    "steps": [
+      {
+        "title": "Motorrad wählen",
+        "description": "Durchsuchen Sie unsere Flotte und wählen Sie"
+      },
+      {
+        "title": "Buchen via WhatsApp",
+        "description": "Schnelle Buchung über WhatsApp oder Telegram"
+      },
+      {
+        "title": "Abenteuer starten",
+        "description": "Kostenlose Lieferung in Mataram/Praya oder Abholung bei uns!"
+      }
+    ]
+  },
+  "reviews": {
+    "title": "Was unsere Kunden sagen",
+    "rating": "Sterne aus 200+ Bewertungen",
+    "submitTitle": "Teilen Sie Ihre Erfahrung",
+    "submitButton": "Bewertung abgeben",
+    "namePlaceholder": "Ihr Name",
+    "countryPlaceholder": "Ihr Land",
+    "commentPlaceholder": "Erzählen Sie uns von Ihrer Erfahrung...",
+    "thankYou": "Vielen Dank für Ihre Bewertung!",
+    "pendingApproval": "Ihre Bewertung wartet auf Genehmigung und wird bald erscheinen."
+  },
+  "comingSoon": {
+    "tours": {
+      "title": "Touren & Abenteuer",
+      "description": "Mehrtägige Touren, Wasserfallexpeditionen - Bald 2025",
+      "cta": "Benachrichtigen",
+      "emailPlaceholder": "E-Mail eingeben",
+      "whatsappPlaceholder": "WhatsApp-Nummer eingeben",
+      "telegramPlaceholder": "Telegram-Benutzername eingeben",
+      "thankYou": "Danke! Wir benachrichtigen Sie, wenn Touren verfügbar sind."
+    },
+    "villas": {
+      "title": "Villen & Häuser",
+      "description": "Strandvillen und Berghütten - Bald verfügbar",
+      "cta": "Früher Zugang",
+      "emailPlaceholder": "E-Mail eingeben",
+      "whatsappPlaceholder": "WhatsApp-Nummer eingeben",
+      "telegramPlaceholder": "Telegram-Benutzername eingeben",
+      "thankYou": "Danke! Wir benachrichtigen Sie, wenn Villen verfügbar sind."
+    }
+  },
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "items": [
+      {
+        "question": "Was ist im Mietpreis enthalten?",
+        "answer": "Alle Mieten beinhalten einen Helm und ein Schloss. Kostenlose Lieferung ist für Monatsmietverträge in den Bereichen Mataram und Praya verfügbar. Kraftstoff ist nicht enthalten."
+      },
+      {
+        "question": "Können Sie an meinen Standort liefern?",
+        "answer": "Wir bieten kostenlose Lieferung für Monatsmietverträge in die Bereiche Mataram und Praya an. Für Tages- und Wochenmietverträge können Sie den Roller an unserem Standort abholen oder wir können die Lieferung gegen eine zusätzliche Gebühr arrangieren."
+      },
+      {
+        "question": "Was sind die Altersanforderungen?",
+        "answer": "Mieter müssen mindestens 18 Jahre alt sein und einen gültigen Führerschein haben."
+      },
+      {
+        "question": "Welche Zahlungsmethoden akzeptieren Sie?",
+        "answer": "Wir akzeptieren Bargeld (IDR oder USD), Banküberweisung und beliebte Zahlungs-Apps. Zahlungsdetails werden bei der Buchung über WhatsApp bereitgestellt."
+      },
+      {
+        "question": "Was passiert bei einer Panne oder einem Unfall?",
+        "answer": "Wir bieten 24/7-Support. Kontaktieren Sie uns sofort und wir helfen Ihnen, es zu klären."
+      },
+      {
+        "question": "Bieten Sie Wochen- oder Monatsrabatte an?",
+        "answer": "Ja! Wir bieten erhebliche Rabatte für Wochen- und Monatsmieten. Überprüfen Sie die Preise für jeden Roller."
+      },
+      {
+        "question": "Wie weit im Voraus sollte ich buchen?",
+        "answer": "Wir empfehlen, mindestens 24 Stunden im Voraus zu buchen, insbesondere während der Hochsaison (Juli-August, Dezember-Januar)."
+      },
+      {
+        "question": "Kann ich meine Mietdauer verlängern?",
+        "answer": "Ja, kontaktieren Sie uns einfach über WhatsApp, bevor Ihre Mietzeit endet, und wir werden eine Verlängerung arrangieren, wenn der Roller verfügbar ist."
+      }
+    ]
+  },
+  "footer": {
+    "description": "Ihr vertrauenswürdiger Partner für Motorradverleih und Abenteuer auf Lombok, Indonesien.",
+    "quickLinks": "Schnelllinks",
+    "contact": "Kontaktieren Sie uns",
+    "followUs": "Folgen Sie uns",
+    "rights": "Alle Rechte vorbehalten."
+  },
+  "terms": {
+    "title": "Allgemeine Geschäftsbedingungen",
+    "subtitle": "Bitte lesen Sie diese Bedingungen sorgfältig durch, bevor Sie bei Lombok Local mieten",
+    "rentalRequirements": "Mietanforderungen",
+    "usageTerms": "Nutzungsbedingungen & Einschränkungen",
+    "liability": "Haftung & Verantwortung",
+    "facilities": "Inbegriffene Einrichtungen & Dienstleistungen",
+    "pricing": "Preisgestaltung",
+    "requiredDocs": "Erforderliche Dokumente",
+    "agreement": "Vereinbarung",
+    "questionsTitle": "Fragen zu unseren Bedingungen?",
+    "questionsSubtitle": "Wenn Sie Fragen haben oder Klarstellung zu unseren Geschäftsbedingungen benötigen, zögern Sie bitte nicht, uns zu kontaktieren."
+  },
+  "bikeModal": {
+    "termsAgreement": "Ich stimme den",
+    "termsLink": "Allgemeinen Geschäftsbedingungen",
+    "termsRequired": "Bitte stimmen Sie den Bedingungen zu, bevor Sie uns kontaktieren",
+    "daily": "Täglich",
+    "weekly": "Wöchentlich",
+    "monthly": "Monatlich",
+    "perDay": "pro Tag",
+    "perWeek": "pro Woche",
+    "perMonth": "pro Monat",
+    "engine": "Motor",
+    "transmission": "Getriebe",
+    "fuelCapacity": "Tankinhalt",
+    "year": "Jahr",
+    "mileage": "Laufleistung",
+    "features": "Ausstattung",
+    "currentlyUnavailable": "Derzeit nicht verfügbar",
+    "dayTab": "Tag",
+    "weekTab": "Woche",
+    "monthTab": "Monat",
+    "description": "Beschreibung",
+    "model": "Modell",
+    "kilometers": "Gefahrene Kilometer",
+    "available": "Verfügbar",
+    "unavailable": "Nicht Verfügbar",
+    "bookNow": "Jetzt Buchen",
+    "notifyWhenAvailable": "Benachrichtigung Wenn Verfügbar",
+    "overviewTab": "Übersicht",
+    "specificationsTab": "Spezifikationen",
+    "maintenanceTab": "Wartung",
+    "purchaseDate": "Kaufdatum",
+    "lastMaintenance": "Letzte Wartung",
+    "nextMaintenanceDue": "Nächste Wartung Fällig",
+    "maintenanceInfoNotAvailable": "Wartungsinformationen nicht verfügbar",
+    "bikeCondition": "Motorradbedingung",
+    "totalKilometers": "Gesamtkilometer",
+    "maintenanceSchedule": "Wartungsplan",
+    "descriptionLabel": "Beschreibung"
+  },
+  "termsContent": {
+    "backToHome": "Zurück zur Startseite",
+    "contactWhatsApp": "Kontakt via WhatsApp",
+    "contactTelegram": "Kontakt via Telegram",
+    "rentalRequirements": [
+      "Mieter müssen zwischen 17 und 70 Jahre alt sein",
+      "Ein gültiger Führerschein aus Ihrem Land ist erforderlich",
+      "Gültiger Personalausweis oder Reisepass muss während der Mietdauer als Kaution hinterlegt werden",
+      "Vollständige Zahlung bei Fahrzeugübergabe erforderlich"
+    ],
+    "usageTerms": [
+      "Roller dürfen NICHT außerhalb der Insel Lombok gefahren werden",
+      "Offroad-Fahren ist streng verboten",
+      "Nur autorisierte Fahrer dürfen den Roller fahren - erlauben Sie niemandem, der nicht fahren kann",
+      "Fahren unter Alkohol- oder Drogeneinfluss ist strengstens untersagt",
+      "Alle Verkehrszeichen und Vorschriften müssen strikt befolgt werden",
+      "Mietpreise werden auf 24-Stunden-Basis berechnet"
+    ],
+    "liability": {
+      "warning": "Wichtig: Volle Verantwortung des Mieters",
+      "warningDesc": "Der Mieter trägt die volle Verantwortung für alle Teile des Rollers während der Mietdauer.",
+      "items": [
+        "Bei einem Unfall mit Schäden am Roller haftet der Mieter für Kosten zwischen $250 - $500 USD, abhängig vom Schadensausmaß",
+        "Wenn das Fahrzeug während der Mietdauer verloren geht oder gestohlen wird, trägt der Mieter die volle Verantwortung für die Ersatzkosten",
+        "Mieter müssen der Fotodokumentation bei Fahrzeugübergabe zustimmen"
+      ]
+    },
+    "facilities": [
+      "Wettbewerbsfähige Preise: Ab nur $5 USD pro Tag",
+      "Sicherheitsausrüstung: Zwei SNI-zertifizierte Helme bei jeder Miete inklusive",
+      "Wetterschutz: Zwei saubere, gut gepflegte Regenmäntel werden bereitgestellt",
+      "Kostenlose Lieferung: Kostenlose Lieferung zu Ihrem Hotel im Senggigi-Bereich",
+      "Schnelle Buchung: Schneller und reaktionsschneller Bestellvorgang über WhatsApp oder Telegram",
+      "Gut gewartete Flotte: Alle Roller werden sauber und in ausgezeichnetem Zustand geliefert",
+      "Neueste Modelle: Unsere Flotte besteht aus den neuesten Modellen mit regelmäßiger Wartung bei autorisierten Händlern",
+      "Kostenloser Ersatz: Bei mechanischem Versagen oder Schäden (nicht vom Mieter verursacht) bieten wir kostenlosen Ersatz",
+      "Transparente Preise: Keine versteckten Kosten oder zukünftige Zusatzgebühren"
+    ],
+    "pricingInfo": "Unsere Mietpreise beginnen bei nur $5 USD pro Tag (24 Stunden).",
+    "pricingNote": "Alle Preise sind transparent ohne versteckte Gebühren. Vollständige Zahlung bei Fahrzeugübergabe erforderlich.",
+    "requiredDocs": {
+      "intro": "Bitte stellen Sie sicher, dass Sie die folgenden Dokumente haben:",
+      "items": [
+        "Gültiger Führerschein aus Ihrem Heimatland",
+        "Gültiger Ausweis (Personalausweis oder Reisepass) - als Kaution zu hinterlegen"
+      ],
+      "note": "Diese Dokumente gewährleisten die Einhaltung lokaler Vorschriften und eine problemlose Mieterfahrung."
+    },
+    "agreementText": "Durch das Mieten eines Rollers bei Lombok Local bestätigen Sie, dass Sie alle oben genannten Bedingungen gelesen, verstanden haben und sich verpflichten, diese einzuhalten. Verstöße gegen diese Bedingungen können zu zusätzlichen Gebühren oder rechtlichen Schritten führen."
+  }
+}

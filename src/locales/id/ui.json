@@ -1,0 +1,251 @@
+{
+  "hero": {
+    "title": "Dari Pantai ke Gunung - Lombok Milik Anda untuk Dijelajahi",
+    "subtitle": "Skuter Premium dari $5/Hari",
+    "cta": "Cek Ketersediaan",
+    "trustBadge": "Dipercaya oleh wisatawan sejak 2025"
+  },
+  "nav": {
+    "fleet": "Armada Kami",
+    "about": "Mengapa Kami",
+    "tours": "Tur",
+    "villas": "Vila",
+    "contact": "Kontak"
+  },
+  "fleet": {
+    "title": "Armada Premium Kami",
+    "subtitle": "Pilih dari koleksi skuter Honda dan Yamaha yang terawat",
+    "available": "Tersedia",
+    "rented": "Sedang Disewa",
+    "perDay": "/hari",
+    "reserve": "Pesan Sekarang",
+    "specifications": "Spesifikasi"
+  },
+  "benefits": {
+    "title": "Mengapa Lombok Local",
+    "items": [
+      {
+        "title": "Helm Gratis",
+        "description": "Perlengkapan keselamatan termasuk setiap rental"
+      },
+      {
+        "title": "Pengantaran Fleksibel",
+        "description": "Pengantaran gratis untuk rental bulanan di Mataram/Praya atau ambil sendiri"
+      },
+      {
+        "title": "Dukungan 24/7",
+        "description": "Kami siap membantu kapan saja"
+      },
+      {
+        "title": "Tanpa Deposit",
+        "description": "Pemesanan fleksibel dengan biaya minimal"
+      },
+      {
+        "title": "Armada Berkualitas",
+        "description": "Skuter terawat siap untuk petualangan Anda"
+      },
+      {
+        "title": "Harga Terbaik",
+        "description": "Tarif kompetitif tanpa biaya tersembunyi"
+      },
+      {
+        "title": "Syarat Jelas & Transparan",
+        "description": "Ketentuan sewa yang jelas tanpa kejutan"
+      }
+    ]
+  },
+  "howItWorks": {
+    "title": "Cara Kerjanya",
+    "steps": [
+      {
+        "title": "Pilih Motor",
+        "description": "Lihat armada kami dan pilih yang sempurna"
+      },
+      {
+        "title": "Pesan via WhatsApp",
+        "description": "Pemesanan cepat melalui WhatsApp atau Telegram"
+      },
+      {
+        "title": "Mulai Petualangan",
+        "description": "Pengantaran gratis di Mataram/Praya atau ambil sendiri!"
+      }
+    ]
+  },
+  "reviews": {
+    "title": "Kata Pelanggan Kami",
+    "rating": "bintang dari 200+ ulasan",
+    "submitTitle": "Bagikan Pengalaman Anda",
+    "submitButton": "Kirim Ulasan",
+    "namePlaceholder": "Nama Anda",
+    "countryPlaceholder": "Negara Anda",
+    "commentPlaceholder": "Ceritakan pengalaman Anda...",
+    "thankYou": "Terima kasih atas ulasan Anda!",
+    "pendingApproval": "Ulasan Anda menunggu persetujuan dan akan segera muncul."
+  },
+  "comingSoon": {
+    "tours": {
+      "title": "Tur & Petualangan",
+      "description": "Tur multi-hari, ekspedisi air terjun - Segera 2025",
+      "cta": "Beritahu Saya",
+      "emailPlaceholder": "Masukkan email",
+      "whatsappPlaceholder": "Masukkan nomor WhatsApp",
+      "telegramPlaceholder": "Masukkan username Telegram",
+      "thankYou": "Terima kasih! Kami akan memberi tahu Anda saat tur tersedia."
+    },
+    "villas": {
+      "title": "Vila & Rumah",
+      "description": "Vila tepi pantai dan pegunungan - Segera",
+      "cta": "Akses Awal",
+      "emailPlaceholder": "Masukkan email",
+      "whatsappPlaceholder": "Masukkan nomor WhatsApp",
+      "telegramPlaceholder": "Masukkan username Telegram",
+      "thankYou": "Terima kasih! Kami akan memberi tahu Anda saat vila tersedia."
+    }
+  },
+  "faq": {
+    "title": "Pertanyaan Umum",
+    "items": [
+      {
+        "question": "Apa yang termasuk dalam harga sewa?",
+        "answer": "Semua sewa termasuk helm dan kunci. Pengantaran gratis tersedia untuk rental bulanan di area Mataram dan Praya. Bahan bakar tidak termasuk."
+      },
+      {
+        "question": "Bisakah Anda mengantar ke lokasi saya?",
+        "answer": "Kami menawarkan pengantaran gratis untuk rental bulanan ke area Mataram dan Praya. Untuk rental harian dan mingguan, Anda bisa mengambil skuter di lokasi kami atau kami dapat mengatur pengantaran dengan biaya tambahan."
+      },
+      {
+        "question": "Apa persyaratan usianya?",
+        "answer": "Penyewa harus berusia minimal 18 tahun dan memiliki SIM yang valid."
+      },
+      {
+        "question": "Metode pembayaran apa yang Anda terima?",
+        "answer": "Kami menerima tunai (IDR atau USD), transfer bank, dan aplikasi pembayaran populer. Detail pembayaran akan diberikan saat Anda memesan via WhatsApp."
+      },
+      {
+        "question": "Bagaimana jika terjadi kerusakan atau kecelakaan?",
+        "answer": "Kami menyediakan dukungan 24/7. Hubungi kami segera dan kami akan membantu Anda menyelesaikannya."
+      },
+      {
+        "question": "Apakah Anda menawarkan diskon mingguan atau bulanan?",
+        "answer": "Ya! Kami menawarkan diskon signifikan untuk sewa mingguan dan bulanan. Periksa harga untuk setiap skuter."
+      },
+      {
+        "question": "Berapa lama sebelumnya saya harus memesan?",
+        "answer": "Kami merekomendasikan memesan setidaknya 24 jam sebelumnya, terutama selama musim ramai (Juli-Agustus, Desember-Januari)."
+      },
+      {
+        "question": "Bisakah saya memperpanjang periode sewa?",
+        "answer": "Ya, hubungi kami via WhatsApp sebelum periode sewa Anda berakhir dan kami akan mengatur perpanjangan jika skuter tersedia."
+      }
+    ]
+  },
+  "footer": {
+    "description": "Mitra terpercaya untuk rental motor dan petualangan di Lombok, Indonesia.",
+    "quickLinks": "Tautan Cepat",
+    "contact": "Hubungi Kami",
+    "followUs": "Ikuti Kami",
+    "rights": "Hak cipta dilindungi."
+  },
+  "terms": {
+    "title": "Syarat & Ketentuan",
+    "subtitle": "Harap baca syarat ini dengan seksama sebelum menyewa dari Lombok Local",
+    "rentalRequirements": "Persyaratan Sewa",
+    "usageTerms": "Syarat Penggunaan & Pembatasan",
+    "liability": "Tanggung Jawab",
+    "facilities": "Fasilitas & Layanan Termasuk",
+    "pricing": "Harga",
+    "requiredDocs": "Dokumen yang Diperlukan",
+    "agreement": "Perjanjian",
+    "questionsTitle": "Pertanyaan Tentang Syarat Kami?",
+    "questionsSubtitle": "Jika Anda memiliki pertanyaan atau memerlukan klarifikasi tentang syarat dan ketentuan kami, jangan ragu untuk menghubungi kami."
+  },
+  "bikeModal": {
+    "termsAgreement": "Saya setuju dengan",
+    "termsLink": "Syarat & Ketentuan",
+    "termsRequired": "Harap setuju dengan syarat sebelum menghubungi kami",
+    "daily": "Harian",
+    "weekly": "Mingguan",
+    "monthly": "Bulanan",
+    "perDay": "per hari",
+    "perWeek": "per minggu",
+    "perMonth": "per bulan",
+    "engine": "Mesin",
+    "transmission": "Transmisi",
+    "fuelCapacity": "Kapasitas Bahan Bakar",
+    "year": "Tahun",
+    "mileage": "Jarak Tempuh",
+    "features": "Fitur",
+    "currentlyUnavailable": "Saat Ini Tidak Tersedia",
+    "dayTab": "Hari",
+    "weekTab": "Minggu",
+    "monthTab": "Bulan",
+    "description": "Deskripsi",
+    "model": "Model",
+    "kilometers": "Kilometer Ditempuh",
+    "available": "Tersedia",
+    "unavailable": "Tidak Tersedia",
+    "bookNow": "Pesan Sekarang",
+    "notifyWhenAvailable": "Beri Tahu Saat Tersedia",
+    "overviewTab": "Ikhtisar",
+    "specificationsTab": "Spesifikasi",
+    "maintenanceTab": "Pemeliharaan",
+    "purchaseDate": "Tanggal Pembelian",
+    "lastMaintenance": "Pemeliharaan Terakhir",
+    "nextMaintenanceDue": "Pemeliharaan Berikutnya",
+    "maintenanceInfoNotAvailable": "Informasi pemeliharaan tidak tersedia",
+    "bikeCondition": "Kondisi Motor",
+    "totalKilometers": "Total Kilometer",
+    "maintenanceSchedule": "Jadwal Pemeliharaan",
+    "descriptionLabel": "Deskripsi"
+  },
+  "termsContent": {
+    "backToHome": "Kembali ke Beranda",
+    "contactWhatsApp": "Hubungi via WhatsApp",
+    "contactTelegram": "Hubungi via Telegram",
+    "rentalRequirements": [
+      "Penyewa harus berusia antara 17 hingga 70 tahun",
+      "SIM yang valid dari negara Anda diperlukan",
+      "KTP atau Paspor yang valid harus ditinggalkan sebagai jaminan selama masa sewa",
+      "Pembayaran penuh diperlukan saat menerima kendaraan"
+    ],
+    "usageTerms": [
+      "Skuter TIDAK BOLEH dikendarai di luar Pulau Lombok",
+      "Berkendara off-road sangat dilarang",
+      "Hanya pengendara yang berwenang yang boleh mengoperasikan skuter - jangan izinkan orang lain yang tidak tahu cara mengendarainya",
+      "Mengoperasikan kendaraan di bawah pengaruh alkohol atau obat-obatan sangat dilarang",
+      "Semua rambu dan peraturan lalu lintas harus dipatuhi dengan ketat",
+      "Tarif sewa dihitung berdasarkan jam 24 jam"
+    ],
+    "liability": {
+      "warning": "Penting: Tanggung Jawab Penuh Penyewa",
+      "warningDesc": "Penyewa sepenuhnya bertanggung jawab atas semua bagian skuter selama masa sewa.",
+      "items": [
+        "Dalam hal kecelakaan yang menyebabkan kerusakan pada skuter, penyewa bertanggung jawab atas biaya antara $250 - $500 USD tergantung tingkat kerusakan",
+        "Jika sepeda hilang atau dicuri selama masa sewa, penyewa sepenuhnya bertanggung jawab atas biaya penggantian",
+        "Penyewa harus setuju untuk difoto saat menerima kendaraan untuk tujuan dokumentasi"
+      ]
+    },
+    "facilities": [
+      "Harga Kompetitif: Mulai dari hanya $5 USD per hari",
+      "Perlengkapan Keselamatan: Dua helm bersertifikat SNI termasuk setiap rental",
+      "Perlindungan Cuaca: Dua jas hujan bersih dan terawat disediakan",
+      "Pengantaran Gratis: Pengantaran gratis ke hotel Anda di area Senggigi",
+      "Pemesanan Cepat: Proses pemesanan cepat dan responsif melalui WhatsApp atau Telegram",
+      "Armada Terawat Baik: Semua skuter diantar bersih dan dalam kondisi sangat baik",
+      "Model Terbaru: Armada kami terdiri dari model terbaru dengan perawatan rutin di dealer resmi",
+      "Penggantian Gratis: Jika terjadi kegagalan mekanis atau kerusakan unit (tidak disebabkan oleh penyewa), kami menawarkan penggantian gratis",
+      "Harga Transparan: Tidak ada biaya tersembunyi atau biaya tambahan di masa depan"
+    ],
+    "pricingInfo": "Tarif sewa kami mulai dari hanya $5 USD per hari (24 jam).",
+    "pricingNote": "Semua harga transparan tanpa biaya tersembunyi. Pembayaran penuh diperlukan saat menerima kendaraan.",
+    "requiredDocs": {
+      "intro": "Pastikan Anda memiliki dokumen berikut:",
+      "items": [
+        "SIM yang valid dari negara asal Anda",
+        "Identitas yang valid (KTP atau Paspor) - ditinggalkan sebagai jaminan"
+      ],
+      "note": "Memiliki dokumen ini memastikan kepatuhan dengan peraturan lokal dan pengalaman sewa yang lancar."
+    },
+    "agreementText": "Dengan menyewa skuter dari Lombok Local, Anda mengakui bahwa Anda telah membaca, memahami, dan setuju untuk mematuhi semua syarat dan ketentuan yang dinyatakan di atas. Pelanggaran terhadap syarat ini dapat mengakibatkan biaya tambahan atau tindakan hukum."
+  }
+}
