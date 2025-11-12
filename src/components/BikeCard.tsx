@@ -146,7 +146,7 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
         </div>
       </div>
       
-      <CardContent className="p-6 flex flex-col">
+      <CardContent className="p-6 flex flex-col h-full">
         <div className="mb-4">
           <h3 className="text-2xl font-bold text-foreground mb-1">{bike.name}</h3>
           <p className="text-sm text-muted-foreground">{bike.model}</p>
@@ -194,14 +194,12 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
           </div>
         </div>
 
-        <div className="mb-4 h-10 overflow-hidden">
-          <div className="flex flex-wrap gap-2">
-            {getTranslatedFeatures().map((feature, idx) => (
-              <Badge key={idx} variant="outline" className="text-xs">
-                {feature}
-              </Badge>
-            ))}
-          </div>
+        <div className="flex flex-wrap gap-2 flex-grow">
+          {getTranslatedFeatures().map((feature, idx) => (
+            <Badge key={idx} variant="outline" className="text-xs">
+              {feature}
+            </Badge>
+          ))}
         </div>
       </CardContent>
 

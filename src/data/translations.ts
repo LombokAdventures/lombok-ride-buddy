@@ -31,6 +31,9 @@ export interface Translations {
     tours: string;
     villas: string;
     contact: string;
+    reviews: string;
+    faq: string;
+    terms: string;
   };
   fleet: {
     title: string;
@@ -130,6 +133,35 @@ export interface Translations {
     maintenanceSchedule: string;
     descriptionLabel: string;
   };
+  waitlist: {
+    title: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    whatsappLabel: string;
+    whatsappPlaceholder: string;
+    telegramLabel: string;
+    telegramPlaceholder: string;
+    emailLabel: string;
+    emailPlaceholder: string;
+    preferredContactLabel: string;
+    preferredContactPlaceholder: string;
+    messageLabel: string;
+    messagePlaceholder: string;
+    cancelButton: string;
+    joinButton: string;
+    contactRequired: string;
+    contactRequiredDesc: string;
+    successTitle: string;
+    successDesc: string;
+    errorTitle: string;
+    errorDesc: string;
+  };
+  floating: {
+    whatsappTooltip: string;
+    telegramTooltip: string;
+    backToHomeTooltip: string;
+    whatsappMessage: string;
+  };
   termsContent: {
     backToHome: string;
     contactWhatsApp: string;
@@ -163,10 +195,13 @@ export const translations: Record<Language, Translations> = {
     },
     nav: {
       fleet: 'Our Fleet',
-      about: 'Why Choose Us',
+      about: 'Why Us',
       tours: 'Tours',
       villas: 'Villas',
-      contact: 'Contact'
+      contact: 'Contact',
+      reviews: 'Reviews',
+      faq: 'FAQ',
+      terms: 'Terms & Conditions'
     },
     fleet: {
       title: 'Our Premium Fleet',
@@ -354,6 +389,35 @@ export const translations: Record<Language, Translations> = {
       maintenanceSchedule: 'Maintenance Schedule',
       descriptionLabel: 'Description'
     },
+    waitlist: {
+      title: 'Get Notified When Available',
+      nameLabel: 'Your Name *',
+      namePlaceholder: 'Enter your name',
+      whatsappLabel: 'WhatsApp Number',
+      whatsappPlaceholder: '+62 812 3456 7890',
+      telegramLabel: 'Telegram Username',
+      telegramPlaceholder: '@username',
+      emailLabel: 'Email Address',
+      emailPlaceholder: 'your@email.com',
+      preferredContactLabel: 'Preferred Contact Method',
+      preferredContactPlaceholder: 'Select preferred method',
+      messageLabel: 'Additional Message (Optional)',
+      messagePlaceholder: 'Any specific requirements or questions...',
+      cancelButton: 'Cancel',
+      joinButton: 'Join Waitlist',
+      contactRequired: 'Contact Required',
+      contactRequiredDesc: 'Please provide at least one contact method (WhatsApp, Telegram, or Email)',
+      successTitle: 'Successfully Added to Waitlist!',
+      successDesc: 'We\'ll contact you as soon as this becomes available.',
+      errorTitle: 'Error',
+      errorDesc: 'Failed to submit. Please try again.'
+    },
+    floating: {
+      whatsappTooltip: 'Contact us on WhatsApp',
+      telegramTooltip: 'Contact us on Telegram',
+      backToHomeTooltip: 'Back to Home',
+      whatsappMessage: 'Hi! I\'m interested in renting a scooter'
+    },
     termsContent: {
       backToHome: 'Back to Home',
       contactWhatsApp: 'Contact via WhatsApp',
@@ -417,7 +481,10 @@ export const translations: Record<Language, Translations> = {
       about: 'Почему мы',
       tours: 'Туры',
       villas: 'Виллы',
-      contact: 'Контакты'
+      contact: 'Контакты',
+      reviews: 'Отзывы',
+      faq: 'FAQ',
+      terms: 'Условия использования'
     },
     fleet: {
       title: 'Наш премиум флот',
@@ -605,6 +672,35 @@ export const translations: Record<Language, Translations> = {
       maintenanceSchedule: 'График техническогообслуживания',
       descriptionLabel: 'Описание'
     },
+    waitlist: {
+      title: 'Получите уведомление, когда доступно',
+      nameLabel: 'Ваше имя *',
+      namePlaceholder: 'Введите ваше имя',
+      whatsappLabel: 'Номер WhatsApp',
+      whatsappPlaceholder: '+62 812 3456 7890',
+      telegramLabel: 'Имя пользователя Telegram',
+      telegramPlaceholder: '@username',
+      emailLabel: 'Адрес электронной почты',
+      emailPlaceholder: 'your@email.com',
+      preferredContactLabel: 'Предпочтительный способ связи',
+      preferredContactPlaceholder: 'Выберите предпочтительный способ',
+      messageLabel: 'Дополнительное сообщение (необязательно)',
+      messagePlaceholder: 'Любые конкретные требования или вопросы...',
+      cancelButton: 'Отмена',
+      joinButton: 'Присоединиться к списку ожидания',
+      contactRequired: 'Требуется контакт',
+      contactRequiredDesc: 'Пожалуйста, укажите хотя бы один способ связи (WhatsApp, Telegram или Email)',
+      successTitle: 'Успешно добавлено в список ожидания!',
+      successDesc: 'Мы свяжемся с вами, как только это станет доступно.',
+      errorTitle: 'Ошибка',
+      errorDesc: 'Ошибка отправки. Пожалуйста, попробуйте еще раз.'
+    },
+    floating: {
+      whatsappTooltip: 'Свяжитесь с нами в WhatsApp',
+      telegramTooltip: 'Свяжитесь с нами в Telegram',
+      backToHomeTooltip: 'Вернуться на главную',
+      whatsappMessage: 'Привет! Я заинтересован в аренде скутера'
+    },
     termsContent: {
       backToHome: 'На главную',
       contactWhatsApp: 'Связаться через WhatsApp',
@@ -668,7 +764,10 @@ export const translations: Record<Language, Translations> = {
       about: 'Mengapa Kami',
       tours: 'Tur',
       villas: 'Vila',
-      contact: 'Kontak'
+      contact: 'Kontak',
+      reviews: 'Ulasan',
+      faq: 'FAQ',
+      terms: 'Syarat & Ketentuan'
     },
     fleet: {
       title: 'Armada Premium Kami',
@@ -856,6 +955,35 @@ export const translations: Record<Language, Translations> = {
       maintenanceSchedule: 'Jadwal Pemeliharaan',
       descriptionLabel: 'Deskripsi'
     },
+    waitlist: {
+      title: 'Dapatkan Pemberitahuan Saat Tersedia',
+      nameLabel: 'Nama Anda *',
+      namePlaceholder: 'Masukkan nama Anda',
+      whatsappLabel: 'Nomor WhatsApp',
+      whatsappPlaceholder: '+62 812 3456 7890',
+      telegramLabel: 'Nama Pengguna Telegram',
+      telegramPlaceholder: '@username',
+      emailLabel: 'Alamat Email',
+      emailPlaceholder: 'your@email.com',
+      preferredContactLabel: 'Metode Kontak Pilihan',
+      preferredContactPlaceholder: 'Pilih metode yang disukai',
+      messageLabel: 'Pesan Tambahan (Opsional)',
+      messagePlaceholder: 'Persyaratan atau pertanyaan khusus...',
+      cancelButton: 'Batal',
+      joinButton: 'Bergabung dengan Waitlist',
+      contactRequired: 'Kontak Diperlukan',
+      contactRequiredDesc: 'Silakan berikan setidaknya satu metode kontak (WhatsApp, Telegram, atau Email)',
+      successTitle: 'Berhasil Ditambahkan ke Waitlist!',
+      successDesc: 'Kami akan menghubungi Anda segera setelah ini tersedia.',
+      errorTitle: 'Kesalahan',
+      errorDesc: 'Gagal mengirim. Silakan coba lagi.'
+    },
+    floating: {
+      whatsappTooltip: 'Hubungi kami di WhatsApp',
+      telegramTooltip: 'Hubungi kami di Telegram',
+      backToHomeTooltip: 'Kembali ke Beranda',
+      whatsappMessage: 'Halo! Saya tertarik menyewa skuter'
+    },
     termsContent: {
       backToHome: 'Kembali ke Beranda',
       contactWhatsApp: 'Hubungi via WhatsApp',
@@ -919,7 +1047,10 @@ export const translations: Record<Language, Translations> = {
       about: 'Warum Wir',
       tours: 'Touren',
       villas: 'Villen',
-      contact: 'Kontakt'
+      contact: 'Kontakt',
+      reviews: 'Bewertungen',
+      faq: 'FAQ',
+      terms: 'AGB'
     },
     fleet: {
       title: 'Unsere Premium-Flotte',
@@ -1107,6 +1238,35 @@ export const translations: Record<Language, Translations> = {
       maintenanceSchedule: 'Wartungsplan',
       descriptionLabel: 'Beschreibung'
     },
+    waitlist: {
+      title: 'Benachrichtigung Wenn Verfügbar',
+      nameLabel: 'Ihr Name *',
+      namePlaceholder: 'Geben Sie Ihren Namen ein',
+      whatsappLabel: 'WhatsApp Nummer',
+      whatsappPlaceholder: '+62 812 3456 7890',
+      telegramLabel: 'Telegram Benutzername',
+      telegramPlaceholder: '@username',
+      emailLabel: 'E-Mail-Adresse',
+      emailPlaceholder: 'your@email.com',
+      preferredContactLabel: 'Bevorzugte Kontaktmethode',
+      preferredContactPlaceholder: 'Wählen Sie die bevorzugte Methode',
+      messageLabel: 'Zusätzliche Nachricht (Optional)',
+      messagePlaceholder: 'Spezifische Anforderungen oder Fragen...',
+      cancelButton: 'Abbrechen',
+      joinButton: 'Zur Warteliste hinzufügen',
+      contactRequired: 'Kontakt Erforderlich',
+      contactRequiredDesc: 'Bitte geben Sie mindestens eine Kontaktmethode an (WhatsApp, Telegram oder E-Mail)',
+      successTitle: 'Erfolgreich zur Warteliste hinzugefügt!',
+      successDesc: 'Wir kontaktieren Sie, sobald dies verfügbar ist.',
+      errorTitle: 'Fehler',
+      errorDesc: 'Fehler beim Absenden. Bitte versuchen Sie es erneut.'
+    },
+    floating: {
+      whatsappTooltip: 'Kontaktieren Sie uns auf WhatsApp',
+      telegramTooltip: 'Kontaktieren Sie uns auf Telegram',
+      backToHomeTooltip: 'Zurück zur Startseite',
+      whatsappMessage: 'Hallo! Ich interessiere mich für die Anmietung eines Rollers'
+    },
     termsContent: {
       backToHome: 'Zurück zur Startseite',
       contactWhatsApp: 'Kontakt via WhatsApp',
@@ -1170,7 +1330,10 @@ export const translations: Record<Language, Translations> = {
       about: 'Nega Biz',
       tours: 'Sayohatlar',
       villas: 'Villalar',
-      contact: 'Aloqa'
+      contact: 'Aloqa',
+      reviews: 'Sharhlar',
+      faq: 'FAQ',
+      terms: 'Shartlar'
     },
     fleet: {
       title: 'Bizning Premium Flotimiz',
@@ -1358,6 +1521,35 @@ export const translations: Record<Language, Translations> = {
       maintenanceSchedule: 'Texnik Xizmat Jadavali',
       descriptionLabel: 'Tavsif'
     },
+    waitlist: {
+      title: 'Mavjud Bo\'lganda Ogohlantirish Oling',
+      nameLabel: 'Sizning Ismingiz *',
+      namePlaceholder: 'Ismingizni kiriting',
+      whatsappLabel: 'WhatsApp Raqami',
+      whatsappPlaceholder: '+62 812 3456 7890',
+      telegramLabel: 'Telegram Foydalanuvchi Nomi',
+      telegramPlaceholder: '@username',
+      emailLabel: 'Email Manzili',
+      emailPlaceholder: 'your@email.com',
+      preferredContactLabel: 'Afzal Aloqa Usuli',
+      preferredContactPlaceholder: 'Afzal ushulni tanlang',
+      messageLabel: 'Qo\'shimcha Xabar (Ixtiyoriy)',
+      messagePlaceholder: 'Biron maxsus talablar yoki savolllar...',
+      cancelButton: 'Bekor Qilish',
+      joinButton: 'Kutish Ro\'yxatiga Qo\'shilish',
+      contactRequired: 'Aloqa Majburiy',
+      contactRequiredDesc: 'Iltimos, kamida bitta aloqa usuli bering (WhatsApp, Telegram yoki Email)',
+      successTitle: 'Kutish Ro\'yxatiga Muvaffaqiyatli Qo\'shildi!',
+      successDesc: 'Ushbu mavjud bo\'lganda biz sizga bog\'lanamiz.',
+      errorTitle: 'Xato',
+      errorDesc: 'Yuborish muvaffaq bo\'lmadi. Iltimos, yana urinib ko\'ring.'
+    },
+    floating: {
+      whatsappTooltip: 'WhatsApp orqali bog\'laning',
+      telegramTooltip: 'Telegram orqali bog\'laning',
+      backToHomeTooltip: 'Bosh sahifaga qaytish',
+      whatsappMessage: 'Salom! Men skuter ijarasi bilan qiziqaman'
+    },
     termsContent: {
       backToHome: 'Bosh Sahifaga Qaytish',
       contactWhatsApp: 'WhatsApp orqali bog\'lanish',
@@ -1421,7 +1613,10 @@ export const translations: Record<Language, Translations> = {
       about: 'لماذا نحن',
       tours: 'الجولات',
       villas: 'الفلل',
-      contact: 'اتصل بنا'
+      contact: 'اتصل بنا',
+      reviews: 'التعليقات',
+      faq: 'الأسئلة الشائعة',
+      terms: 'الشروط والأحكام'
     },
     fleet: {
       title: 'أسطولنا الفاخر',
@@ -1589,7 +1784,54 @@ export const translations: Record<Language, Translations> = {
       currentlyUnavailable: 'غير متوفر حالياً',
       dayTab: 'يوم',
       weekTab: 'أسبوع',
-      monthTab: 'شهر'
+      monthTab: 'شهر',
+      description: 'الوصف',
+      model: 'الموديل',
+      kilometers: 'الكيلومترات المقطوعة',
+      available: 'متاح',
+      unavailable: 'غير متاح',
+      bookNow: 'احجز الآن',
+      notifyWhenAvailable: 'إخطاري عند التوفر',
+      overviewTab: 'نظرة عامة',
+      specificationsTab: 'المواصفات',
+      maintenanceTab: 'الصيانة',
+      purchaseDate: 'تاريخ الشراء',
+      lastMaintenance: 'آخر صيانة',
+      nextMaintenanceDue: 'الصيانة التالية المستحقة',
+      maintenanceInfoNotAvailable: 'معلومات الصيانة غير متوفرة',
+      bikeCondition: 'حالة الدراجة',
+      totalKilometers: 'إجمالي الكيلومترات',
+      maintenanceSchedule: 'جدول الصيانة',
+      descriptionLabel: 'الوصف'
+    },
+    waitlist: {
+      title: 'احصل على إشعار عند التوفر',
+      nameLabel: 'اسمك *',
+      namePlaceholder: 'أدخل اسمك',
+      whatsappLabel: 'رقم واتساب',
+      whatsappPlaceholder: '+62 812 3456 7890',
+      telegramLabel: 'اسم مستخدم تيليجرام',
+      telegramPlaceholder: '@username',
+      emailLabel: 'عنوان البريد الإلكتروني',
+      emailPlaceholder: 'your@email.com',
+      preferredContactLabel: 'طريقة الاتصال المفضلة',
+      preferredContactPlaceholder: 'اختر الطريقة المفضلة',
+      messageLabel: 'رسالة إضافية (اختياري)',
+      messagePlaceholder: 'أي متطلبات أو أسئلة محددة...',
+      cancelButton: 'إلغاء',
+      joinButton: 'الانضمام إلى قائمة الانتظار',
+      contactRequired: 'مطلوب الاتصال',
+      contactRequiredDesc: 'يرجى تقديم طريقة اتصال واحدة على الأقل (واتساب أو تيليجرام أو بريد إلكتروني)',
+      successTitle: 'تمت إضافتك إلى قائمة الانتظار بنجاح!',
+      successDesc: 'سنتصل بك بمجرد توفر هذا.',
+      errorTitle: 'خطأ',
+      errorDesc: 'فشل الإرسال. يرجى المحاولة مرة أخرى.'
+    },
+    floating: {
+      whatsappTooltip: 'تواصل معنا عبر WhatsApp',
+      telegramTooltip: 'تواصل معنا عبر Telegram',
+      backToHomeTooltip: 'العودة للصفحة الرئيسية',
+      whatsappMessage: 'مرحبًا! أنا مهتم بتأجير دراجة'
     },
     termsContent: {
       backToHome: 'العودة للصفحة الرئيسية',

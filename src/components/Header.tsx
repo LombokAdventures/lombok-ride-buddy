@@ -33,8 +33,8 @@ export const Header = () => {
     { label: t.nav.fleet, href: '#fleet' },
     { label: t.nav.about, href: '#benefits' },
     { label: t.nav.tours, href: '#coming-soon' },
-    { label: 'Reviews', href: '#reviews' },
-    { label: 'FAQ', href: '#faq' },
+    { label: t.nav.reviews, href: '#reviews' },
+    { label: t.nav.faq, href: '#faq' },
     { label: t.nav.contact, href: '#footer' },
   ];
 
