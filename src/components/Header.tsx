@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { Menu, X, Compass, Sun, Moon, Leaf, Waves } from 'lucide-react';
+import { Menu, X, Sparkles, Sun, Moon, Leaf, Waves } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -58,7 +58,7 @@ export const Header = () => {
           {/* Logo */}
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/30 flex items-center justify-center group hover:border-primary/50 transition-colors duration-300">
-              <Compass className="h-6 w-6 text-primary group-hover:rotate-45 transition-transform duration-300" />
+              <Sparkles className="h-6 w-6 text-primary group-hover:scale-110 transition-transform duration-300" />
             </div>
             <div className="flex flex-col hidden sm:flex">
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
