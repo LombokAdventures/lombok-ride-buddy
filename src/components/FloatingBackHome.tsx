@@ -1,10 +1,12 @@
 import { Home, ArrowUp } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
 export const FloatingBackHome = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage();
 
   // Only show on non-home pages, but hide on Terms page (has its own back button)
   if (location.pathname === '/' || location.pathname === '/terms') return null;
@@ -31,7 +33,7 @@ export const FloatingBackHome = () => {
               </button>
             </TooltipTrigger>
             <TooltipContent side="right">
-              <p>Back to Home</p>
+              <p>{t.floating.backToHomeTooltip}</p>
             </TooltipContent>
           </Tooltip>
         </div>

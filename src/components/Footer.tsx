@@ -23,11 +23,11 @@ export const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">{t.footer.quickLinks}</h4>
             <ul className="space-y-2 text-footer-foreground/80">
-              <li><a href="#fleet" className="hover:text-footer-foreground transition-colors">Our Fleet</a></li>
-              <li><a href="#benefits" className="hover:text-footer-foreground transition-colors">Why Us</a></li>
-              <li><a href="#reviews" className="hover:text-footer-foreground transition-colors">Reviews</a></li>
-              <li><a href="#faq" className="hover:text-footer-foreground transition-colors">FAQ</a></li>
-              <li><Link to="/terms" className="hover:text-footer-foreground transition-colors">Terms & Conditions</Link></li>
+              <li><a href="#fleet" className="hover:text-footer-foreground transition-colors">{t.nav.fleet}</a></li>
+              <li><a href="#benefits" className="hover:text-footer-foreground transition-colors">{t.nav.about}</a></li>
+              <li><a href="#reviews" className="hover:text-footer-foreground transition-colors">{t.nav.reviews}</a></li>
+              <li><a href="#faq" className="hover:text-footer-foreground transition-colors">{t.nav.faq}</a></li>
+              <li><Link to="/terms" className="hover:text-footer-foreground transition-colors">{t.nav.terms}</Link></li>
             </ul>
           </div>
 

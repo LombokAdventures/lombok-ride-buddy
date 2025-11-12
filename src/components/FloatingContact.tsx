@@ -1,9 +1,11 @@
 import { MessageCircle, Send } from 'lucide-react';
 import { contactConfig } from '@/data/bikes';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
 export const FloatingContact = () => {
-  const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=Hi! I'm interested in renting a scooter`;
+  const { t } = useLanguage();
+  const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(t.floating.whatsappMessage)}`;
   const telegramUrl = `https://t.me/${contactConfig.telegramUsername}`;
 
   return (
@@ -23,7 +25,7 @@ export const FloatingContact = () => {
               </a>
             </TooltipTrigger>
             <TooltipContent side="left">
-              <p>Contact us on WhatsApp</p>
+              <p>{t.floating.whatsappTooltip}</p>
             </TooltipContent>
           </Tooltip>
 
@@ -39,7 +41,7 @@ export const FloatingContact = () => {
               </a>
             </TooltipTrigger>
             <TooltipContent side="left">
-              <p>Contact us on Telegram</p>
+              <p>{t.floating.telegramTooltip}</p>
             </TooltipContent>
           </Tooltip>
         </div>
