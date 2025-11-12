@@ -194,7 +194,7 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
           </div>
         </div>
 
-        <div className="mb-4 h-16 overflow-hidden">
+        <div className="mb-4 h-10 overflow-hidden">
           <div className="flex flex-wrap gap-2">
             {getTranslatedFeatures().map((feature, idx) => (
               <Badge key={idx} variant="outline" className="text-xs">
