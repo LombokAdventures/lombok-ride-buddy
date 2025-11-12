@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { ChevronLeft, ChevronRight, Calendar, Gauge, Wrench, Bell } from "lucide-react";
 import { WaitlistModal } from "./WaitlistModal";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { getTranslatedDescription, getTranslatedFeatures } from "@/utils/translationHelpers";
 
 interface BikeImage {
   id: string;
@@ -25,7 +26,7 @@ export const BikeDetailDialog = ({ bike, open, onOpenChange }: BikeDetailDialogP
   const [images, setImages] = useState<BikeImage[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [waitlistOpen, setWaitlistOpen] = useState(false);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     if (bike && open) {
@@ -169,10 +170,10 @@ export const BikeDetailDialog = ({ bike, open, onOpenChange }: BikeDetailDialogP
             </TabsList>
 
             <TabsContent value="overview" className="space-y-4">
-              {bike.description ? (
+              {getTranslatedDescription(bike, language) ? (
                 <div>
                   <h3 className="font-semibold mb-2">{t.bikeModal.description}</h3>
-                  <p className="text-muted-foreground">{bike.description}</p>
+                  <p className="text-muted-foreground">{getTranslatedDescription(bike, language)}</p>
                 </div>
               ) : (
                 <p className="text-muted-foreground">
@@ -180,11 +181,11 @@ export const BikeDetailDialog = ({ bike, open, onOpenChange }: BikeDetailDialogP
                 </p>
               )}
 
-              {bike.features && bike.features.length > 0 && (
+              {getTranslatedFeatures(bike, language).length > 0 && (
                 <div>
                   <h3 className="font-semibold mb-2">{t.bikeModal.features}</h3>
                   <div className="flex flex-wrap gap-2">
-                    {bike.features.map((feature: string, index: number) => (
+                    {getTranslatedFeatures(bike, language).map((feature: string, index: number) => (
                       <Badge key={index} variant="secondary">
                         {feature}
                       </Badge>
