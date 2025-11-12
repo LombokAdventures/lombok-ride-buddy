@@ -253,7 +253,9 @@ export const sqlToMethods = {
  */
 function parseSetClause(setClause: string): Record<string, any> {
   const result: Record<string, any> = {};
-  const pairs = setClause.split(",");
+
+  // Split by comma but respect quoted strings (including JSON arrays)
+  const pairs = smartSplit(setClause, ",");
 
   for (const pair of pairs) {
     const [key, ...valueParts] = pair.split("=");
@@ -263,6 +265,51 @@ function parseSetClause(setClause: string): Record<string, any> {
     if (keyTrimmed && valueTrimmed) {
       result[keyTrimmed] = cleanValue(valueTrimmed);
     }
+  }
+
+  return result;
+}
+
+/**
+ * Smart split that respects quoted strings and JSON structures
+ */
+function smartSplit(str: string, delimiter: string): string[] {
+  const result: string[] = [];
+  let current = "";
+  let inQuotes = false;
+  let quoteChar = "";
+  let bracketDepth = 0;
+
+  for (let i = 0; i < str.length; i++) {
+    const char = str[i];
+
+    // Track quote state
+    if ((char === "'" || char === '"') && (i === 0 || str[i - 1] !== "\\")) {
+      if (!inQuotes) {
+        inQuotes = true;
+        quoteChar = char;
+      } else if (char === quoteChar) {
+        inQuotes = false;
+      }
+    }
+
+    // Track bracket depth for JSON arrays/objects
+    if (!inQuotes && char === "[") bracketDepth++;
+    if (!inQuotes && char === "]") bracketDepth--;
+
+    // Check for delimiter
+    if (!inQuotes && bracketDepth === 0 && char === delimiter) {
+      if (current.trim()) {
+        result.push(current.trim());
+      }
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+
+  if (current.trim()) {
+    result.push(current.trim());
   }
 
   return result;
@@ -300,7 +347,7 @@ function parseWhereClause(whereClause: string): Record<string, any> {
  */
 function parseValues(valuesString: string): any[] {
   const values: any[] = [];
-  const parts = valuesString.split(",");
+  const parts = smartSplit(valuesString, ",");
 
   for (const part of parts) {
     values.push(cleanValue(part.trim()));
