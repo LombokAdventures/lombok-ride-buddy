@@ -69,7 +69,7 @@ async function applyMigration() {
   } catch (error) {
     console.error('❌ Error:', error.message);
     console.log('\n📋 You need to apply the migration manually.');
-    console.log('See APPLY_MIGRATION_NOW.md for instructions.');
+    console.log('See docs/APPLY_MIGRATION_NOW.md for instructions.');
     process.exit(1);
   }
 }

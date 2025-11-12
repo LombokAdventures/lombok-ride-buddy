@@ -125,6 +125,10 @@ export interface Translations {
     lastMaintenance: string;
     nextMaintenanceDue: string;
     maintenanceInfoNotAvailable: string;
+    bikeCondition: string;
+    totalKilometers: string;
+    maintenanceSchedule: string;
+    descriptionLabel: string;
   };
   termsContent: {
     backToHome: string;
@@ -344,7 +348,11 @@ export const translations: Record<Language, Translations> = {
       purchaseDate: 'Purchase Date',
       lastMaintenance: 'Last Maintenance',
       nextMaintenanceDue: 'Next Maintenance Due',
-      maintenanceInfoNotAvailable: 'Maintenance information not available'
+      maintenanceInfoNotAvailable: 'Maintenance information not available',
+      bikeCondition: 'Bike Condition',
+      totalKilometers: 'Total Kilometers',
+      maintenanceSchedule: 'Maintenance Schedule',
+      descriptionLabel: 'Description'
     },
     termsContent: {
       backToHome: 'Back to Home',
@@ -591,7 +599,11 @@ export const translations: Record<Language, Translations> = {
       purchaseDate: 'Дата покупки',
       lastMaintenance: 'Последнее техническое обслуживание',
       nextMaintenanceDue: 'Следующее техническое обслуживание',
-      maintenanceInfoNotAvailable: 'Информация о техническом обслуживании недоступна'
+      maintenanceInfoNotAvailable: 'Информация о техническом обслуживании недоступна',
+      bikeCondition: 'Состояние мотоцикла',
+      totalKilometers: 'Общий пробег',
+      maintenanceSchedule: 'График техническогообслуживания',
+      descriptionLabel: 'Описание'
     },
     termsContent: {
       backToHome: 'На главную',
@@ -838,7 +850,11 @@ export const translations: Record<Language, Translations> = {
       purchaseDate: 'Tanggal Pembelian',
       lastMaintenance: 'Pemeliharaan Terakhir',
       nextMaintenanceDue: 'Pemeliharaan Berikutnya',
-      maintenanceInfoNotAvailable: 'Informasi pemeliharaan tidak tersedia'
+      maintenanceInfoNotAvailable: 'Informasi pemeliharaan tidak tersedia',
+      bikeCondition: 'Kondisi Motor',
+      totalKilometers: 'Total Kilometer',
+      maintenanceSchedule: 'Jadwal Pemeliharaan',
+      descriptionLabel: 'Deskripsi'
     },
     termsContent: {
       backToHome: 'Kembali ke Beranda',
@@ -1085,7 +1101,11 @@ export const translations: Record<Language, Translations> = {
       purchaseDate: 'Kaufdatum',
       lastMaintenance: 'Letzte Wartung',
       nextMaintenanceDue: 'Nächste Wartung Fällig',
-      maintenanceInfoNotAvailable: 'Wartungsinformationen nicht verfügbar'
+      maintenanceInfoNotAvailable: 'Wartungsinformationen nicht verfügbar',
+      bikeCondition: 'Motorradbedingung',
+      totalKilometers: 'Gesamtkilometer',
+      maintenanceSchedule: 'Wartungsplan',
+      descriptionLabel: 'Beschreibung'
     },
     termsContent: {
       backToHome: 'Zurück zur Startseite',
@@ -1332,7 +1352,11 @@ export const translations: Record<Language, Translations> = {
       purchaseDate: 'Sotib Olish Sanasi',
       lastMaintenance: 'Oxirgi Texnik Xizmat',
       nextMaintenanceDue: 'Keyingi Texnik Xizmat',
-      maintenanceInfoNotAvailable: 'Texnik xizmat maʼlumotlari mavjud emas'
+      maintenanceInfoNotAvailable: 'Texnik xizmat maʼlumotlari mavjud emas',
+      bikeCondition: 'Motosikl Holati',
+      totalKilometers: 'Jami Kilometr',
+      maintenanceSchedule: 'Texnik Xizmat Jadavali',
+      descriptionLabel: 'Tavsif'
     },
     termsContent: {
       backToHome: 'Bosh Sahifaga Qaytish',
