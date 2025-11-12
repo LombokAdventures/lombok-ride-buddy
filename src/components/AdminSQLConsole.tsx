@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Play } from "lucide-react";
+import { Play, Copy } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { sqlToMethods } from "@/utils/sqlExecutor";
 
@@ -13,6 +14,16 @@ export const AdminSQLConsole = () => {
     success: number;
     errors: Array<{ statement: string; error: string }>;
   } | null>(null);
+
+  // Copy error message to clipboard
+  const copyError = (statement: string, error: string) => {
+    const text = `${statement}\n${error}`;
+    navigator.clipboard.writeText(text);
+    toast({
+      title: "Copied! ✓",
+      description: "Error message copied to clipboard",
+    });
+  };
 
   // Execute SQL by converting to Supabase methods
   const executeSQL = async (sql: string) => {
@@ -86,9 +97,20 @@ export const AdminSQLConsole = () => {
                 </p>
                 <div className="space-y-2">
                   {results.errors.map((err, idx) => (
-                    <div key={idx} className="text-sm text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900/20 p-2 rounded">
-                      <strong>{err.statement}</strong>
-                      <p>{err.error}</p>
+                    <div key={idx} className="text-sm text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900/20 p-3 rounded flex items-start justify-between gap-2">
+                      <div className="flex-1">
+                        <strong>{err.statement}</strong>
+                        <p className="mt-1">{err.error}</p>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => copyError(err.statement, err.error)}
+                        className="flex-shrink-0 h-8 w-8 p-0"
+                        title="Copy error"
+                      >
+                        <Copy className="h-4 w-4" />
+                      </Button>
                     </div>
                   ))}
                 </div>
