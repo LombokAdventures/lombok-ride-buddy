@@ -3,10 +3,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
-import { Copy, AlertCircle, ExternalLink } from "lucide-react";
+import { Copy, AlertCircle, ExternalLink, Play } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { sqlToMethods } from "@/utils/sqlExecutor";
 
 export const AdminSQLConsole = () => {
   const [selectedQuery, setSelectedQuery] = useState<string | null>(null);
+  const [customSQL, setCustomSQL] = useState("");
+  const [isExecuting, setIsExecuting] = useState(false);
 
   const sqlScripts = {
     updateBikes: {
@@ -62,6 +66,57 @@ ORDER BY next_maintenance_due ASC;`,
       title: "Copied! ✓",
       description: "SQL query copied to clipboard",
     });
+  };
+
+  // Execute SQL by converting to Supabase methods
+  const executeSQL = async (sql: string) => {
+    if (!sql.trim()) {
+      toast({
+        title: "Error",
+        description: "Please paste SQL statements",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsExecuting(true);
+    try {
+      const result = await sqlToMethods.execute(supabase, sql);
+
+      if (result.success > 0) {
+        toast({
+          title: "Success! ✓",
+          description: `Executed ${result.success} operation${result.success !== 1 ? "s" : ""} successfully`,
+        });
+      }
+
+      if (result.errors.length > 0) {
+        const errorMessages = result.errors
+          .map((e) => `${e.statement}: ${e.error}`)
+          .slice(0, 3);
+        toast({
+          title: `${result.errors.length} Error${result.errors.length !== 1 ? "s" : ""}`,
+          description:
+            errorMessages.join("; ") +
+            (result.errors.length > 3 ? "..." : ""),
+          variant: "destructive",
+        });
+      }
+
+      if (result.success > 0 && result.errors.length === 0) {
+        setCustomSQL("");
+      }
+    } catch (error) {
+      const errorMsg =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      toast({
+        title: "Execution Error",
+        description: errorMsg,
+        variant: "destructive",
+      });
+    } finally {
+      setIsExecuting(false);
+    }
   };
 
   const openSupabaseEditor = () => {
@@ -205,6 +260,53 @@ ORDER BY next_maintenance_due ASC;`,
           <p className="text-xs text-muted-foreground">
             Find these files in your project root directory. Copy & paste them into Supabase SQL Editor.
           </p>
+        </CardContent>
+      </Card>
+
+      {/* Direct Execution */}
+      <Card className="border-purple-200 dark:border-purple-900 bg-purple-50 dark:bg-purple-950/30">
+        <CardHeader>
+          <CardTitle className="text-purple-900 dark:text-purple-100">
+            ⚡ Direct Execution
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <p className="text-sm text-purple-800 dark:text-purple-200">
+            Paste any SQL statements (SELECT, INSERT, UPDATE, DELETE) to execute them directly. The app converts SQL to Supabase methods.
+          </p>
+
+          <Textarea
+            placeholder="Paste SQL statements here...&#10;&#10;Examples:&#10;UPDATE bikes SET purchase_date = '2025-10-15', description = '...' WHERE name = 'Honda Beat';&#10;SELECT * FROM bikes;&#10;INSERT INTO bikes (name, daily_price) VALUES ('Test', 5);"
+            value={customSQL}
+            onChange={(e) => setCustomSQL(e.target.value)}
+            className="font-mono text-xs min-h-48"
+          />
+
+          <div className="flex gap-2">
+            <Button
+              onClick={() => executeSQL(customSQL)}
+              disabled={!customSQL.trim() || isExecuting}
+              className="flex-1 bg-purple-600 hover:bg-purple-700"
+            >
+              <Play className="h-4 w-4 mr-2" />
+              {isExecuting ? "Executing..." : "Execute SQL"}
+            </Button>
+
+            <Button
+              onClick={() => setCustomSQL("")}
+              variant="outline"
+              disabled={!customSQL.trim()}
+            >
+              Clear
+            </Button>
+          </div>
+
+          <div className="text-xs text-purple-700 dark:text-purple-300 space-y-1">
+            <p>✓ Supports SELECT, INSERT, UPDATE, DELETE</p>
+            <p>✓ Multiple SQL statements in one execution</p>
+            <p>✓ SQL automatically converted to Supabase methods</p>
+            <p>✓ No need to access Supabase dashboard</p>
+          </div>
         </CardContent>
       </Card>
 
