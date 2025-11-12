@@ -14,6 +14,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useTheme } from '@/contexts/ThemeContext';
 import { AdminWaitlist } from '@/components/AdminWaitlist';
 import { AdminHeroImages } from '@/components/AdminHeroImages';
+import { AdminSQLConsole } from '@/components/AdminSQLConsole';
 import type { User } from '@supabase/supabase-js';
 
 interface Bike {
@@ -842,6 +843,9 @@ const Admin = () => {
             </TabsTrigger>
             <TabsTrigger value="waitlist" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
               Waitlist ({waitlistRequests.filter(r => r.status === 'pending').length})
+            </TabsTrigger>
+            <TabsTrigger value="sql-console" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
+              SQL Console
             </TabsTrigger>
           </TabsList>
 
@@ -1682,6 +1686,11 @@ const Admin = () => {
           {/* Hero Images Tab */}
           <TabsContent value="hero-images" className="space-y-6">
             <AdminHeroImages />
+          </TabsContent>
+
+          {/* SQL Console Tab */}
+          <TabsContent value="sql-console" className="space-y-6">
+            <AdminSQLConsole />
           </TabsContent>
 
         </Tabs>
