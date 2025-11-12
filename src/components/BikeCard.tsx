@@ -146,7 +146,7 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
         </div>
       </div>
       
-      <CardContent className="p-6 flex flex-col h-full">
+      <CardContent className="p-6 flex flex-col">
         <div className="mb-4">
           <h3 className="text-2xl font-bold text-foreground mb-1">{bike.name}</h3>
           <p className="text-sm text-muted-foreground">{bike.model}</p>
