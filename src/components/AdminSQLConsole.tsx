@@ -5,25 +5,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { Copy, AlertCircle, ExternalLink, Play } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { sqlToMethods } from "@/utils/sqlExecutor";
 
 export const AdminSQLConsole = () => {
   const [selectedQuery, setSelectedQuery] = useState<string | null>(null);
   const [customSQL, setCustomSQL] = useState("");
   const [isExecuting, setIsExecuting] = useState(false);
-
-  // Fetch bikes to match by name
-  const fetchBikeByName = async (bikeName: string) => {
-    const { data, error } = await supabase
-      .from("bikes")
-      .select("id")
-      .ilike("name", bikeName)
-      .single();
-
-    if (error) {
-      return null;
-    }
-    return data?.id || null;
-  };
 
   const sqlScripts = {
     updateBikes: {
@@ -81,124 +68,47 @@ ORDER BY next_maintenance_due ASC;`,
     });
   };
 
-  // Parse SQL UPDATE statement to extract values
-  const parseUpdateStatement = (sql: string) => {
-    const updateRegex = /UPDATE\s+bikes\s+SET\s+([\s\S]*?)\s+WHERE\s+([\s\S]*?)(?=UPDATE|;|$)/gi;
-    const updates: Array<{ values: Record<string, any>; bikeName: string }> = [];
-
-    let match;
-    while ((match = updateRegex.exec(sql)) !== null) {
-      const setClause = match[1].trim();
-      const whereClause = match[2].trim();
-
-      // Extract bike name from WHERE clause
-      const nameMatch = whereClause.match(/name\s*=\s*'([^']+)'/i);
-      const bikeName = nameMatch ? nameMatch[1] : null;
-
-      if (!bikeName) {
-        continue;
-      }
-
-      // Parse SET clause into key-value pairs
-      const values: Record<string, any> = {};
-      const setPairs = setClause.split(",");
-
-      for (const pair of setPairs) {
-        const [key, ...valueParts] = pair.split("=");
-        const keyTrimmed = key.trim();
-        const valueTrimmed = valueParts.join("=").trim();
-
-        if (keyTrimmed && valueTrimmed) {
-          // Remove quotes from string values and unescape single quotes
-          let cleanValue: any = valueTrimmed.replace(/^'(.*)'$/s, "$1").replace(/''/g, "'");
-
-          // Try to parse as number
-          if (!isNaN(Number(cleanValue)) && cleanValue !== "") {
-            cleanValue = Number(cleanValue);
-          }
-
-          values[keyTrimmed] = cleanValue;
-        }
-      }
-
-      if (Object.keys(values).length > 0) {
-        updates.push({ values, bikeName });
-      }
+  // Execute SQL by converting to Supabase methods
+  const executeSQL = async (sql: string) => {
+    if (!sql.trim()) {
+      toast({
+        title: "Error",
+        description: "Please paste SQL statements",
+        variant: "destructive",
+      });
+      return;
     }
 
-    return updates;
-  };
-
-  // Execute the parsed updates using existing Supabase methods
-  const executeUpdates = async (sql: string) => {
     setIsExecuting(true);
     try {
-      const updates = parseUpdateStatement(sql);
+      const result = await sqlToMethods.execute(supabase, sql);
 
-      if (updates.length === 0) {
-        toast({
-          title: "Error",
-          description: "No valid UPDATE statements found. Make sure to include WHERE name = 'Bike Name'",
-          variant: "destructive",
-        });
-        setIsExecuting(false);
-        return;
-      }
-
-      let successCount = 0;
-      let errorCount = 0;
-      const errors: string[] = [];
-
-      for (const update of updates) {
-        try {
-          // Fetch bike ID by name (same pattern as Admin panel)
-          const bikeId = await fetchBikeByName(update.bikeName);
-
-          if (!bikeId) {
-            errors.push(`Bike not found: "${update.bikeName}"`);
-            errorCount++;
-            continue;
-          }
-
-          // Update each field using the standard supabase method (same as Admin.tsx uses)
-          for (const [field, value] of Object.entries(update.values)) {
-            const { error } = await supabase
-              .from("bikes")
-              .update({ [field]: value })
-              .eq("id", bikeId);
-
-            if (error) {
-              errors.push(`${update.bikeName} - ${field}: ${error.message}`);
-              errorCount++;
-            } else {
-              successCount++;
-            }
-          }
-        } catch (err) {
-          const errorMsg = err instanceof Error ? err.message : "Unknown error";
-          errors.push(`${update.bikeName}: ${errorMsg}`);
-          errorCount++;
-        }
-      }
-
-      if (successCount > 0) {
+      if (result.success > 0) {
         toast({
           title: "Success! ✓",
-          description: `Updated ${successCount} field${successCount !== 1 ? "s" : ""} successfully`,
+          description: `Executed ${result.success} operation${result.success !== 1 ? "s" : ""} successfully`,
         });
       }
 
-      if (errorCount > 0) {
+      if (result.errors.length > 0) {
+        const errorMessages = result.errors
+          .map((e) => `${e.statement}: ${e.error}`)
+          .slice(0, 3);
         toast({
-          title: `${errorCount} Error${errorCount !== 1 ? "s" : ""}`,
-          description: errors.slice(0, 3).join("; ") + (errors.length > 3 ? "..." : ""),
+          title: `${result.errors.length} Error${result.errors.length !== 1 ? "s" : ""}`,
+          description:
+            errorMessages.join("; ") +
+            (result.errors.length > 3 ? "..." : ""),
           variant: "destructive",
         });
       }
 
-      setCustomSQL("");
+      if (result.success > 0 && result.errors.length === 0) {
+        setCustomSQL("");
+      }
     } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : "Unknown error occurred";
+      const errorMsg =
+        error instanceof Error ? error.message : "Unknown error occurred";
       toast({
         title: "Execution Error",
         description: errorMsg,
@@ -362,11 +272,11 @@ ORDER BY next_maintenance_due ASC;`,
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-purple-800 dark:text-purple-200">
-            Paste your SQL UPDATE statements below to execute them directly without accessing Supabase.
+            Paste any SQL statements (SELECT, INSERT, UPDATE, DELETE) to execute them directly. The app converts SQL to Supabase methods.
           </p>
 
           <Textarea
-            placeholder="Paste UPDATE statements here...&#10;&#10;Example:&#10;UPDATE bikes SET purchase_date = '2025-10-15', description = '...' WHERE name = 'Honda Beat';"
+            placeholder="Paste SQL statements here...&#10;&#10;Examples:&#10;UPDATE bikes SET purchase_date = '2025-10-15', description = '...' WHERE name = 'Honda Beat';&#10;SELECT * FROM bikes;&#10;INSERT INTO bikes (name, daily_price) VALUES ('Test', 5);"
             value={customSQL}
             onChange={(e) => setCustomSQL(e.target.value)}
             className="font-mono text-xs min-h-48"
@@ -374,12 +284,12 @@ ORDER BY next_maintenance_due ASC;`,
 
           <div className="flex gap-2">
             <Button
-              onClick={() => executeUpdates(customSQL)}
+              onClick={() => executeSQL(customSQL)}
               disabled={!customSQL.trim() || isExecuting}
               className="flex-1 bg-purple-600 hover:bg-purple-700"
             >
               <Play className="h-4 w-4 mr-2" />
-              {isExecuting ? "Executing..." : "Execute Updates"}
+              {isExecuting ? "Executing..." : "Execute SQL"}
             </Button>
 
             <Button
@@ -392,9 +302,9 @@ ORDER BY next_maintenance_due ASC;`,
           </div>
 
           <div className="text-xs text-purple-700 dark:text-purple-300 space-y-1">
-            <p>✓ Paste complete UPDATE statements</p>
-            <p>✓ Include WHERE clause with bike name or ID</p>
-            <p>✓ Multiple UPDATE statements supported</p>
+            <p>✓ Supports SELECT, INSERT, UPDATE, DELETE</p>
+            <p>✓ Multiple SQL statements in one execution</p>
+            <p>✓ SQL automatically converted to Supabase methods</p>
             <p>✓ No need to access Supabase dashboard</p>
           </div>
         </CardContent>
