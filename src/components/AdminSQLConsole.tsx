@@ -3,10 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
-import { Copy, AlertCircle, ExternalLink } from "lucide-react";
+import { Copy, AlertCircle, ExternalLink, Play } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 export const AdminSQLConsole = () => {
   const [selectedQuery, setSelectedQuery] = useState<string | null>(null);
+  const [customSQL, setCustomSQL] = useState("");
+  const [isExecuting, setIsExecuting] = useState(false);
 
   const sqlScripts = {
     updateBikes: {
@@ -62,6 +65,145 @@ ORDER BY next_maintenance_due ASC;`,
       title: "Copied! ✓",
       description: "SQL query copied to clipboard",
     });
+  };
+
+  // Parse SQL UPDATE statements and convert to JSON format
+  const parseUpdateStatement = (sql: string) => {
+    const updateRegex = /UPDATE\s+bikes\s+SET\s+([\s\S]*?)\s+WHERE\s+([\s\S]*?)(?=UPDATE|$)/gi;
+    const updates: Array<{ table: string; values: Record<string, any>; condition: string }> = [];
+
+    let match;
+    while ((match = updateRegex.exec(sql)) !== null) {
+      const setClause = match[1].trim();
+      const whereClause = match[2].trim();
+
+      // Parse SET clause into key-value pairs
+      const values: Record<string, any> = {};
+      const setPairs = setClause.split(",").map(pair => pair.trim());
+
+      for (const pair of setPairs) {
+        const [key, value] = pair.split("=").map(p => p.trim());
+        if (key && value) {
+          // Remove quotes from string values
+          let cleanValue = value.replace(/^'(.*)'$/s, "$1").replace(/''/, "'");
+
+          // Handle numbers
+          if (!isNaN(Number(cleanValue)) && cleanValue !== "") {
+            cleanValue = Number(cleanValue);
+          }
+
+          values[key] = cleanValue;
+        }
+      }
+
+      updates.push({
+        table: "bikes",
+        values,
+        condition: whereClause
+      });
+    }
+
+    return updates;
+  };
+
+  // Extract bike identifier from WHERE clause
+  const extractBikeIdentifier = (whereClause: string): { field: string; value: string } | null => {
+    // Try to match name first
+    const nameMatch = whereClause.match(/name\s*=\s*'([^']+)'/i);
+    if (nameMatch) {
+      return { field: "name", value: nameMatch[1] };
+    }
+
+    // Try to match id
+    const idMatch = whereClause.match(/id\s*=\s*'([^']+)'/i);
+    if (idMatch) {
+      return { field: "id", value: idMatch[1] };
+    }
+
+    // Try to match OR conditions
+    const orNameMatch = whereClause.match(/name\s*=\s*'([^']+)'/);
+    if (orNameMatch) {
+      return { field: "name", value: orNameMatch[1] };
+    }
+
+    return null;
+  };
+
+  // Execute the parsed updates using Supabase
+  const executeUpdates = async (sql: string) => {
+    setIsExecuting(true);
+    try {
+      const updates = parseUpdateStatement(sql);
+
+      if (updates.length === 0) {
+        toast({
+          title: "Error",
+          description: "No valid UPDATE statements found",
+          variant: "destructive",
+        });
+        setIsExecuting(false);
+        return;
+      }
+
+      let successCount = 0;
+      let errorCount = 0;
+      const errors: string[] = [];
+
+      for (const update of updates) {
+        try {
+          const identifier = extractBikeIdentifier(update.condition);
+
+          if (!identifier) {
+            errors.push(`Could not identify bike in: ${update.condition}`);
+            errorCount++;
+            continue;
+          }
+
+          // Execute the update
+          const { error } = await supabase
+            .from(update.table)
+            .update(update.values)
+            .eq(identifier.field, identifier.value);
+
+          if (error) {
+            errors.push(`${identifier.value}: ${error.message}`);
+            errorCount++;
+          } else {
+            successCount++;
+          }
+        } catch (err) {
+          const errorMsg = err instanceof Error ? err.message : "Unknown error";
+          errors.push(errorMsg);
+          errorCount++;
+        }
+      }
+
+      if (successCount > 0) {
+        toast({
+          title: "Success! ✓",
+          description: `Updated ${successCount} bike${successCount !== 1 ? "s" : ""} successfully`,
+        });
+      }
+
+      if (errorCount > 0) {
+        toast({
+          title: `${errorCount} Error${errorCount !== 1 ? "s" : ""}`,
+          description: errors.join("; "),
+          variant: "destructive",
+        });
+      }
+
+      setCustomSQL("");
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : "Unknown error occurred";
+      toast({
+        title: "Execution Error",
+        description: errorMsg,
+        variant: "destructive",
+      });
+    } finally {
+      setIsExecuting(false);
+    }
   };
 
   const openSupabaseEditor = () => {
@@ -205,6 +347,53 @@ ORDER BY next_maintenance_due ASC;`,
           <p className="text-xs text-muted-foreground">
             Find these files in your project root directory. Copy & paste them into Supabase SQL Editor.
           </p>
+        </CardContent>
+      </Card>
+
+      {/* Direct Execution */}
+      <Card className="border-purple-200 dark:border-purple-900 bg-purple-50 dark:bg-purple-950/30">
+        <CardHeader>
+          <CardTitle className="text-purple-900 dark:text-purple-100">
+            ⚡ Direct Execution
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <p className="text-sm text-purple-800 dark:text-purple-200">
+            Paste your SQL UPDATE statements below to execute them directly without accessing Supabase.
+          </p>
+
+          <Textarea
+            placeholder="Paste UPDATE statements here...&#10;&#10;Example:&#10;UPDATE bikes SET purchase_date = '2025-10-15', description = '...' WHERE name = 'Honda Beat';"
+            value={customSQL}
+            onChange={(e) => setCustomSQL(e.target.value)}
+            className="font-mono text-xs min-h-48"
+          />
+
+          <div className="flex gap-2">
+            <Button
+              onClick={() => executeUpdates(customSQL)}
+              disabled={!customSQL.trim() || isExecuting}
+              className="flex-1 bg-purple-600 hover:bg-purple-700"
+            >
+              <Play className="h-4 w-4 mr-2" />
+              {isExecuting ? "Executing..." : "Execute Updates"}
+            </Button>
+
+            <Button
+              onClick={() => setCustomSQL("")}
+              variant="outline"
+              disabled={!customSQL.trim()}
+            >
+              Clear
+            </Button>
+          </div>
+
+          <div className="text-xs text-purple-700 dark:text-purple-300 space-y-1">
+            <p>✓ Paste complete UPDATE statements</p>
+            <p>✓ Include WHERE clause with bike name or ID</p>
+            <p>✓ Multiple UPDATE statements supported</p>
+            <p>✓ No need to access Supabase dashboard</p>
+          </div>
         </CardContent>
       </Card>
 
