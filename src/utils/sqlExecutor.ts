@@ -125,9 +125,11 @@ export const sqlToMethods = {
   ): Promise<{
     success: number;
     errors: Array<{ statement: string; error: string }>;
+    statements?: Array<{ type: string; table: string; count: number }>;
   }> {
     let success = 0;
     const errors: Array<{ statement: string; error: string }> = [];
+    const statements: Array<{ type: string; table: string; count: number }> = [];
 
     // Determine SQL type and parse accordingly
     const sqlUpper = sql.toUpperCase();
@@ -143,7 +145,7 @@ export const sqlToMethods = {
             query = query.eq(field, value);
           }
 
-          const { error } = await query;
+          const { data, error, count } = await query.select();
 
           if (error) {
             errors.push({
@@ -152,6 +154,7 @@ export const sqlToMethods = {
             });
           } else {
             success++;
+            statements.push({ type: "UPDATE", table: update.table, count: count || 0 });
           }
         } catch (err) {
           errors.push({
@@ -164,9 +167,10 @@ export const sqlToMethods = {
       const inserts = this.parseInsert(sql);
       for (const insert of inserts) {
         try {
-          const { error } = await supabase
+          const { data, error, count } = await supabase
             .from(insert.table)
-            .insert([insert.data!]);
+            .insert([insert.data!])
+            .select();
 
           if (error) {
             errors.push({
@@ -175,6 +179,7 @@ export const sqlToMethods = {
             });
           } else {
             success++;
+            statements.push({ type: "INSERT", table: insert.table, count: count || 1 });
           }
         } catch (err) {
           errors.push({
@@ -194,7 +199,7 @@ export const sqlToMethods = {
             query = query.eq(field, value);
           }
 
-          const { error } = await query;
+          const { error, count } = await query;
 
           if (error) {
             errors.push({
@@ -203,6 +208,7 @@ export const sqlToMethods = {
             });
           } else {
             success++;
+            statements.push({ type: "DELETE", table: del.table, count: count || 0 });
           }
         } catch (err) {
           errors.push({
@@ -224,7 +230,7 @@ export const sqlToMethods = {
             }
           }
 
-          const { error } = await query;
+          const { data, error, count } = await query;
 
           if (error) {
             errors.push({
@@ -233,6 +239,7 @@ export const sqlToMethods = {
             });
           } else {
             success++;
+            statements.push({ type: "SELECT", table: select.table, count: data?.length || 0 });
           }
         } catch (err) {
           errors.push({
@@ -243,7 +250,7 @@ export const sqlToMethods = {
       }
     }
 
-    return { success, errors };
+    return { success, errors, statements };
   },
 };
 

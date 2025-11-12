@@ -13,6 +13,7 @@ export const AdminSQLConsole = () => {
   const [results, setResults] = useState<{
     success: number;
     errors: Array<{ statement: string; error: string }>;
+    statements?: Array<{ type: string; table: string; count: number }>;
   } | null>(null);
 
   // Copy error message to clipboard
@@ -100,6 +101,16 @@ export const AdminSQLConsole = () => {
                 <p className="text-green-800 dark:text-green-200 font-semibold">
                   ✓ Success: {results.success} operation{results.success !== 1 ? "s" : ""} executed successfully
                 </p>
+                {results.statements && results.statements.length > 0 && (
+                  <div className="mt-3 space-y-2">
+                    {results.statements.map((stmt, idx) => (
+                      <div key={idx} className="text-sm text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900/20 p-2 rounded">
+                        <strong>{stmt.type}</strong> on table <strong>{stmt.table}</strong>
+                        {stmt.count > 0 && ` - ${stmt.count} row${stmt.count !== 1 ? "s" : ""} affected`}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 

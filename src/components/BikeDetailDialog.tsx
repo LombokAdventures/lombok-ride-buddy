@@ -72,7 +72,7 @@ export const BikeDetailDialog = ({ bike, open, onOpenChange }: BikeDetailDialogP
             <DialogTitle className="text-2xl flex items-center justify-between">
               <span>{bike.name}</span>
               <Badge variant={isAvailable ? "default" : "secondary"}>
-                {isAvailable ? "Available" : "Unavailable"}
+                {isAvailable ? t.bikeModal.available : t.bikeModal.unavailable}
               </Badge>
             </DialogTitle>
           </DialogHeader>
@@ -133,12 +133,12 @@ export const BikeDetailDialog = ({ bike, open, onOpenChange }: BikeDetailDialogP
           <div className="flex items-center gap-4 py-2">
             <div>
               <span className="text-3xl font-bold text-primary">${bike.daily_price}</span>
-              <span className="text-muted-foreground"> / day</span>
+              <span className="text-muted-foreground"> {t.bikeModal.perDay}</span>
             </div>
             {bike.weekly_price && (
               <div>
                 <span className="text-xl font-semibold">${bike.weekly_price}</span>
-                <span className="text-muted-foreground text-sm"> / week</span>
+                <span className="text-muted-foreground text-sm"> {t.bikeModal.perWeek}</span>
               </div>
             )}
           </div>
@@ -146,7 +146,7 @@ export const BikeDetailDialog = ({ bike, open, onOpenChange }: BikeDetailDialogP
           {/* Action Button */}
           {isAvailable ? (
             <Button size="lg" className="w-full">
-              Book Now
+              {t.bikeModal.bookNow}
             </Button>
           ) : (
             <Button
@@ -156,22 +156,22 @@ export const BikeDetailDialog = ({ bike, open, onOpenChange }: BikeDetailDialogP
               onClick={() => setWaitlistOpen(true)}
             >
               <Bell className="mr-2 h-5 w-5" />
-              Notify Me When Available
+              {t.bikeModal.notifyWhenAvailable}
             </Button>
           )}
 
           {/* Tabbed Content */}
           <Tabs defaultValue="overview" className="mt-4">
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="specs">Specifications</TabsTrigger>
-              <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
+              <TabsTrigger value="overview">{t.bikeModal.overviewTab}</TabsTrigger>
+              <TabsTrigger value="specs">{t.bikeModal.specificationsTab}</TabsTrigger>
+              <TabsTrigger value="maintenance">{t.bikeModal.maintenanceTab}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-4">
               {bike.description ? (
                 <div>
-                  <h3 className="font-semibold mb-2">Description</h3>
+                  <h3 className="font-semibold mb-2">{t.bikeModal.description}</h3>
                   <p className="text-muted-foreground">{bike.description}</p>
                 </div>
               ) : (
@@ -179,10 +179,10 @@ export const BikeDetailDialog = ({ bike, open, onOpenChange }: BikeDetailDialogP
                   {bike.name} is ready for your adventure. Perfect for exploring the beautiful roads of Lombok.
                 </p>
               )}
-              
+
               {bike.features && bike.features.length > 0 && (
                 <div>
-                  <h3 className="font-semibold mb-2">Features</h3>
+                  <h3 className="font-semibold mb-2">{t.bikeModal.features}</h3>
                   <div className="flex flex-wrap gap-2">
                     {bike.features.map((feature: string, index: number) => (
                       <Badge key={index} variant="secondary">
@@ -197,25 +197,25 @@ export const BikeDetailDialog = ({ bike, open, onOpenChange }: BikeDetailDialogP
             <TabsContent value="specs" className="space-y-3">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">Model</p>
+                  <p className="text-sm text-muted-foreground">{t.bikeModal.model}</p>
                   <p className="font-medium">{bike.model}</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">Engine</p>
+                  <p className="text-sm text-muted-foreground">{t.bikeModal.engine}</p>
                   <p className="font-medium">{bike.engine}</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">Transmission</p>
+                  <p className="text-sm text-muted-foreground">{t.bikeModal.transmission}</p>
                   <p className="font-medium">{bike.transmission}</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">Fuel Capacity</p>
+                  <p className="text-sm text-muted-foreground">{t.bikeModal.fuelCapacity}</p>
                   <p className="font-medium">{bike.fuel_capacity}</p>
                 </div>
                 {bike.kilometers_driven && (
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground flex items-center gap-1">
-                      <Gauge className="h-4 w-4" /> Kilometers Driven
+                      <Gauge className="h-4 w-4" /> {t.bikeModal.kilometers}
                     </p>
                     <p className="font-medium">{bike.kilometers_driven.toLocaleString()} km</p>
                   </div>
@@ -229,31 +229,31 @@ export const BikeDetailDialog = ({ bike, open, onOpenChange }: BikeDetailDialogP
                   <div className="flex items-start gap-3">
                     <Calendar className="h-5 w-5 text-primary mt-0.5" />
                     <div>
-                      <p className="font-medium">Purchase Date</p>
+                      <p className="font-medium">{t.bikeModal.purchaseDate}</p>
                       <p className="text-sm text-muted-foreground">
                         {new Date(bike.purchase_date).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
                 )}
-                
+
                 {bike.last_maintenance_date && (
                   <div className="flex items-start gap-3">
                     <Wrench className="h-5 w-5 text-green-600 mt-0.5" />
                     <div>
-                      <p className="font-medium">Last Maintenance</p>
+                      <p className="font-medium">{t.bikeModal.lastMaintenance}</p>
                       <p className="text-sm text-muted-foreground">
                         {new Date(bike.last_maintenance_date).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
                 )}
-                
+
                 {bike.next_maintenance_due && (
                   <div className="flex items-start gap-3">
                     <Wrench className="h-5 w-5 text-orange-600 mt-0.5" />
                     <div>
-                      <p className="font-medium">Next Maintenance Due</p>
+                      <p className="font-medium">{t.bikeModal.nextMaintenanceDue}</p>
                       <p className="text-sm text-muted-foreground">
                         {new Date(bike.next_maintenance_due).toLocaleDateString()}
                       </p>
@@ -263,7 +263,7 @@ export const BikeDetailDialog = ({ bike, open, onOpenChange }: BikeDetailDialogP
 
                 {!bike.purchase_date && !bike.last_maintenance_date && !bike.next_maintenance_due && (
                   <p className="text-muted-foreground text-center py-8">
-                    Maintenance information not available
+                    {t.bikeModal.maintenanceInfoNotAvailable}
                   </p>
                 )}
               </div>
