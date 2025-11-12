@@ -16,6 +16,19 @@ interface Bike {
   fuel_capacity: string;
   status: string;
   image: string;
+  description?: string;
+  description_en?: string;
+  description_ru?: string;
+  description_id?: string;
+  description_de?: string;
+  description_uz?: string;
+  description_ar?: string;
+  features_en?: string[];
+  features_ru?: string[];
+  features_id?: string[];
+  features_de?: string[];
+  features_uz?: string[];
+  features_ar?: string[];
 }
 
 export const Fleet = () => {

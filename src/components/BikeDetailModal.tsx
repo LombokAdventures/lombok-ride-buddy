@@ -27,10 +27,22 @@ interface Bike {
   year?: number;
   kilometers?: number;
   description?: string;
+  description_en?: string;
+  description_ru?: string;
+  description_id?: string;
+  description_de?: string;
+  description_uz?: string;
+  description_ar?: string;
   purchase_date?: string;
   kilometers_driven?: number;
   last_maintenance_date?: string;
   next_maintenance_due?: string;
+  features_en?: string[];
+  features_ru?: string[];
+  features_id?: string[];
+  features_de?: string[];
+  features_uz?: string[];
+  features_ar?: string[];
 }
 
 interface BikeDetailModalProps {
@@ -214,7 +226,7 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
               <div className="flex flex-wrap gap-2">
                 {getTranslatedFeatures(bike, language).map((feature, idx) => (
                   <Badge key={idx} variant="outline" className="text-sm">
-                    {translateFeature(feature, language)}
+                    {feature}
                   </Badge>
                 ))}
               </div>
