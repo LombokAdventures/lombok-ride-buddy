@@ -9,6 +9,7 @@ import { BikeDetailModal } from './BikeDetailModal';
 import { WaitlistModal } from './WaitlistModal';
 import { translateFeature } from '@/utils/featureTranslator';
 import { translateTransmission } from '@/utils/transmissionTranslator';
+import { getTranslatedFeatures } from '@/utils/translationHelpers';
 
 interface BikeCardProps {
   bike: {
@@ -86,23 +87,8 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
     }
   };
 
-  const getTranslatedFeatures = () => {
-    const lang = language as 'en' | 'ru' | 'id' | 'de' | 'uz' | 'ar';
-    const featureLangKey = `features_${lang}` as keyof typeof bike;
-
-    // Try to get language-specific features from database
-    if (bike[featureLangKey] && Array.isArray(bike[featureLangKey]) && (bike[featureLangKey] as string[]).length > 0) {
-      return bike[featureLangKey] as string[];
-    }
-
-    // Fall back to English features
-    if (bike.features_en && Array.isArray(bike.features_en) && bike.features_en.length > 0) {
-      return bike.features_en;
-    }
-
-    // Fall back to generic features (translated using featureTranslator)
-    return bike.features;
-  };
+  // Get translated features using JSON data first, then database
+  const translatedFeatures = getTranslatedFeatures(bike, language);
 
   return (
     <>
@@ -196,7 +182,7 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
 
         <div className="h-12 overflow-hidden mb-4">
           <div className="flex flex-wrap gap-2">
-            {getTranslatedFeatures().map((feature, idx) => (
+            {translatedFeatures.map((feature, idx) => (
               <Badge key={idx} variant="outline" className="text-xs">
                 {feature}
               </Badge>
