@@ -9,6 +9,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { contactConfig } from '@/data/bikes';
 import { translateFeature } from '@/utils/featureTranslator';
 import { translateTransmission } from '@/utils/transmissionTranslator';
+import { getTranslatedDescription, getTranslatedFeatures } from '@/utils/translationHelpers';
 
 interface Bike {
   id: string;
@@ -207,22 +208,24 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
           </div>
 
           {/* Features */}
-          <div>
-            <h3 className="text-lg font-semibold mb-3">{t.bikeModal.features}</h3>
-            <div className="flex flex-wrap gap-2">
-              {bike.features.map((feature, idx) => (
-                <Badge key={idx} variant="outline" className="text-sm">
-                  {translateFeature(feature, language)}
-                </Badge>
-              ))}
+          {getTranslatedFeatures(bike, language).length > 0 && (
+            <div>
+              <h3 className="text-lg font-semibold mb-3">{t.bikeModal.features}</h3>
+              <div className="flex flex-wrap gap-2">
+                {getTranslatedFeatures(bike, language).map((feature, idx) => (
+                  <Badge key={idx} variant="outline" className="text-sm">
+                    {translateFeature(feature, language)}
+                  </Badge>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Description */}
-          {bike.description && (
+          {getTranslatedDescription(bike, language) && (
             <div className="bg-gradient-to-r from-primary/5 to-secondary/5 p-4 rounded-lg border border-primary/10">
               <h3 className="text-lg font-semibold mb-2">{t.bikeModal.descriptionLabel}</h3>
-              <p className="text-muted-foreground leading-relaxed">{bike.description}</p>
+              <p className="text-muted-foreground leading-relaxed">{getTranslatedDescription(bike, language)}</p>
             </div>
           )}
 
