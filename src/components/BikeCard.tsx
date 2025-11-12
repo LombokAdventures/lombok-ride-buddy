@@ -27,10 +27,22 @@ interface BikeCardProps {
     year?: number;
     kilometers?: number;
     description?: string;
+    description_en?: string;
+    description_ru?: string;
+    description_id?: string;
+    description_de?: string;
+    description_uz?: string;
+    description_ar?: string;
     purchase_date?: string;
     kilometers_driven?: number;
     last_maintenance_date?: string;
     next_maintenance_due?: string;
+    features_en?: string[];
+    features_ru?: string[];
+    features_id?: string[];
+    features_de?: string[];
+    features_uz?: string[];
+    features_ar?: string[];
   };
 }
 
@@ -72,6 +84,24 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
       default:
         return 0;
     }
+  };
+
+  const getTranslatedFeatures = () => {
+    const lang = language as 'en' | 'ru' | 'id' | 'de' | 'uz' | 'ar';
+    const featureLangKey = `features_${lang}` as keyof typeof bike;
+
+    // Try to get language-specific features from database
+    if (bike[featureLangKey] && Array.isArray(bike[featureLangKey]) && (bike[featureLangKey] as string[]).length > 0) {
+      return bike[featureLangKey] as string[];
+    }
+
+    // Fall back to English features
+    if (bike.features_en && Array.isArray(bike.features_en) && bike.features_en.length > 0) {
+      return bike.features_en;
+    }
+
+    // Fall back to generic features (translated using featureTranslator)
+    return bike.features;
   };
 
   return (
@@ -164,12 +194,14 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 flex-grow">
-          {bike.features.map((feature, idx) => (
-            <Badge key={idx} variant="outline" className="text-xs">
-              {translateFeature(feature, language)}
-            </Badge>
-          ))}
+        <div className="mb-4 h-16 overflow-hidden">
+          <div className="flex flex-wrap gap-2">
+            {getTranslatedFeatures().map((feature, idx) => (
+              <Badge key={idx} variant="outline" className="text-xs">
+                {feature}
+              </Badge>
+            ))}
+          </div>
         </div>
       </CardContent>
 
