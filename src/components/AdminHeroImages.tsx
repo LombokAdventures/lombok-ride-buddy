@@ -50,10 +50,10 @@ export const AdminHeroImages = () => {
       setIsUploading(true);
       const timestamp = Date.now();
       const fileName = `${timestamp}-${file.name}`;
-      const filePath = `hero-images/${fileName}`;
+      const filePath = `hero/${fileName}`;
 
       const { data, error } = await supabase.storage
-        .from("hero-images")
+        .from("bike-images")
         .upload(filePath, file, {
           cacheControl: "3600",
           upsert: false,
@@ -63,8 +63,8 @@ export const AdminHeroImages = () => {
         // Check if error is about bucket not existing
         if (error.message.includes("not found") || error.message.includes("Bucket not found")) {
           toast({
-            title: "Setup Required",
-            description: "Please create a 'hero-images' bucket in Supabase Storage first",
+            title: "Upload Error",
+            description: "bike-images bucket or hero folder not found in Supabase Storage",
             variant: "destructive",
           });
         } else {
@@ -78,7 +78,7 @@ export const AdminHeroImages = () => {
       }
 
       const { data: publicData } = supabase.storage
-        .from("hero-images")
+        .from("bike-images")
         .getPublicUrl(data.path);
 
       return publicData.publicUrl;
