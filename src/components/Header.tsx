@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { Menu, X, Sun, Moon, Leaf, Waves } from 'lucide-react';
+import { Menu, X, Sun, Moon, Leaf, Waves, Bike, Palmtree, Mountain, Compass, Ship } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -9,11 +9,34 @@ import { useTheme } from '@/contexts/ThemeContext';
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+  const [currentIconIndex, setCurrentIconIndex] = useState(0);
   const themeMenuRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Logo icons that cycle
+  const logoIcons = [
+    { Icon: Waves, color: 'text-cyan-500' },
+    { Icon: Palmtree, color: 'text-green-500' },
+    { Icon: Bike, color: 'text-primary' },
+    { Icon: Mountain, color: 'text-slate-500' },
+    { Icon: Compass, color: 'text-orange-500' },
+    { Icon: Ship, color: 'text-blue-500' },
+  ];
+
+  const CurrentLogoIcon = logoIcons[currentIconIndex].Icon;
+  const currentIconColor = logoIcons[currentIconIndex].color;
+
+  // Cycle through logo icons every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIconIndex((prev) => (prev + 1) % logoIcons.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Close theme menu when clicking outside
   useEffect(() => {
@@ -57,8 +80,11 @@ export const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/30 flex items-center justify-center group hover:border-primary/50 transition-colors duration-300">
-              <Waves className="h-6 w-6 text-primary group-hover:scale-110 transition-transform duration-300" />
+            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/30 flex items-center justify-center group hover:border-primary/50 transition-all duration-500">
+              <CurrentLogoIcon
+                className={`h-6 w-6 ${currentIconColor} group-hover:scale-110 transition-all duration-500 animate-in fade-in zoom-in`}
+                key={currentIconIndex}
+              />
             </div>
             <div className="flex flex-col hidden sm:flex">
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
