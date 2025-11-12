@@ -128,60 +128,60 @@ All colors MUST be HSL.
   }
 
   .island {
-    /* Island Adventure Theme - Dark Forest Green Vibes */
-    --background: 130 35% 12%;
-    --foreground: 40 25% 92%;
+    /* Island Adventure Theme - Ocean & Island Vibes */
+    --background: 200 40% 14%;
+    --foreground: 200 15% 92%;
 
-    --card: 130 32% 16%;
-    --card-foreground: 40 25% 92%;
+    --card: 200 35% 18%;
+    --card-foreground: 200 15% 92%;
 
-    --popover: 130 32% 16%;
-    --popover-foreground: 40 25% 92%;
+    --popover: 200 35% 18%;
+    --popover-foreground: 200 15% 92%;
 
-    /* Vibrant Tropical Green - Primary */
-    --primary: 145 72% 48%;
-    --primary-foreground: 130 35% 12%;
-    --primary-glow: 145 72% 62%;
+    /* Tropical Teal/Turquoise - Primary */
+    --primary: 175 68% 48%;
+    --primary-foreground: 200 40% 14%;
+    --primary-glow: 175 68% 62%;
 
-    /* Island Sand/Golden - Secondary */
-    --secondary: 38 85% 55%;
-    --secondary-foreground: 130 35% 12%;
+    /* Warm Sandy/Peachy - Secondary */
+    --secondary: 30 90% 58%;
+    --secondary-foreground: 200 40% 14%;
 
-    /* Tropical Sunset - Accent */
-    --accent: 12 95% 60%;
-    --accent-foreground: 130 35% 12%;
+    /* Tropical Coral/Sunset - Accent */
+    --accent: 15 95% 58%;
+    --accent-foreground: 200 40% 14%;
 
-    /* Success - Emerald Green */
-    --success: 140 65% 48%;
-    --success-foreground: 130 35% 12%;
+    /* Success - Ocean Green */
+    --success: 160 65% 50%;
+    --success-foreground: 200 40% 14%;
 
     /* Warning - Tropical Red */
     --warning: 0 85% 62%;
-    --warning-foreground: 130 35% 12%;
+    --warning-foreground: 200 40% 14%;
 
-    --muted: 130 30% 22%;
-    --muted-foreground: 40 15% 60%;
+    --muted: 200 30% 26%;
+    --muted-foreground: 200 12% 65%;
 
     --destructive: 0 85% 62%;
-    --destructive-foreground: 130 35% 12%;
+    --destructive-foreground: 200 40% 14%;
 
-    --border: 130 30% 28%;
-    --input: 130 30% 28%;
-    --ring: 145 72% 48%;
+    --border: 200 32% 32%;
+    --input: 200 32% 32%;
+    --ring: 175 68% 48%;
 
-    /* Footer - Deep jungle green */
-    --footer-background: 130 35% 10%;
-    --footer-foreground: 40 25% 92%;
+    /* Footer - Deep ocean blue */
+    --footer-background: 200 40% 12%;
+    --footer-foreground: 200 15% 92%;
 
-    /* Gradients - Island-themed */
-    --gradient-hero: linear-gradient(135deg, hsl(145 72% 42%), hsl(160 65% 48%));
-    --gradient-sunset: linear-gradient(135deg, hsl(12 95% 55%), hsl(35 90% 50%));
-    --gradient-tropical: linear-gradient(135deg, hsl(145 72% 45%), hsl(160 68% 52%));
+    /* Gradients - Ocean & Island blend */
+    --gradient-hero: linear-gradient(135deg, hsl(200 45% 28%), hsl(175 65% 42%));
+    --gradient-sunset: linear-gradient(135deg, hsl(15 95% 55%), hsl(30 90% 50%));
+    --gradient-tropical: linear-gradient(135deg, hsl(175 70% 44%), hsl(200 50% 38%));
 
-    /* Shadows - Green-tinted shadows */
-    --shadow-elegant: 0 10px 40px -10px hsl(145 72% 35% / 0.4);
-    --shadow-card: 0 4px 20px -4px hsl(130 35% 8% / 0.4);
-    --shadow-float: 0 20px 60px -20px hsl(145 72% 42% / 0.5);
+    /* Shadows - Ocean-tinted shadows */
+    --shadow-elegant: 0 10px 40px -10px hsl(200 45% 25% / 0.5);
+    --shadow-card: 0 4px 20px -4px hsl(200 40% 10% / 0.4);
+    --shadow-float: 0 20px 60px -20px hsl(175 65% 35% / 0.5);
   }
 }
 
