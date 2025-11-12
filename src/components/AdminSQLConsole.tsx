@@ -11,6 +11,20 @@ export const AdminSQLConsole = () => {
   const [customSQL, setCustomSQL] = useState("");
   const [isExecuting, setIsExecuting] = useState(false);
 
+  // Fetch bikes to match by name
+  const fetchBikeByName = async (bikeName: string) => {
+    const { data, error } = await supabase
+      .from("bikes")
+      .select("id")
+      .ilike("name", bikeName)
+      .single();
+
+    if (error) {
+      return null;
+    }
+    return data?.id || null;
+  };
+
   const sqlScripts = {
     updateBikes: {
       name: "Update All Bikes with Real Data",
@@ -67,69 +81,55 @@ ORDER BY next_maintenance_due ASC;`,
     });
   };
 
-  // Parse SQL UPDATE statements and convert to JSON format
+  // Parse SQL UPDATE statement to extract values
   const parseUpdateStatement = (sql: string) => {
-    const updateRegex = /UPDATE\s+bikes\s+SET\s+([\s\S]*?)\s+WHERE\s+([\s\S]*?)(?=UPDATE|$)/gi;
-    const updates: Array<{ table: string; values: Record<string, any>; condition: string }> = [];
+    const updateRegex = /UPDATE\s+bikes\s+SET\s+([\s\S]*?)\s+WHERE\s+([\s\S]*?)(?=UPDATE|;|$)/gi;
+    const updates: Array<{ values: Record<string, any>; bikeName: string }> = [];
 
     let match;
     while ((match = updateRegex.exec(sql)) !== null) {
       const setClause = match[1].trim();
       const whereClause = match[2].trim();
 
+      // Extract bike name from WHERE clause
+      const nameMatch = whereClause.match(/name\s*=\s*'([^']+)'/i);
+      const bikeName = nameMatch ? nameMatch[1] : null;
+
+      if (!bikeName) {
+        continue;
+      }
+
       // Parse SET clause into key-value pairs
       const values: Record<string, any> = {};
-      const setPairs = setClause.split(",").map(pair => pair.trim());
+      const setPairs = setClause.split(",");
 
       for (const pair of setPairs) {
-        const [key, value] = pair.split("=").map(p => p.trim());
-        if (key && value) {
-          // Remove quotes from string values
-          let cleanValue = value.replace(/^'(.*)'$/s, "$1").replace(/''/, "'");
+        const [key, ...valueParts] = pair.split("=");
+        const keyTrimmed = key.trim();
+        const valueTrimmed = valueParts.join("=").trim();
 
-          // Handle numbers
+        if (keyTrimmed && valueTrimmed) {
+          // Remove quotes from string values and unescape single quotes
+          let cleanValue: any = valueTrimmed.replace(/^'(.*)'$/s, "$1").replace(/''/g, "'");
+
+          // Try to parse as number
           if (!isNaN(Number(cleanValue)) && cleanValue !== "") {
             cleanValue = Number(cleanValue);
           }
 
-          values[key] = cleanValue;
+          values[keyTrimmed] = cleanValue;
         }
       }
 
-      updates.push({
-        table: "bikes",
-        values,
-        condition: whereClause
-      });
+      if (Object.keys(values).length > 0) {
+        updates.push({ values, bikeName });
+      }
     }
 
     return updates;
   };
 
-  // Extract bike identifier from WHERE clause
-  const extractBikeIdentifier = (whereClause: string): { field: string; value: string } | null => {
-    // Try to match name first
-    const nameMatch = whereClause.match(/name\s*=\s*'([^']+)'/i);
-    if (nameMatch) {
-      return { field: "name", value: nameMatch[1] };
-    }
-
-    // Try to match id
-    const idMatch = whereClause.match(/id\s*=\s*'([^']+)'/i);
-    if (idMatch) {
-      return { field: "id", value: idMatch[1] };
-    }
-
-    // Try to match OR conditions
-    const orNameMatch = whereClause.match(/name\s*=\s*'([^']+)'/);
-    if (orNameMatch) {
-      return { field: "name", value: orNameMatch[1] };
-    }
-
-    return null;
-  };
-
-  // Execute the parsed updates using Supabase
+  // Execute the parsed updates using existing Supabase methods
   const executeUpdates = async (sql: string) => {
     setIsExecuting(true);
     try {
@@ -138,7 +138,7 @@ ORDER BY next_maintenance_due ASC;`,
       if (updates.length === 0) {
         toast({
           title: "Error",
-          description: "No valid UPDATE statements found",
+          description: "No valid UPDATE statements found. Make sure to include WHERE name = 'Bike Name'",
           variant: "destructive",
         });
         setIsExecuting(false);
@@ -151,29 +151,32 @@ ORDER BY next_maintenance_due ASC;`,
 
       for (const update of updates) {
         try {
-          const identifier = extractBikeIdentifier(update.condition);
+          // Fetch bike ID by name (same pattern as Admin panel)
+          const bikeId = await fetchBikeByName(update.bikeName);
 
-          if (!identifier) {
-            errors.push(`Could not identify bike in: ${update.condition}`);
+          if (!bikeId) {
+            errors.push(`Bike not found: "${update.bikeName}"`);
             errorCount++;
             continue;
           }
 
-          // Execute the update
-          const { error } = await supabase
-            .from(update.table)
-            .update(update.values)
-            .eq(identifier.field, identifier.value);
+          // Update each field using the standard supabase method (same as Admin.tsx uses)
+          for (const [field, value] of Object.entries(update.values)) {
+            const { error } = await supabase
+              .from("bikes")
+              .update({ [field]: value })
+              .eq("id", bikeId);
 
-          if (error) {
-            errors.push(`${identifier.value}: ${error.message}`);
-            errorCount++;
-          } else {
-            successCount++;
+            if (error) {
+              errors.push(`${update.bikeName} - ${field}: ${error.message}`);
+              errorCount++;
+            } else {
+              successCount++;
+            }
           }
         } catch (err) {
           const errorMsg = err instanceof Error ? err.message : "Unknown error";
-          errors.push(errorMsg);
+          errors.push(`${update.bikeName}: ${errorMsg}`);
           errorCount++;
         }
       }
@@ -181,14 +184,14 @@ ORDER BY next_maintenance_due ASC;`,
       if (successCount > 0) {
         toast({
           title: "Success! ✓",
-          description: `Updated ${successCount} bike${successCount !== 1 ? "s" : ""} successfully`,
+          description: `Updated ${successCount} field${successCount !== 1 ? "s" : ""} successfully`,
         });
       }
 
       if (errorCount > 0) {
         toast({
           title: `${errorCount} Error${errorCount !== 1 ? "s" : ""}`,
-          description: errors.join("; "),
+          description: errors.slice(0, 3).join("; ") + (errors.length > 3 ? "..." : ""),
           variant: "destructive",
         });
       }
