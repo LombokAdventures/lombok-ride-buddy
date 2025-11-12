@@ -68,9 +68,9 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
   const getPeriodText = () => {
     switch (selectedPeriod) {
       case 'weekly':
-        return '/week';
+        return t.bikeModal.perWeek;
       case 'monthly':
-        return '/month';
+        return t.bikeModal.perMonth;
       default:
         return t.fleet.perDay;
     }
