@@ -68,9 +68,9 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
   const getPeriodText = () => {
     switch (selectedPeriod) {
       case 'weekly':
-        return '/week';
+        return t.bikeModal.perWeek;
       case 'monthly':
-        return '/month';
+        return t.bikeModal.perMonth;
       default:
         return t.fleet.perDay;
     }
@@ -152,9 +152,9 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
             </TabsList>
           </Tabs>
           {selectedPeriod !== 'daily' && (
-            <div className="absolute top-0 right-0">
-              <Badge className="bg-success text-white text-xs font-bold px-2 py-0.5 rounded-md">
-                {selectedPeriod === 'weekly' ? '5%' : '20%'} OFF
+            <div className="absolute -top-2 -right-2 z-10">
+              <Badge className="bg-gradient-to-r from-success to-green-600 text-white text-sm font-bold px-3 py-1 rounded-full shadow-lg border-2 border-white animate-pulse">
+                🎉 {selectedPeriod === 'weekly' ? '5%' : '20%'} OFF
               </Badge>
             </div>
           )}
