@@ -326,6 +326,16 @@ function cleanValue(value: string): any {
     cleanedValue = cleanedValue.replace(/''/g, "'");
   }
 
+  // Try to parse as JSON (array or object)
+  if ((cleanedValue.startsWith('[') && cleanedValue.endsWith(']')) ||
+      (cleanedValue.startsWith('{') && cleanedValue.endsWith('}'))) {
+    try {
+      return JSON.parse(cleanedValue);
+    } catch (e) {
+      // If JSON parsing fails, continue as string
+    }
+  }
+
   // Try to parse as number
   if (!isNaN(Number(cleanedValue)) && cleanedValue !== "") {
     return Number(cleanedValue);
