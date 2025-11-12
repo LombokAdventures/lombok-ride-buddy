@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { Menu, X, Bike, Sun, Moon, Leaf, Waves } from 'lucide-react';
+import { Menu, X, Compass, Sun, Moon, Leaf, Waves } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -56,13 +56,16 @@ export const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-gradient-hero flex items-center justify-center">
-              <Bike className="h-6 w-6 text-white" />
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/30 flex items-center justify-center group hover:border-primary/50 transition-colors duration-300">
+              <Compass className="h-6 w-6 text-primary group-hover:rotate-45 transition-transform duration-300" />
             </div>
-            <span className="text-xl font-bold text-foreground hidden sm:inline">
-              Lombok Local
-            </span>
+            <div className="flex flex-col hidden sm:flex">
+              <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                Lombok Local
+              </span>
+              <span className="text-xs text-muted-foreground font-medium">Adventure Awaits</span>
+            </div>
           </div>
 
           {/* Desktop Navigation */}
