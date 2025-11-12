@@ -1,0 +1,146 @@
+{
+  "bikes": [
+    {
+      "id": "honda-beat",
+      "name": "Honda Beat",
+      "model": "Beat",
+      "dailyPrice": 5,
+      "weeklyPrice": 30,
+      "monthlyPrice": 100,
+      "description": "Lombok'ning sohil qishloqlari va tor orol yo'llari bo'ylab sayohatlash uchun mukammal. Honda Beat yengil, harakatchan va o'ta tejamkor, bu budjet shunosiga ega sayohatchilar uchun ideal, ular orolning yashirin javohirlarini chumchamaydigan qilmoqda.",
+      "features": [
+        "Bepul shlem",
+        "Kalitning kiritilishi",
+        "Yoqilg'i Tejamkorligi",
+        "Shahar uchun mukammal",
+        "Oson parkovka"
+      ],
+      "specs": {
+        "engine": "110cc",
+        "transmission": "Avtomatik",
+        "fuelCapacity": "4.2L"
+      },
+      "status": "available",
+      "image": "/bikes/honda-beat.jpg"
+    },
+    {
+      "id": "honda-street",
+      "name": "Honda Street",
+      "model": "Scoopy Street",
+      "dailyPrice": 6,
+      "weeklyPrice": 35,
+      "monthlyPrice": 110,
+      "description": "Tinch sayohatlash uchun uslubi va qulay tanlov. Scoopy Street an'anaviy skuterning amaliyligini zamonaviy dizayn elementlari va qulay o'tirish bilan birlashtirib, Lombok'ning manzarali joylarida sovli sayohatlar uchun mukammal.",
+      "features": [
+        "Bepul shlem",
+        "Kalitning kiritilishi",
+        "Qulay o'tiruvchi",
+        "Uslubi dizayni",
+        "Silliq boshqarish"
+      ],
+      "specs": {
+        "engine": "110cc",
+        "transmission": "Avtomatik",
+        "fuelCapacity": "4.2L"
+      },
+      "status": "available",
+      "image": "/bikes/honda-scoopy.jpg"
+    },
+    {
+      "id": "honda-vario-125",
+      "name": "Honda Vario 125",
+      "model": "Vario 125",
+      "dailyPrice": 7,
+      "weeklyPrice": 40,
+      "monthlyPrice": 120,
+      "description": "Vario 125 kuch va samaradorlikning mukammal balansingini taklif etadi. Uning 125cc dvigateliga va katta saqlash bo'lmiga ega, bu velosiped kunlik sayohatlar va bir necha joyni o'rganish uchun ajoyib, tez-tez ozaytirish shutsiz.",
+      "features": [
+        "Bepul shlem",
+        "Kalitning kiritilishi",
+        "USB zaryadlagich",
+        "Katta saqlash",
+        "Tejamkor dvigateli"
+      ],
+      "specs": {
+        "engine": "125cc",
+        "transmission": "Avtomatik",
+        "fuelCapacity": "5.5L"
+      },
+      "status": "available",
+      "image": "/bikes/honda-vario-125.jpg"
+    },
+    {
+      "id": "honda-vario-160",
+      "name": "Honda Vario 160",
+      "model": "Vario 160",
+      "dailyPrice": 9,
+      "weeklyPrice": 50,
+      "monthlyPrice": 150,
+      "description": "Ko'proq kuch va qulaylikni qidirayotganlar uchun. Vario 160 qurilmalaringiz uchun USB zaryadlagichi va premium qulay o'tiruvchi bilan taqdim etiladi. Uning javob beradigan boshqarishi Lombok'ning o'ramali tog' yo'llarini engib o'tishni mutlaq zavqga aylantiradi.",
+      "features": [
+        "Bepul shlem",
+        "Kalitning kiritilishi",
+        "USB zaryadlagich",
+        "Premium qulaylik",
+        "Puxta xususiyatlar"
+      ],
+      "specs": {
+        "engine": "160cc",
+        "transmission": "Avtomatik",
+        "fuelCapacity": "5.5L"
+      },
+      "status": "available",
+      "image": "/bikes/honda-vario-160.jpg"
+    },
+    {
+      "id": "honda-pcx",
+      "name": "Honda PCX 160",
+      "model": "PCX 160",
+      "dailyPrice": 12,
+      "weeklyPrice": 70,
+      "monthlyPrice": 200,
+      "description": "Chu'pi sayohat tajribasi. Uning ta'sirchan 160cc dvigateli, integrallashtirilgan ABS tormoz tizimi va hashamatli xususiyatlari bilan, PCX 160 eng yaxshisini talab qiladigan sayohatchilar uchun qurilgan. Premium LED chiroqlari va raqamli asboblarning paneli har bir sayohatni e'tiborli qiladi.",
+      "features": [
+        "Bepul shlem",
+        "Kalitning kiritilishi",
+        "USB zaryadlagich",
+        "Premium skuteri",
+        "ABS tormozlari",
+        "LED chiroqlari",
+        "Raqamli paneli"
+      ],
+      "specs": {
+        "engine": "160cc",
+        "transmission": "Avtomatik",
+        "fuelCapacity": "8L"
+      },
+      "status": "rented",
+      "image": "/bikes/honda-pcx.jpg"
+    },
+    {
+      "id": "yamaha-nmax",
+      "name": "Yamaha NMAX 155",
+      "model": "NMAX 155",
+      "dailyPrice": 12,
+      "weeklyPrice": 70,
+      "monthlyPrice": 200,
+      "description": "Sarguzashtlar qidiruvchilar uchun sport va kuchli tanlov. Yamaha NMAX 155 uning 155cc dvigateliga va yoqimli dizayning динамик ishlashini taqdim etadi. ABS tormozlari har bir burilishda xavfsizlikni ta'minlaydi, ajoyib yoqilg'i samaradorligi orolning uzoq eksplratsiyalarida xarajatlaringizni past saqlaydi.",
+      "features": [
+        "Bepul shlem",
+        "Kalitning kiritilishi",
+        "USB zaryadlagich",
+        "Sport dizayni",
+        "ABS tormozlari",
+        "Kuchli dvigateli",
+        "Ajoyib boshqarish"
+      ],
+      "specs": {
+        "engine": "155cc",
+        "transmission": "Avtomatik",
+        "fuelCapacity": "7.1L"
+      },
+      "status": "available",
+      "image": "/bikes/yamaha-nmax.jpg"
+    }
+  ]
+}

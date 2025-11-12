@@ -1,0 +1,146 @@
+{
+  "bikes": [
+    {
+      "id": "honda-beat",
+      "name": "Honda Beat",
+      "model": "Beat",
+      "dailyPrice": 5,
+      "weeklyPrice": 30,
+      "monthlyPrice": 100,
+      "description": "Sempurna untuk menjelajahi desa-desa pantai Lombok dan jalan-jalan sempit pulau. Honda Beat ringan, lincah, dan sangat hemat bahan bakar, menjadikannya ideal bagi wisatawan yang sadar anggaran yang ingin mengalami permata tersembunyi pulau tanpa menguras kantong.",
+      "features": [
+        "Helm Gratis",
+        "Kunci Disertakan",
+        "Hemat Bahan Bakar",
+        "Sempurna untuk Kota",
+        "Parkir Mudah"
+      ],
+      "specs": {
+        "engine": "110cc",
+        "transmission": "Otomatis",
+        "fuelCapacity": "4.2L"
+      },
+      "status": "available",
+      "image": "/bikes/honda-beat.jpg"
+    },
+    {
+      "id": "honda-street",
+      "name": "Honda Street",
+      "model": "Scoopy Street",
+      "dailyPrice": 6,
+      "weeklyPrice": 35,
+      "monthlyPrice": 110,
+      "description": "Pilihan bergaya dan nyaman untuk eksplorasi santai. Scoopy Street menggabungkan kepraktisan skuter tradisional dengan elemen desain modern dan posisi duduk yang nyaman, sempurna untuk perjalanan santai di sekitar tempat-tempat indah Lombok.",
+      "features": [
+        "Helm Gratis",
+        "Kunci Disertakan",
+        "Kursi Nyaman",
+        "Desain Bergaya",
+        "Handling Mulus"
+      ],
+      "specs": {
+        "engine": "110cc",
+        "transmission": "Otomatis",
+        "fuelCapacity": "4.2L"
+      },
+      "status": "available",
+      "image": "/bikes/honda-scoopy.jpg"
+    },
+    {
+      "id": "honda-vario-125",
+      "name": "Honda Vario 125",
+      "model": "Vario 125",
+      "dailyPrice": 7,
+      "weeklyPrice": 40,
+      "monthlyPrice": 120,
+      "description": "Vario 125 menawarkan keseimbangan sempurna antara tenaga dan efisiensi. Dengan mesin 125cc dan kompartemen penyimpanan yang luas, motor ini sempurna untuk trip sehari-hari dan menjelajahi berbagai destinasi tanpa perlu sering-sering isi bahan bakar.",
+      "features": [
+        "Helm Gratis",
+        "Kunci Disertakan",
+        "Pengisian USB",
+        "Penyimpanan Besar",
+        "Mesin Efisien"
+      ],
+      "specs": {
+        "engine": "125cc",
+        "transmission": "Otomatis",
+        "fuelCapacity": "5.5L"
+      },
+      "status": "available",
+      "image": "/bikes/honda-vario-125.jpg"
+    },
+    {
+      "id": "honda-vario-160",
+      "name": "Honda Vario 160",
+      "model": "Vario 160",
+      "dailyPrice": 9,
+      "weeklyPrice": 50,
+      "monthlyPrice": 150,
+      "description": "Bagi mereka yang mencari lebih banyak tenaga dan kenyamanan. Vario 160 dilengkapi fitur canggih termasuk pengisian USB untuk perangkat Anda dan kursi kenyamanan premium. Handling responsifnya membuat menaklukkan jalan-jalan berliku pegunungan Lombok menjadi kesenangan sejati.",
+      "features": [
+        "Helm Gratis",
+        "Kunci Disertakan",
+        "Pengisian USB",
+        "Kenyamanan Premium",
+        "Fitur Canggih"
+      ],
+      "specs": {
+        "engine": "160cc",
+        "transmission": "Otomatis",
+        "fuelCapacity": "5.5L"
+      },
+      "status": "available",
+      "image": "/bikes/honda-vario-160.jpg"
+    },
+    {
+      "id": "honda-pcx",
+      "name": "Honda PCX 160",
+      "model": "PCX 160",
+      "dailyPrice": 12,
+      "weeklyPrice": 70,
+      "monthlyPrice": 200,
+      "description": "Pengalaman skuter premium tertinggi. Dengan mesin 160cc yang mengesankan, sistem pengereman ABS terintegrasi, dan fitur mewah, PCX 160 dibangun untuk wisatawan yang menuntut yang terbaik. Lampu LED premium dan dasbor digital membuat setiap perjalanan tak terlupakan.",
+      "features": [
+        "Helm Gratis",
+        "Kunci Disertakan",
+        "Pengisian USB",
+        "Skuter Premium",
+        "Pengereman ABS",
+        "Lampu LED",
+        "Dasbor Digital"
+      ],
+      "specs": {
+        "engine": "160cc",
+        "transmission": "Otomatis",
+        "fuelCapacity": "8L"
+      },
+      "status": "rented",
+      "image": "/bikes/honda-pcx.jpg"
+    },
+    {
+      "id": "yamaha-nmax",
+      "name": "Yamaha NMAX 155",
+      "model": "NMAX 155",
+      "dailyPrice": 12,
+      "weeklyPrice": 70,
+      "monthlyPrice": 200,
+      "description": "Pilihan bergaya olahraga dan bertenaga bagi para pencari petualangan. Yamaha NMAX 155 memberikan performa dinamis dengan mesin 155cc dan desain ramping. Rem ABS memastikan keselamatan di setiap tikungan, sementara efisiensi bahan bakar yang sangat baik membuat biaya Anda tetap rendah dalam penjelajahan pulau yang panjang.",
+      "features": [
+        "Helm Gratis",
+        "Kunci Disertakan",
+        "Pengisian USB",
+        "Desain Olahraga",
+        "Pengereman ABS",
+        "Mesin Bertenaga",
+        "Handling Bagus"
+      ],
+      "specs": {
+        "engine": "155cc",
+        "transmission": "Otomatis",
+        "fuelCapacity": "7.1L"
+      },
+      "status": "available",
+      "image": "/bikes/yamaha-nmax.jpg"
+    }
+  ]
+}

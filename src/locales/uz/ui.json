@@ -1,0 +1,251 @@
+{
+  "hero": {
+    "title": "Plyajlardan Toqlargacha - Lombok Siz Uchun",
+    "subtitle": "Premium Skuterlar $5/Kun dan",
+    "cta": "Mavjudlikni Tekshirish",
+    "trustBadge": "2025 yildan beri sayohatchilar ishonchi"
+  },
+  "nav": {
+    "fleet": "Bizning Flotimiz",
+    "about": "Nega Biz",
+    "tours": "Sayohatlar",
+    "villas": "Villalar",
+    "contact": "Aloqa"
+  },
+  "fleet": {
+    "title": "Bizning Premium Flotimiz",
+    "subtitle": "Yaxshi parvarish qilingan Honda va Yamaha skuterlarimizdan tanlang",
+    "available": "Mavjud",
+    "rented": "Ijaraga Berilgan",
+    "perDay": "/kun",
+    "reserve": "Hozir Band Qilish",
+    "specifications": "Spetsifikatsiyalar"
+  },
+  "benefits": {
+    "title": "Nega Lombok Local",
+    "items": [
+      {
+        "title": "Bepul Dubulgalar",
+        "description": "Xavfsizlik asboblari har bir ijarada kiritilgan"
+      },
+      {
+        "title": "Moslashuvchan Yetkazib Berish",
+        "description": "Mataram/Prayada bepul yetkazib berish yoki o'zingiz oling"
+      },
+      {
+        "title": "24/7 Yordam",
+        "description": "Biz sizga har qanday vaqtda yordam berishga tayyormiz"
+      },
+      {
+        "title": "Depozit Talab Qilinmaydi",
+        "description": "Minimal avans to'lov bilan moslashuvchan band qilish"
+      },
+      {
+        "title": "Sifatli Flot",
+        "description": "Sarguzashtingiz uchun tayyor skuterlar"
+      },
+      {
+        "title": "Eng Yaxshi Narx Kafolati",
+        "description": "Yashirin to'lovsiz raqobatbardosh narxlar"
+      },
+      {
+        "title": "Aniq Shartlar",
+        "description": "Kutilmagan vaziyatlar bo'lmagan shaffof ijara shartlari"
+      }
+    ]
+  },
+  "howItWorks": {
+    "title": "Bu Qanday Ishlaydi",
+    "steps": [
+      {
+        "title": "Mototsiklingizni Tanlang",
+        "description": "Flotimizni ko'rib chiqing va mukammal sayohatni tanlang"
+      },
+      {
+        "title": "WhatsApp orqali Band Qiling",
+        "description": "WhatsApp yoki Telegram orqali tez va oson band qilish"
+      },
+      {
+        "title": "Sarguzashtni Boshlang",
+        "description": "Mataram/Prayada bepul yetkazib berish yoki o'zingiz oling!"
+      }
+    ]
+  },
+  "reviews": {
+    "title": "Mijozlarimiz Fikrlari",
+    "rating": "yulduz 200+ sharhlardan",
+    "submitTitle": "Tajribangizni Ulashing",
+    "submitButton": "Sharh Yuborish",
+    "namePlaceholder": "Ismingiz",
+    "countryPlaceholder": "Mamlakatingiz",
+    "commentPlaceholder": "Tajribangiz haqida bizga xabar bering...",
+    "thankYou": "Sharhingiz uchun rahmat!",
+    "pendingApproval": "Sharhingiz tasdiqlanishni kutmoqda va tez orada paydo bo'ladi."
+  },
+  "comingSoon": {
+    "tours": {
+      "title": "Sayohatlar va Sarguzashtlar",
+      "description": "Ko'p kunlik sayohatlar, sharsharaga ekspeditsiyalar - 2025 yilda",
+      "cta": "Menga Xabar Bering",
+      "emailPlaceholder": "Emailingizni kiriting",
+      "whatsappPlaceholder": "WhatsApp raqamingizni kiriting",
+      "telegramPlaceholder": "Telegram foydalanuvchi nomingizni kiriting",
+      "thankYou": "Rahmat! Sayohatlar mavjud bo'lganda sizga xabar beramiz."
+    },
+    "villas": {
+      "title": "Villalar va Uylar",
+      "description": "Plyaj villalari va tog' panohgahlari - Tez Orada",
+      "cta": "Erta Kirish",
+      "emailPlaceholder": "Emailingizni kiriting",
+      "whatsappPlaceholder": "WhatsApp raqamingizni kiriting",
+      "telegramPlaceholder": "Telegram foydalanuvchi nomingizni kiriting",
+      "thankYou": "Rahmat! Villalar mavjud bo'lganda sizga xabar beramiz."
+    }
+  },
+  "faq": {
+    "title": "Tez-tez So'raladigan Savollar",
+    "items": [
+      {
+        "question": "Ijara narxiga nima kiradi?",
+        "answer": "Barcha ijaralarda dubulga va qulf kiradi. Oylik ijaralarda Mataram va Praya hududlarida bepul yetkazib berish mavjud. Yoqilg'i kiritilmagan."
+      },
+      {
+        "question": "Mening manzilimga yetkazib bera olasizmi?",
+        "answer": "Biz oylik ijaralarda Mataram va Praya hududlariga bepul yetkazib beramiz. Kunlik va haftalik ijaralarda skuterni bizning joyimizdan olishingiz mumkin yoki qo'shimcha to'lov bilan yetkazib berish talab qilishingiz mumkin."
+      },
+      {
+        "question": "Yosh talablari qanday?",
+        "answer": "Ijarachilar kamida 18 yoshda bo'lishi va haqiqiy haydovchilik guvohnomasi bo'lishi kerak."
+      },
+      {
+        "question": "Qanday to'lov usullarini qabul qilasiz?",
+        "answer": "Biz naqd pul (IDR yoki USD), bank o'tkazmasi va mashhur to'lov ilovalarini qabul qilamiz. To'lov tafsilotlari WhatsApp orqali band qilganingizda beriladi."
+      },
+      {
+        "question": "Agar buzilish yoki baxtsiz hodisa yuz bersa nima qilish kerak?",
+        "answer": "Biz 24/7 yordam beramiz. Darhol biz bilan bog'laning va biz sizga yordam beramiz."
+      },
+      {
+        "question": "Haftalik yoki oylik chegirmalar berasizmi?",
+        "answer": "Ha! Biz haftalik va oylik ijaralar uchun sezilarli chegirmalar taklif qilamiz. Har bir skuter uchun narxlarni tekshiring."
+      },
+      {
+        "question": "Qancha oldindan band qilishim kerak?",
+        "answer": "Biz kamida 24 soat oldindan band qilishni tavsiya qilamiz, ayniqsa yuqori mavsum davrida (Iyul-Avgust, Dekabr-Yanvar)."
+      },
+      {
+        "question": "Ijara muddatini uzaytira olamanmi?",
+        "answer": "Ha, ijara muddati tugashidan oldin WhatsApp orqali biz bilan bog'laning va agar skuter mavjud bo'lsa, uzaytirishni tashkil qilamiz."
+      }
+    ]
+  },
+  "footer": {
+    "description": "Lombok, Indoneziyada mototsikl ijarasi va sarguzashtlar uchun ishonchli hamkoringiz.",
+    "quickLinks": "Tez Havolalar",
+    "contact": "Biz Bilan Bog'laning",
+    "followUs": "Bizni Kuzatib Boring",
+    "rights": "Barcha huquqlar himoyalangan."
+  },
+  "terms": {
+    "title": "Shartlar va Qoidalar",
+    "subtitle": "Lombok Local dan ijaraga olishdan oldin ushbu shartlarni diqqat bilan o'qing",
+    "rentalRequirements": "Ijara Talablari",
+    "usageTerms": "Foydalanish Shartlari va Cheklovlar",
+    "liability": "Mas'uliyat",
+    "facilities": "Kiritilgan Xizmatlar",
+    "pricing": "Narxlar",
+    "requiredDocs": "Talab Qilinadigan Hujjatlar",
+    "agreement": "Kelishuv",
+    "questionsTitle": "Shartlar Haqida Savollar?",
+    "questionsSubtitle": "Agar savollaringiz bo'lsa yoki shartlar haqida tushuntirish kerak bo'lsa, biz bilan bog'laning."
+  },
+  "bikeModal": {
+    "termsAgreement": "Men quyidagilarga roziman",
+    "termsLink": "Shartlar va Qoidalar",
+    "termsRequired": "Biz bilan bog'lanishdan oldin shartlarga rozi bo'ling",
+    "daily": "Kunlik",
+    "weekly": "Haftalik",
+    "monthly": "Oylik",
+    "perDay": "kuniga",
+    "perWeek": "haftasiga",
+    "perMonth": "oyiga",
+    "engine": "Dvigatel",
+    "transmission": "Transmissiya",
+    "fuelCapacity": "Yoqilg'i Hajmi",
+    "year": "Yil",
+    "mileage": "Yugurilgan Masofa",
+    "features": "Xususiyatlar",
+    "currentlyUnavailable": "Hozirda Mavjud Emas",
+    "dayTab": "Kun",
+    "weekTab": "Hafta",
+    "monthTab": "Oy",
+    "description": "Tavsif",
+    "model": "Model",
+    "kilometers": "Yugurilgan Kilometrlar",
+    "available": "Mavjud",
+    "unavailable": "Mavjud Emas",
+    "bookNow": "Hozir Band Qiling",
+    "notifyWhenAvailable": "Mavjud Bo'lganda Ogohlantirish",
+    "overviewTab": "Umumiy Maʼlumot",
+    "specificationsTab": "Spetsifikatsiyalar",
+    "maintenanceTab": "Texnik Xizmat",
+    "purchaseDate": "Sotib Olish Sanasi",
+    "lastMaintenance": "Oxirgi Texnik Xizmat",
+    "nextMaintenanceDue": "Keyingi Texnik Xizmat",
+    "maintenanceInfoNotAvailable": "Texnik xizmat maʼlumotlari mavjud emas",
+    "bikeCondition": "Motosikl Holati",
+    "totalKilometers": "Jami Kilometr",
+    "maintenanceSchedule": "Texnik Xizmat Jadavali",
+    "descriptionLabel": "Tavsif"
+  },
+  "termsContent": {
+    "backToHome": "Bosh Sahifaga Qaytish",
+    "contactWhatsApp": "WhatsApp orqali bog'lanish",
+    "contactTelegram": "Telegram orqali bog'lanish",
+    "rentalRequirements": [
+      "Ijarachilar 17 va 70 yosh oralig'ida bo'lishi kerak",
+      "Mamlakatingizdan haqiqiy haydovchilik guvohnomasi talab qilinadi",
+      "Haqiqiy ID karta yoki pasport ijara davrida garov sifatida qoldirilishi kerak",
+      "Transport vositasini olayotganda to'liq to'lov talab qilinadi"
+    ],
+    "usageTerms": [
+      "Skuterlar Lombok orolidan tashqarida haydab bo'LMAYDI",
+      "Yo'ldan tashqarida haydash qat'iyan man etilgan",
+      "Faqat ruxsat etilgan haydovchilar skuterni boshqarishi mumkin - haydash bilmaydigan boshqalarga ruxsat bermang",
+      "Alkogol yoki giyohvand moddalar ta'sirida transport vositasini boshqarish qat'iyan man etilgan",
+      "Barcha yo'l belgilari va qoidalarga qat'iy rioya qilinishi kerak",
+      "Ijara tariflar 24 soatlik asosda hisoblanadi"
+    ],
+    "liability": {
+      "warning": "Muhim: Ijarachining To'liq Mas'uliyati",
+      "warningDesc": "Ijarachining ijara davrida skuterning barcha qismlariga to'liq mas'uliyati bor.",
+      "items": [
+        "Skuterga zarar yetkazgan baxtsiz hodisa yuz berganda, ijarachi zarar darajasiga qarab $250 - $500 USD orasidagi xarajatlar uchun javobgar",
+        "Agar ijara davrida velosiped yo'qolgan yoki o'g'irlangan bo'lsa, ijarachi almashtirish narxi uchun to'liq javobgar",
+        "Ijarachilar hujjatlashtirish maqsadida transport vositasini olayotganda suratga olinishga rozi bo'lishlari kerak"
+      ]
+    },
+    "facilities": [
+      "Raqobatbardosh Narxlar: Faqat kuniga $5 USD dan",
+      "Xavfsizlik Uskunalari: Har bir ijarada ikkita SNI sertifikatlangan dubulga",
+      "Ob-havo Himoyasi: Ikkita toza, yaxshi parvarish qilingan yomg'ir kiyimi taqdim etiladi",
+      "Bepul Yetkazib Berish: Senggigi hududidagi mehmонхоnangizga bepul yetkazib berish",
+      "Tez Buyurtma: WhatsApp yoki Telegram orqali tez va javobgar buyurtma jarayoni",
+      "Yaxshi Parvarish Qilingan Flot: Barcha skuterlar toza va ajoyib holatda yetkaziladi",
+      "Eng Yangi Modellar: Bizning flotimiz vakolatli dilerlarda muntazam texnik xizmat ko'rsatiladigan eng yangi modellardan iborat",
+      "Bepul Almashtirish: Mexanik nosozlik yoki zarar (ijarachi sabab bo'lmagan) bo'lsa, biz bepul almashtirish taklif qilamiz",
+      "Shaffof Narxlar: Yashirin xarajatlar yoki kelajakdagi qo'shimcha to'lovlar yo'q"
+    ],
+    "pricingInfo": "Bizning ijara tariflarimiz kuniga (24 soat) faqat $5 USD dan boshlanadi.",
+    "pricingNote": "Barcha narxlar yashirin to'lovsiz shaffofdir. Transport vositasini olayotganda to'liq to'lov talab qilinadi.",
+    "requiredDocs": {
+      "intro": "Quyidagi hujjatlarga ega ekanligingizga ishonch hosil qiling:",
+      "items": [
+        "Ona mamlakatingizdan haqiqiy haydovchilik guvohnomasi",
+        "Haqiqiy shaxsni tasdiqlovchi hujjat (ID karta yoki pasport) - garov sifatida qoldiriladi"
+      ],
+      "note": "Ushbu hujjatlarga ega bo'lish mahalliy qoidalarga rioya qilish va muammosiz ijara tajribasini ta'minlaydi."
+    },
+    "agreementText": "Lombok Local dan skuterga ijarasiz, siz yuqorida keltirilgan barcha shartlarni o'qib chiqqaningizni, tushunganingizni va ularga rioya qilishga roziligingizni tan olasiz. Ushbu shartlarni buzish qo'shimcha to'lovlar yoki qonuniy choralar ko'rishga olib kelishi mumkin."
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "bikes": [
+    {
+      "id": "honda-beat",
+      "name": "Honda Beat",
+      "model": "Beat",
+      "dailyPrice": 5,
+      "weeklyPrice": 30,
+      "monthlyPrice": 100,
+      "description": "Perfect for exploring Lombok's coastal villages and narrow island roads. The Honda Beat is light, nimble, and incredibly fuel-efficient, making it ideal for budget-conscious travelers who want to experience the island's hidden gems without breaking the bank.",
+      "features": [
+        "Free Helmet",
+        "Lock Included",
+        "Fuel Efficient",
+        "Perfect for City",
+        "Easy Parking"
+      ],
+      "specs": {
+        "engine": "110cc",
+        "transmission": "Automatic",
+        "fuelCapacity": "4.2L"
+      },
+      "status": "available",
+      "image": "/bikes/honda-beat.jpg"
+    },
+    {
+      "id": "honda-street",
+      "name": "Honda Street",
+      "model": "Scoopy Street",
+      "dailyPrice": 6,
+      "weeklyPrice": 35,
+      "monthlyPrice": 110,
+      "description": "A stylish and comfortable choice for casual exploring. The Scoopy Street combines the practicality of a traditional scooter with modern design elements and a comfortable seating position, perfect for leisurely rides around Lombok's scenic spots.",
+      "features": [
+        "Free Helmet",
+        "Lock Included",
+        "Comfortable Seat",
+        "Stylish Design",
+        "Smooth Handling"
+      ],
+      "specs": {
+        "engine": "110cc",
+        "transmission": "Automatic",
+        "fuelCapacity": "4.2L"
+      },
+      "status": "available",
+      "image": "/bikes/honda-scoopy.jpg"
+    },
+    {
+      "id": "honda-vario-125",
+      "name": "Honda Vario 125",
+      "model": "Vario 125",
+      "dailyPrice": 7,
+      "weeklyPrice": 40,
+      "monthlyPrice": 120,
+      "description": "The Vario 125 offers the perfect balance of power and efficiency. With its larger 125cc engine and spacious storage compartment, this bike is great for day trips and exploring multiple destinations without the need for frequent refueling.",
+      "features": [
+        "Free Helmet",
+        "Lock Included",
+        "USB Charger",
+        "Large Storage",
+        "Efficient Engine"
+      ],
+      "specs": {
+        "engine": "125cc",
+        "transmission": "Automatic",
+        "fuelCapacity": "5.5L"
+      },
+      "status": "available",
+      "image": "/bikes/honda-vario-125.jpg"
+    },
+    {
+      "id": "honda-vario-160",
+      "name": "Honda Vario 160",
+      "model": "Vario 160",
+      "dailyPrice": 9,
+      "weeklyPrice": 50,
+      "monthlyPrice": 150,
+      "description": "For those seeking more power and comfort. The Vario 160 comes with advanced features including a USB charger for your devices and premium comfort seating. Its responsive handling makes tackling Lombok's winding mountain roads an absolute pleasure.",
+      "features": [
+        "Free Helmet",
+        "Lock Included",
+        "USB Charger",
+        "Premium Comfort",
+        "Advanced Features"
+      ],
+      "specs": {
+        "engine": "160cc",
+        "transmission": "Automatic",
+        "fuelCapacity": "5.5L"
+      },
+      "status": "available",
+      "image": "/bikes/honda-vario-160.jpg"
+    },
+    {
+      "id": "honda-pcx",
+      "name": "Honda PCX 160",
+      "model": "PCX 160",
+      "dailyPrice": 12,
+      "weeklyPrice": 70,
+      "monthlyPrice": 200,
+      "description": "The ultimate premium scooter experience. With its impressive 160cc engine, integrated ABS braking system, and luxury features, the PCX 160 is built for travelers who demand the best. Premium LED lights and digital dashboard make every ride memorable.",
+      "features": [
+        "Free Helmet",
+        "Lock Included",
+        "USB Charger",
+        "Premium Scooter",
+        "ABS Brakes",
+        "LED Lights",
+        "Digital Dashboard"
+      ],
+      "specs": {
+        "engine": "160cc",
+        "transmission": "Automatic",
+        "fuelCapacity": "8L"
+      },
+      "status": "rented",
+      "image": "/bikes/honda-pcx.jpg"
+    },
+    {
+      "id": "yamaha-nmax",
+      "name": "Yamaha NMAX 155",
+      "model": "NMAX 155",
+      "dailyPrice": 12,
+      "weeklyPrice": 70,
+      "monthlyPrice": 200,
+      "description": "A sporty and powerful choice for adventure seekers. The Yamaha NMAX 155 delivers dynamic performance with its 155cc engine and sleek design. ABS brakes ensure safety on every curve, while excellent fuel efficiency keeps your costs down on long island explorations.",
+      "features": [
+        "Free Helmet",
+        "Lock Included",
+        "USB Charger",
+        "Sporty Design",
+        "ABS Brakes",
+        "Powerful Engine",
+        "Great Handling"
+      ],
+      "specs": {
+        "engine": "155cc",
+        "transmission": "Automatic",
+        "fuelCapacity": "7.1L"
+      },
+      "status": "available",
+      "image": "/bikes/yamaha-nmax.jpg"
+    }
+  ]
+}

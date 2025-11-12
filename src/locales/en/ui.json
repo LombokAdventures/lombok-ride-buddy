@@ -1,0 +1,251 @@
+{
+  "hero": {
+    "title": "From Beaches to Mountains - Lombok is Yours to Explore",
+    "subtitle": "Premium Scooters from $5/Day",
+    "cta": "Check Availability",
+    "trustBadge": "Trusted by travelers since 2025"
+  },
+  "nav": {
+    "fleet": "Our Fleet",
+    "about": "Why Choose Us",
+    "tours": "Tours",
+    "villas": "Villas",
+    "contact": "Contact"
+  },
+  "fleet": {
+    "title": "Our Premium Fleet",
+    "subtitle": "Choose from our selection of well-maintained Honda and Yamaha scooters",
+    "available": "Available",
+    "rented": "Currently Rented",
+    "perDay": "/day",
+    "reserve": "Reserve Now",
+    "specifications": "Specifications"
+  },
+  "benefits": {
+    "title": "Why Choose Lombok Local",
+    "items": [
+      {
+        "title": "Free Helmets & Locks",
+        "description": "Safety equipment included with every rental"
+      },
+      {
+        "title": "Flexible Delivery",
+        "description": "Free delivery for monthly rentals in Mataram/Praya or pick up at our location"
+      },
+      {
+        "title": "24/7 Support",
+        "description": "We're here to help anytime you need us"
+      },
+      {
+        "title": "No Deposit Required",
+        "description": "Flexible booking with minimal upfront cost"
+      },
+      {
+        "title": "Quality Fleet",
+        "description": "Well-maintained scooters ready for your adventure"
+      },
+      {
+        "title": "Best Price Guarantee",
+        "description": "Competitive rates with no hidden fees"
+      },
+      {
+        "title": "Clear Terms & Policies",
+        "description": "Transparent rental terms with no surprises"
+      }
+    ]
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "steps": [
+      {
+        "title": "Choose Your Bike",
+        "description": "Browse our fleet and select your perfect ride"
+      },
+      {
+        "title": "Book via WhatsApp",
+        "description": "Quick and easy booking through WhatsApp or Telegram"
+      },
+      {
+        "title": "Start Your Adventure",
+        "description": "Free delivery for monthly rentals in Mataram/Praya or pick up at our location!"
+      }
+    ]
+  },
+  "reviews": {
+    "title": "What Our Customers Say",
+    "rating": "stars from 200+ reviews",
+    "submitTitle": "Share Your Experience",
+    "submitButton": "Submit Review",
+    "namePlaceholder": "Your Name",
+    "countryPlaceholder": "Your Country",
+    "commentPlaceholder": "Tell us about your experience...",
+    "thankYou": "Thank you for your review!",
+    "pendingApproval": "Your review is pending approval and will appear soon."
+  },
+  "comingSoon": {
+    "tours": {
+      "title": "Tours & Adventures",
+      "description": "Multi-day tours, waterfall expeditions, cultural experiences - Coming 2025",
+      "cta": "Notify Me",
+      "emailPlaceholder": "Enter your email",
+      "whatsappPlaceholder": "Enter your WhatsApp number",
+      "telegramPlaceholder": "Enter your Telegram username",
+      "thankYou": "Thanks! We'll notify you when tours are available."
+    },
+    "villas": {
+      "title": "Villas & Houses",
+      "description": "Beachfront villas and mountain retreats - Coming Soon",
+      "cta": "Get Early Access",
+      "emailPlaceholder": "Enter your email",
+      "whatsappPlaceholder": "Enter your WhatsApp number",
+      "telegramPlaceholder": "Enter your Telegram username",
+      "thankYou": "Thanks! We'll notify you when villas are available."
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "items": [
+      {
+        "question": "What is included in the rental price?",
+        "answer": "All rentals include a helmet and lock. Free delivery is available for monthly rentals within Mataram and Praya areas. Fuel is not included."
+      },
+      {
+        "question": "Can you deliver to my location?",
+        "answer": "We offer free delivery for monthly rentals to Mataram and Praya areas. For daily and weekly rentals, pick up is available at our location or we can arrange delivery for a fee."
+      },
+      {
+        "question": "What are the age requirements?",
+        "answer": "Renters must be at least 18 years old and have a valid driving license."
+      },
+      {
+        "question": "What payment methods do you accept?",
+        "answer": "We accept cash (IDR or USD), bank transfer, and popular payment apps. Payment details will be provided when you book via WhatsApp."
+      },
+      {
+        "question": "What if I have a breakdown or accident?",
+        "answer": "We provide 24/7 support. Contact us immediately and we'll help you sort it out."
+      },
+      {
+        "question": "Do you offer weekly or monthly discounts?",
+        "answer": "Yes! We offer significant discounts for weekly and monthly rentals. Check our pricing for each bike."
+      },
+      {
+        "question": "How far in advance should I book?",
+        "answer": "We recommend booking at least 24 hours in advance, especially during high season (July-August, December-January)."
+      },
+      {
+        "question": "Can I extend my rental period?",
+        "answer": "Yes, just contact us via WhatsApp before your rental period ends and we'll arrange an extension if the bike is available."
+      }
+    ]
+  },
+  "footer": {
+    "description": "Your trusted partner for motorbike rentals and adventures in Lombok, Indonesia.",
+    "quickLinks": "Quick Links",
+    "contact": "Contact Us",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved."
+  },
+  "terms": {
+    "title": "Terms & Conditions",
+    "subtitle": "Please read these terms carefully before renting from Lombok Local",
+    "rentalRequirements": "Rental Requirements",
+    "usageTerms": "Usage Terms & Restrictions",
+    "liability": "Liability & Responsibility",
+    "facilities": "Included Facilities & Services",
+    "pricing": "Pricing",
+    "requiredDocs": "Required Documents",
+    "agreement": "Agreement",
+    "questionsTitle": "Questions About Our Terms?",
+    "questionsSubtitle": "If you have any questions or need clarification about our terms and conditions, please don't hesitate to contact us."
+  },
+  "bikeModal": {
+    "termsAgreement": "I agree to the",
+    "termsLink": "Terms & Conditions",
+    "termsRequired": "Please agree to the terms before contacting us",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "perDay": "per day",
+    "perWeek": "per week",
+    "perMonth": "per month",
+    "engine": "Engine",
+    "transmission": "Transmission",
+    "fuelCapacity": "Fuel Capacity",
+    "year": "Year",
+    "mileage": "Mileage",
+    "features": "Features",
+    "currentlyUnavailable": "Currently Unavailable",
+    "dayTab": "Day",
+    "weekTab": "Week",
+    "monthTab": "Month",
+    "description": "Description",
+    "model": "Model",
+    "kilometers": "Kilometers Driven",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "bookNow": "Book Now",
+    "notifyWhenAvailable": "Notify Me When Available",
+    "overviewTab": "Overview",
+    "specificationsTab": "Specifications",
+    "maintenanceTab": "Maintenance",
+    "purchaseDate": "Purchase Date",
+    "lastMaintenance": "Last Maintenance",
+    "nextMaintenanceDue": "Next Maintenance Due",
+    "maintenanceInfoNotAvailable": "Maintenance information not available",
+    "bikeCondition": "Bike Condition",
+    "totalKilometers": "Total Kilometers",
+    "maintenanceSchedule": "Maintenance Schedule",
+    "descriptionLabel": "Description"
+  },
+  "termsContent": {
+    "backToHome": "Back to Home",
+    "contactWhatsApp": "Contact via WhatsApp",
+    "contactTelegram": "Contact via Telegram",
+    "rentalRequirements": [
+      "Renters must be between 17 and 70 years old",
+      "Valid driver's license from your country is required",
+      "Valid ID Card or Passport must be left as deposit during rental period",
+      "Full payment required upon receiving the vehicle"
+    ],
+    "usageTerms": [
+      "Scooters must NOT be driven outside of Lombok Island",
+      "Off-road driving is strictly prohibited",
+      "Only authorized riders may operate the scooter - do not allow others who don't know how to drive it",
+      "Operating the vehicle under the influence of alcohol or drugs is strictly forbidden",
+      "All traffic signs and regulations must be strictly followed",
+      "Rental rates are calculated on a 24-hour clock basis"
+    ],
+    "liability": {
+      "warning": "Important: Renter's Full Responsibility",
+      "warningDesc": "The renter is fully responsible for all parts of the scooter during the rental period.",
+      "items": [
+        "In case of accident causing damage to the scooter, renter is liable for costs between $250 - $500 USD depending on the extent of damage",
+        "If the bike is lost or stolen during the rental period, the renter is fully responsible for the replacement cost",
+        "Renters must consent to being photographed when receiving the fleet for documentation purposes"
+      ]
+    },
+    "facilities": [
+      "Competitive Pricing: Starting from just $5 USD per day",
+      "Safety Equipment: Two SNI-certified helmets included with every rental",
+      "Weather Protection: Two clean, well-maintained raincoats provided",
+      "Free Delivery: Complimentary delivery to your hotel in the Senggigi area",
+      "Quick Booking: Fast and responsive ordering process through WhatsApp or Telegram",
+      "Well-Maintained Fleet: All scooters are delivered clean and in excellent condition",
+      "Latest Models: Our fleet consists of the newest models with regular maintenance at authorized dealers",
+      "Free Replacement: In the event of mechanical failure or damage to the unit (not caused by renter), we offer free-of-charge replacement",
+      "Transparent Pricing: No hidden costs or future additional charges"
+    ],
+    "pricingInfo": "Our rental rates start from just $5 USD per day (24 hours).",
+    "pricingNote": "All pricing is transparent with no hidden fees. Payment is required in full upon receiving the vehicle.",
+    "requiredDocs": {
+      "intro": "Please ensure you have the following documents:",
+      "items": [
+        "Valid driver's license from your home country",
+        "Valid identification (ID Card or Passport) - to be left as deposit"
+      ],
+      "note": "Having these documents ensures compliance with local regulations and a hassle-free rental experience."
+    },
+    "agreementText": "By renting a scooter from Lombok Local, you acknowledge that you have read, understood, and agree to comply with all the terms and conditions stated above. Violation of these terms may result in additional charges or legal action."
+  }
+}
