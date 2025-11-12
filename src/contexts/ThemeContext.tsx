@@ -1,11 +1,12 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
-type Theme = 'light' | 'dark';
+type Theme = 'light' | 'dark' | 'island';
 
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
   setTheme: (theme: Theme) => void;
+  themes: Theme[];
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -29,8 +30,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const root = window.document.documentElement;
 
-    // Remove both classes first
-    root.classList.remove('light', 'dark');
+    // Remove all theme classes first
+    root.classList.remove('light', 'dark', 'island');
 
     // Add the current theme class
     root.classList.add(theme);
@@ -40,15 +41,22 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   }, [theme]);
 
   const toggleTheme = () => {
-    setThemeState(prev => prev === 'light' ? 'dark' : 'light');
+    setThemeState(prev => {
+      const themes: Theme[] = ['light', 'dark', 'island'];
+      const currentIndex = themes.indexOf(prev);
+      const nextIndex = (currentIndex + 1) % themes.length;
+      return themes[nextIndex];
+    });
   };
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
   };
 
+  const availableThemes: Theme[] = ['light', 'dark', 'island'];
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme, themes: availableThemes }}>
       {children}
     </ThemeContext.Provider>
   );

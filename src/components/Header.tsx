@@ -1,17 +1,33 @@
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { Menu, X, Palmtree, Sun, Moon } from 'lucide-react';
-import { useState } from 'react';
+import { Menu, X, Palmtree, Sun, Moon, Leaf } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+  const themeMenuRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Close theme menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (themeMenuRef.current && !themeMenuRef.current.contains(event.target as Node)) {
+        setThemeMenuOpen(false);
+      }
+    };
+
+    if (themeMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [themeMenuOpen]);
 
   const navItems = [
     { label: t.nav.fleet, href: '#fleet' },
@@ -65,20 +81,72 @@ export const Header = () => {
 
           {/* Right Section */}
           <div className="flex items-center gap-3">
-            {/* Theme Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="hover:bg-muted transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === 'light' ? (
-                <Moon className="h-5 w-5" />
-              ) : (
-                <Sun className="h-5 w-5" />
+            {/* Theme Selector */}
+            <div className="relative" ref={themeMenuRef}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setThemeMenuOpen(!themeMenuOpen)}
+                className="hover:bg-muted transition-colors"
+                aria-label="Theme selector"
+              >
+                {theme === 'light' ? (
+                  <Sun className="h-5 w-5" />
+                ) : theme === 'dark' ? (
+                  <Moon className="h-5 w-5" />
+                ) : (
+                  <Leaf className="h-5 w-5 text-green-500" />
+                )}
+              </Button>
+
+              {/* Theme Dropdown */}
+              {themeMenuOpen && (
+                <div className="absolute right-0 mt-2 w-40 bg-card border border-border rounded-lg shadow-lg z-50">
+                  <button
+                    onClick={() => {
+                      setTheme('light');
+                      setThemeMenuOpen(false);
+                    }}
+                    className={`w-full px-4 py-2 text-left text-sm flex items-center gap-2 transition-colors ${
+                      theme === 'light'
+                        ? 'bg-primary/10 text-primary font-medium'
+                        : 'hover:bg-muted text-foreground'
+                    }`}
+                  >
+                    <Sun className="h-4 w-4" />
+                    Light
+                  </button>
+                  <button
+                    onClick={() => {
+                      setTheme('dark');
+                      setThemeMenuOpen(false);
+                    }}
+                    className={`w-full px-4 py-2 text-left text-sm flex items-center gap-2 transition-colors border-t border-border ${
+                      theme === 'dark'
+                        ? 'bg-primary/10 text-primary font-medium'
+                        : 'hover:bg-muted text-foreground'
+                    }`}
+                  >
+                    <Moon className="h-4 w-4" />
+                    Dark
+                  </button>
+                  <button
+                    onClick={() => {
+                      setTheme('island');
+                      setThemeMenuOpen(false);
+                    }}
+                    className={`w-full px-4 py-2 text-left text-sm flex items-center gap-2 transition-colors border-t border-border ${
+                      theme === 'island'
+                        ? 'bg-primary/10 text-primary font-medium'
+                        : 'hover:bg-muted text-foreground'
+                    }`}
+                  >
+                    <Leaf className="h-4 w-4" />
+                    Island
+                  </button>
+                </div>
               )}
-            </Button>
+            </div>
 
             <LanguageSwitcher />
 
