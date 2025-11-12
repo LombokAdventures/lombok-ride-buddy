@@ -20,8 +20,8 @@ export const ComingSoon = () => {
   const [villaTelegram, setVillaTelegram] = useState('');
   const [isSubmittingTour, setIsSubmittingTour] = useState(false);
   const [isSubmittingVilla, setIsSubmittingVilla] = useState(false);
-  const [tourContactMethod, setTourContactMethod] = useState<ContactMethod>('email');
-  const [villaContactMethod, setVillaContactMethod] = useState<ContactMethod>('email');
+  const [tourContactMethod, setTourContactMethod] = useState<ContactMethod>('whatsapp');
+  const [villaContactMethod, setVillaContactMethod] = useState<ContactMethod>('whatsapp');
 
   const handleTourSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
