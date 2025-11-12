@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import heroLombok1 from "@/assets/hero-lombok-1.jpg";
+import heroLombok2 from "@/assets/hero-lombok-2.jpg";
+import heroLombok3 from "@/assets/hero-lombok-3.jpg";
+import heroLombok4 from "@/assets/hero-lombok-4.jpg";
+import heroLombok5 from "@/assets/hero-lombok-5.jpg";
 
 interface HeroImage {
   id: string;
@@ -63,6 +68,17 @@ export const HeroSlider = () => {
     setTimeout(() => setIsTransitioning(false), 500);
   };
 
+  const getImageSrc = (imageUrl: string): string => {
+    const imageMap: Record<string, string> = {
+      'hero-lombok-1.jpg': heroLombok1,
+      'hero-lombok-2.jpg': heroLombok2,
+      'hero-lombok-3.jpg': heroLombok3,
+      'hero-lombok-4.jpg': heroLombok4,
+      'hero-lombok-5.jpg': heroLombok5,
+    };
+    return imageMap[imageUrl] || imageUrl;
+  };
+
   if (images.length === 0) {
     return (
       <div className="relative h-[400px] md:h-[600px] bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
@@ -86,7 +102,7 @@ export const HeroSlider = () => {
             }`}
           >
             <img
-              src={image.image_url}
+              src={getImageSrc(image.image_url)}
               alt={image.title || "Hero image"}
               className="w-full h-full object-cover"
             />

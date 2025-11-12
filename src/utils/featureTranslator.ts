@@ -7,14 +7,16 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Бесплатный шлем',
     id: 'Helm Gratis',
     de: 'Kostenloser Helm',
-    uz: 'Bepul Dubulga'
+    uz: 'Bepul Dubulga',
+    ar: 'خوذة مجانية'
   },
   'Helmet Included': {
     en: 'Helmet Included',
     ru: 'Шлем включен',
     id: 'Helm Termasuk',
     de: 'Helm Inklusive',
-    uz: 'Dubulga Kiritilgan'
+    uz: 'Dubulga Kiritilgan',
+    ar: 'خوذة مشمولة'
   },
 
   // Lock features
@@ -23,14 +25,16 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Замок включен',
     id: 'Kunci Termasuk',
     de: 'Schloss Inklusive',
-    uz: 'Qulf Kiritilgan'
+    uz: 'Qulf Kiritilgan',
+    ar: 'قفل مشمول'
   },
   'Free Lock': {
     en: 'Free Lock',
     ru: 'Бесплатный замок',
     id: 'Kunci Gratis',
     de: 'Kostenloses Schloss',
-    uz: 'Bepul Qulf'
+    uz: 'Bepul Qulf',
+    ar: 'قفل مجاني'
   },
 
   // Fuel features
@@ -39,7 +43,8 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Экономичный',
     id: 'Hemat Bahan Bakar',
     de: 'Kraftstoffeffizient',
-    uz: 'Yoqilg\'i Tejamkor'
+    uz: 'Yoqilg\'i Tejamkor',
+    ar: 'موفر للوقود'
   },
 
   // City/Urban features
@@ -48,14 +53,16 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Идеально для города',
     id: 'Sempurna untuk Kota',
     de: 'Perfekt für die Stadt',
-    uz: 'Shahar Uchun Mukammal'
+    uz: 'Shahar Uchun Mukammal',
+    ar: 'مثالي للمدينة'
   },
   'City Ride': {
     en: 'City Ride',
     ru: 'Городская поездка',
     id: 'Perjalanan Kota',
     de: 'Stadtfahrt',
-    uz: 'Shahar Sayohati'
+    uz: 'Shahar Sayohati',
+    ar: 'رحلة المدينة'
   },
 
   // Insurance
@@ -64,14 +71,16 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Страховка',
     id: 'Asuransi',
     de: 'Versicherung',
-    uz: 'Sug\'urta'
+    uz: 'Sug\'urta',
+    ar: 'تأمين'
   },
   'Insurance Included': {
     en: 'Insurance Included',
     ru: 'Страховка включена',
     id: 'Asuransi Termasuk',
     de: 'Versicherung Inklusive',
-    uz: 'Sug\'urta Kiritilgan'
+    uz: 'Sug\'urta Kiritilgan',
+    ar: 'التأمين مشمول'
   },
 
   // Support
@@ -80,7 +89,8 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Поддержка 24/7',
     id: 'Dukungan 24/7',
     de: 'Support 24/7',
-    uz: '24/7 Yordam'
+    uz: '24/7 Yordam',
+    ar: 'دعم 24/7'
   },
 
   // GPS
@@ -89,14 +99,16 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Бесплатный GPS',
     id: 'GPS Gratis',
     de: 'Kostenloses GPS',
-    uz: 'Bepul GPS'
+    uz: 'Bepul GPS',
+    ar: 'GPS مجاني'
   },
   'GPS Included': {
     en: 'GPS Included',
     ru: 'GPS включен',
     id: 'GPS Termasuk',
     de: 'GPS Inklusive',
-    uz: 'GPS Kiritilgan'
+    uz: 'GPS Kiritilgan',
+    ar: 'GPS مشمول'
   },
 
   // Delivery
@@ -105,7 +117,8 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Бесплатная доставка',
     id: 'Pengantaran Gratis',
     de: 'Kostenlose Lieferung',
-    uz: 'Bepul Yetkazib Berish'
+    uz: 'Bepul Yetkazib Berish',
+    ar: 'توصيل مجاني'
   },
 
   // Maintenance
@@ -114,7 +127,8 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Ухоженный',
     id: 'Terawat Baik',
     de: 'Gut Gewartet',
-    uz: 'Yaxshi Parvarish Qilingan'
+    uz: 'Yaxshi Parvarish Qilingan',
+    ar: 'صيانة جيدة'
   },
 
   // Comfort
@@ -123,14 +137,16 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Удобный',
     id: 'Nyaman',
     de: 'Komfortabel',
-    uz: 'Qulay'
+    uz: 'Qulay',
+    ar: 'مريح'
   },
   'Comfortable Seat': {
     en: 'Comfortable Seat',
     ru: 'Удобное сиденье',
     id: 'Kursi Nyaman',
     de: 'Bequemer Sitz',
-    uz: 'Qulay O\'rindiq'
+    uz: 'Qulay O\'rindiq',
+    ar: 'مقعد مريح'
   },
 
   // Storage
@@ -139,14 +155,16 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Отсек под сиденьем',
     id: 'Penyimpanan Bawah Kursi',
     de: 'Stauraum unter dem Sitz',
-    uz: 'O\'rindiq Ostida Saqlash'
+    uz: 'O\'rindiq Ostida Saqlash',
+    ar: 'تخزين أسفل المقعد'
   },
   'Large Storage': {
     en: 'Large Storage',
     ru: 'Большой багажник',
     id: 'Penyimpanan Besar',
     de: 'Großer Stauraum',
-    uz: 'Katta Saqlash'
+    uz: 'Katta Saqlash',
+    ar: 'تخزين كبير'
   },
 
   // Modern
@@ -155,7 +173,8 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Современный дизайн',
     id: 'Desain Modern',
     de: 'Modernes Design',
-    uz: 'Zamonaviy Dizayn'
+    uz: 'Zamonaviy Dizayn',
+    ar: 'تصميم عصري'
   },
 
   // Popular
@@ -164,7 +183,8 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Самый популярный',
     id: 'Paling Populer',
     de: 'Am beliebtesten',
-    uz: 'Eng Mashhur'
+    uz: 'Eng Mashhur',
+    ar: 'الأكثر شعبية'
   },
 
   // Beginners
@@ -173,7 +193,8 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Идеально для начинающих',
     id: 'Sempurna untuk Pemula',
     de: 'Perfekt für Anfänger',
-    uz: 'Yangi Boshlanuvchilar Uchun'
+    uz: 'Yangi Boshlanuvchilar Uchun',
+    ar: 'مثالي للمبتدئين'
   },
 
   // New/Clean
@@ -182,14 +203,16 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'Новая модель',
     id: 'Model Baru',
     de: 'Neues Modell',
-    uz: 'Yangi Model'
+    uz: 'Yangi Model',
+    ar: 'موديل جديد'
   },
   'Clean': {
     en: 'Clean',
     ru: 'Чистый',
     id: 'Bersih',
     de: 'Sauber',
-    uz: 'Toza'
+    uz: 'Toza',
+    ar: 'نظيف'
   },
 
   // USB Charger
@@ -198,7 +221,8 @@ const featureTranslations: Record<string, Record<Language, string>> = {
     ru: 'USB зарядка',
     id: 'Pengisi USB',
     de: 'USB-Ladegerät',
-    uz: 'USB Zaryadlovchi'
+    uz: 'USB Zaryadlovchi',
+    ar: 'شاحن USB'
   }
 };
 

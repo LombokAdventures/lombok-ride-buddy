@@ -6,21 +6,24 @@ const transmissionTranslations: Record<string, Record<Language, string>> = {
     ru: 'Автомат',
     id: 'Otomatis',
     de: 'Automatik',
-    uz: 'Avtomat'
+    uz: 'Avtomat',
+    ar: 'أوتوماتيك'
   },
   'Manual': {
     en: 'Manual',
     ru: 'Ручная',
     id: 'Manual',
     de: 'Schaltgetriebe',
-    uz: 'Qo\'lda'
+    uz: 'Qo\'lda',
+    ar: 'يدوي'
   },
   'CVT': {
     en: 'CVT',
     ru: 'Вариатор',
     id: 'CVT',
     de: 'Stufenlos',
-    uz: 'CVT'
+    uz: 'CVT',
+    ar: 'CVT'
   }
 };
 
