@@ -27,6 +27,8 @@ export const AdminHeroImages = () => {
   const [isAdding, setIsAdding] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   useEffect(() => {
     fetchHeroImages();
@@ -246,6 +248,55 @@ export const AdminHeroImages = () => {
     fetchHeroImages();
   };
 
+  const handleDragStart = (index: number, e: React.DragEvent<HTMLDivElement>) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragOver = (index: number, e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    setDragOverIndex(index);
+  };
+
+  const handleDragLeave = () => {
+    setDragOverIndex(null);
+  };
+
+  const handleDropReorder = async (dropIndex: number, e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+
+    if (draggedIndex === null || draggedIndex === dropIndex) {
+      return;
+    }
+
+    const newImages = [...images];
+    const draggedImage = newImages[draggedIndex];
+    newImages.splice(draggedIndex, 1);
+    newImages.splice(dropIndex, 0, draggedImage);
+
+    // Update display orders in database
+    const updates = newImages.map((img, idx) => ({
+      id: img.id,
+      display_order: idx,
+    }));
+
+    for (const update of updates) {
+      await supabase
+        .from("hero_images")
+        .update({ display_order: update.display_order })
+        .eq("id", update.id);
+    }
+
+    fetchHeroImages();
+    toast({
+      title: "Success",
+      description: "Images reordered",
+    });
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -338,17 +389,24 @@ export const AdminHeroImages = () => {
 
         <div className="space-y-4">
           {images.map((image, index) => (
-            <Card key={image.id} className="overflow-hidden">
+            <Card
+              key={image.id}
+              className={`overflow-hidden transition-all cursor-move ${
+                draggedIndex === index
+                  ? "opacity-50 bg-muted/50"
+                  : dragOverIndex === index
+                  ? "border-primary bg-primary/5 ring-2 ring-primary"
+                  : ""
+              }`}
+              draggable
+              onDragStart={(e) => handleDragStart(index, e)}
+              onDragOver={(e) => handleDragOver(index, e)}
+              onDragLeave={handleDragLeave}
+              onDrop={(e) => handleDropReorder(index, e)}
+            >
               <div className="flex gap-4 p-4">
                 <div className="flex flex-col justify-center gap-2">
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => moveImage(index, "up")}
-                    disabled={index === 0}
-                  >
-                    <GripVertical className="h-4 w-4" />
-                  </Button>
+                  <GripVertical className="h-5 w-5 text-muted-foreground hover:text-foreground transition-colors" />
                   <span className="text-sm text-muted-foreground text-center">
                     {index + 1}
                   </span>
