@@ -77,7 +77,7 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
   return (
     <>
       <Card
-        className={`overflow-hidden shadow-card hover:shadow-elegant transition-all duration-300 cursor-pointer ${!isAvailable ? 'opacity-70' : ''}`}
+        className={`overflow-hidden shadow-card hover:shadow-elegant transition-all duration-300 cursor-pointer flex flex-col h-full ${!isAvailable ? 'opacity-70' : ''}`}
         onClick={() => setIsModalOpen(true)}
       >
       <div className="relative h-64 bg-muted overflow-hidden">
@@ -116,36 +116,37 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
         </div>
       </div>
       
-      <CardContent className="p-6">
+      <CardContent className="p-6 flex flex-col h-full">
         <div className="mb-4">
           <h3 className="text-2xl font-bold text-foreground mb-1">{bike.name}</h3>
           <p className="text-sm text-muted-foreground">{bike.model}</p>
         </div>
 
-        <Tabs
-          value={selectedPeriod}
-          onValueChange={(value) => setSelectedPeriod(value as 'daily' | 'weekly' | 'monthly')}
-          className="mb-4"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="daily">{t.bikeModal.dayTab}</TabsTrigger>
-            <div className="relative">
+        <div className="relative mb-4">
+          <Tabs
+            value={selectedPeriod}
+            onValueChange={(value) => setSelectedPeriod(value as 'daily' | 'weekly' | 'monthly')}
+            className=""
+            onClick={(e) => e.stopPropagation()}
+          >
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="daily">{t.bikeModal.dayTab}</TabsTrigger>
               <TabsTrigger value="weekly">{t.bikeModal.weekTab}</TabsTrigger>
-              <Badge className="absolute -top-2 -right-1 bg-success text-white text-xs">5% OFF</Badge>
-            </div>
-            <div className="relative">
               <TabsTrigger value="monthly">{t.bikeModal.monthTab}</TabsTrigger>
-              <Badge className="absolute -top-2 -right-1 bg-success text-white text-xs">20% OFF</Badge>
+            </TabsList>
+          </Tabs>
+          {selectedPeriod !== 'daily' && (
+            <div className="absolute top-0 right-0">
+              <Badge className="bg-success text-white text-xs font-bold px-2 py-0.5 rounded-md">
+                {selectedPeriod === 'weekly' ? '5%' : '20%'} OFF
+              </Badge>
             </div>
-          </TabsList>
-        </Tabs>
+          )}
+        </div>
 
         <div className="mb-4">
-          <div className="text-3xl font-bold text-primary mb-2">
-            ${getPrice()}
-            <span className="text-base text-muted-foreground font-normal">{getPeriodText()}</span>
-          </div>
+          <div className="text-3xl font-bold text-primary mb-1">${getPrice()}</div>
+          <p className="text-sm text-muted-foreground font-normal">{getPeriodText()}</p>
         </div>
 
         <div className="space-y-3 mb-4">
@@ -163,7 +164,7 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 flex-grow">
           {bike.features.map((feature, idx) => (
             <Badge key={idx} variant="outline" className="text-xs">
               {translateFeature(feature, language)}
