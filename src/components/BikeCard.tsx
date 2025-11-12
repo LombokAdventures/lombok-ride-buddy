@@ -136,8 +136,18 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
           >
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="daily">{t.bikeModal.dayTab}</TabsTrigger>
-              <TabsTrigger value="weekly">{t.bikeModal.weekTab}</TabsTrigger>
-              <TabsTrigger value="monthly">{t.bikeModal.monthTab}</TabsTrigger>
+              <TabsTrigger value="weekly" className="relative">
+                {t.bikeModal.weekTab}
+                <Badge className="absolute -top-2 -right-2 bg-success text-white text-[10px] px-1.5 py-0 rounded-full">
+                  5%
+                </Badge>
+              </TabsTrigger>
+              <TabsTrigger value="monthly" className="relative">
+                {t.bikeModal.monthTab}
+                <Badge className="absolute -top-2 -right-2 bg-success text-white text-[10px] px-1.5 py-0 rounded-full">
+                  20%
+                </Badge>
+              </TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
