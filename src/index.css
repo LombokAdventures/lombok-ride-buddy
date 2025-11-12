@@ -127,8 +127,8 @@ All colors MUST be HSL.
     --shadow-float: 0 20px 60px -20px hsl(200 90% 50% / 0.5);
   }
 
-  .island {
-    /* Island Adventure Theme - Ocean & Island Vibes */
+  .ocean {
+    /* Ocean Adventure Theme - Blue & Teal Vibes */
     --background: 200 40% 14%;
     --foreground: 200 15% 92%;
 
@@ -182,6 +182,63 @@ All colors MUST be HSL.
     --shadow-elegant: 0 10px 40px -10px hsl(200 45% 25% / 0.5);
     --shadow-card: 0 4px 20px -4px hsl(200 40% 10% / 0.4);
     --shadow-float: 0 20px 60px -20px hsl(175 65% 35% / 0.5);
+  }
+
+  .island {
+    /* Island Jungle Theme - Tropical Green & Earth Vibes */
+    --background: 110 30% 16%;
+    --foreground: 60 25% 92%;
+
+    --card: 110 28% 20%;
+    --card-foreground: 60 25% 92%;
+
+    --popover: 110 28% 20%;
+    --popover-foreground: 60 25% 92%;
+
+    /* Lush Emerald Green - Primary */
+    --primary: 135 65% 50%;
+    --primary-foreground: 110 30% 16%;
+    --primary-glow: 135 65% 62%;
+
+    /* Warm Earth Brown - Secondary */
+    --secondary: 25 75% 52%;
+    --secondary-foreground: 110 30% 16%;
+
+    /* Tropical Flower Pink - Accent */
+    --accent: 320 85% 55%;
+    --accent-foreground: 110 30% 16%;
+
+    /* Success - Forest Green */
+    --success: 130 60% 48%;
+    --success-foreground: 110 30% 16%;
+
+    /* Warning - Warm Orange */
+    --warning: 35 85% 58%;
+    --warning-foreground: 110 30% 16%;
+
+    --muted: 110 25% 28%;
+    --muted-foreground: 60 20% 60%;
+
+    --destructive: 0 85% 62%;
+    --destructive-foreground: 110 30% 16%;
+
+    --border: 110 28% 35%;
+    --input: 110 28% 35%;
+    --ring: 135 65% 50%;
+
+    /* Footer - Deep jungle green */
+    --footer-background: 110 30% 14%;
+    --footer-foreground: 60 25% 92%;
+
+    /* Gradients - Tropical jungle vibes */
+    --gradient-hero: linear-gradient(135deg, hsl(110 32% 26%), hsl(135 62% 42%));
+    --gradient-sunset: linear-gradient(135deg, hsl(320 85% 50%), hsl(25 75% 48%));
+    --gradient-tropical: linear-gradient(135deg, hsl(135 65% 46%), hsl(110 35% 32%));
+
+    /* Shadows - Green-tinted shadows */
+    --shadow-elegant: 0 10px 40px -10px hsl(135 65% 35% / 0.5);
+    --shadow-card: 0 4px 20px -4px hsl(110 30% 10% / 0.4);
+    --shadow-float: 0 20px 60px -20px hsl(135 62% 38% / 0.5);
   }
 }
 

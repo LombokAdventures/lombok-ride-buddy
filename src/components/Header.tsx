@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { Menu, X, Palmtree, Sun, Moon, Leaf } from 'lucide-react';
+import { Menu, X, Palmtree, Sun, Moon, Leaf, Waves } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -94,6 +94,8 @@ export const Header = () => {
                   <Sun className="h-5 w-5" />
                 ) : theme === 'dark' ? (
                   <Moon className="h-5 w-5" />
+                ) : theme === 'ocean' ? (
+                  <Waves className="h-5 w-5 text-cyan-500" />
                 ) : (
                   <Leaf className="h-5 w-5 text-green-500" />
                 )}
@@ -129,6 +131,20 @@ export const Header = () => {
                   >
                     <Moon className="h-4 w-4" />
                     Dark
+                  </button>
+                  <button
+                    onClick={() => {
+                      setTheme('ocean');
+                      setThemeMenuOpen(false);
+                    }}
+                    className={`w-full px-4 py-2 text-left text-sm flex items-center gap-2 transition-colors border-t border-border ${
+                      theme === 'ocean'
+                        ? 'bg-primary/10 text-primary font-medium'
+                        : 'hover:bg-muted text-foreground'
+                    }`}
+                  >
+                    <Waves className="h-4 w-4" />
+                    Ocean
                   </button>
                   <button
                     onClick={() => {
