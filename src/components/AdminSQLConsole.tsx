@@ -25,6 +25,19 @@ export const AdminSQLConsole = () => {
     });
   };
 
+  // Copy all errors to clipboard
+  const copyAllErrors = () => {
+    if (!results || results.errors.length === 0) return;
+    const text = results.errors
+      .map((err) => `${err.statement}\n${err.error}`)
+      .join("\n\n");
+    navigator.clipboard.writeText(text);
+    toast({
+      title: "Copied! ✓",
+      description: `All ${results.errors.length} errors copied to clipboard`,
+    });
+  };
+
   // Execute SQL by converting to Supabase methods
   const executeSQL = async (sql: string) => {
     setIsExecuting(true);
@@ -92,9 +105,21 @@ export const AdminSQLConsole = () => {
 
             {results.errors.length > 0 && (
               <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 rounded-lg p-4">
-                <p className="text-red-800 dark:text-red-200 font-semibold mb-2">
-                  ✗ Errors ({results.errors.length}):
-                </p>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-red-800 dark:text-red-200 font-semibold">
+                    ✗ Errors ({results.errors.length}):
+                  </p>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={copyAllErrors}
+                    className="h-8 px-2 text-red-700 hover:text-red-900 dark:text-red-300 dark:hover:text-red-100"
+                    title="Copy all errors"
+                  >
+                    <Copy className="h-4 w-4 mr-1" />
+                    Copy All
+                  </Button>
+                </div>
                 <div className="space-y-2">
                   {results.errors.map((err, idx) => (
                     <div key={idx} className="text-sm text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900/20 p-3 rounded flex items-start justify-between gap-2">
