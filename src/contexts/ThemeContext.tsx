@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
-type Theme = 'light' | 'dark' | 'island';
+type Theme = 'light' | 'dark' | 'ocean' | 'island';
 
 interface ThemeContextType {
   theme: Theme;
@@ -31,7 +31,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     const root = window.document.documentElement;
 
     // Remove all theme classes first
-    root.classList.remove('light', 'dark', 'island');
+    root.classList.remove('light', 'dark', 'ocean', 'island');
 
     // Add the current theme class
     root.classList.add(theme);
@@ -42,7 +42,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   const toggleTheme = () => {
     setThemeState(prev => {
-      const themes: Theme[] = ['light', 'dark', 'island'];
+      const themes: Theme[] = ['light', 'dark', 'ocean', 'island'];
       const currentIndex = themes.indexOf(prev);
       const nextIndex = (currentIndex + 1) % themes.length;
       return themes[nextIndex];
@@ -53,7 +53,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     setThemeState(newTheme);
   };
 
-  const availableThemes: Theme[] = ['light', 'dark', 'island'];
+  const availableThemes: Theme[] = ['light', 'dark', 'ocean', 'island'];
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, setTheme, themes: availableThemes }}>
