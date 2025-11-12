@@ -76,17 +76,6 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
     }
   };
 
-  const getDiscountPercentage = () => {
-    switch (selectedPeriod) {
-      case 'weekly':
-        return 5;
-      case 'monthly':
-        return 20;
-      default:
-        return 0;
-    }
-  };
-
   // Get translated features using JSON data first, then database
   const translatedFeatures = getTranslatedFeatures(bike, language);
 
@@ -151,13 +140,6 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
               <TabsTrigger value="monthly">{t.bikeModal.monthTab}</TabsTrigger>
             </TabsList>
           </Tabs>
-          {selectedPeriod !== 'daily' && (
-            <div className="absolute -top-2 -right-2 z-10">
-              <Badge className="bg-gradient-to-r from-success to-green-600 text-white text-sm font-bold px-3 py-1 rounded-full shadow-lg border-2 border-white animate-pulse">
-                🎉 {selectedPeriod === 'weekly' ? '5%' : '20%'} OFF
-              </Badge>
-            </div>
-          )}
         </div>
 
         <div className="mb-4">
