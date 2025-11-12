@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { Menu, X, Palmtree, Sun, Moon, Leaf, Waves } from 'lucide-react';
+import { Menu, X, Bike, Sun, Moon, Leaf, Waves } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -58,7 +58,7 @@ export const Header = () => {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-full bg-gradient-hero flex items-center justify-center">
-              <Palmtree className="h-6 w-6 text-white" />
+              <Bike className="h-6 w-6 text-white" />
             </div>
             <span className="text-xl font-bold text-foreground hidden sm:inline">
               Lombok Local
