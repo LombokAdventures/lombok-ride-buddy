@@ -63,6 +63,17 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
     }
   };
 
+  const getDiscountPercentage = () => {
+    switch (selectedPeriod) {
+      case 'weekly':
+        return 5;
+      case 'monthly':
+        return 20;
+      default:
+        return 0;
+    }
+  };
+
   return (
     <>
       <Card
@@ -119,8 +130,14 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
         >
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="daily">{t.bikeModal.dayTab}</TabsTrigger>
-            <TabsTrigger value="weekly">{t.bikeModal.weekTab}</TabsTrigger>
-            <TabsTrigger value="monthly">{t.bikeModal.monthTab}</TabsTrigger>
+            <div className="relative">
+              <TabsTrigger value="weekly">{t.bikeModal.weekTab}</TabsTrigger>
+              <Badge className="absolute -top-2 -right-1 bg-success text-white text-xs">5% OFF</Badge>
+            </div>
+            <div className="relative">
+              <TabsTrigger value="monthly">{t.bikeModal.monthTab}</TabsTrigger>
+              <Badge className="absolute -top-2 -right-1 bg-success text-white text-xs">20% OFF</Badge>
+            </div>
           </TabsList>
         </Tabs>
 
@@ -170,15 +187,14 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
           </Button>
         ) : (
           <Button
-            className="w-full gap-2"
-            variant="outline"
+            className="w-full gap-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground"
             onClick={(e) => {
               e.stopPropagation();
               setWaitlistOpen(true);
             }}
           >
             <Bell className="h-4 w-4" />
-            Notify Me When Available
+            {t.bikeModal.notifyWhenAvailable}
           </Button>
         )}
       </CardFooter>

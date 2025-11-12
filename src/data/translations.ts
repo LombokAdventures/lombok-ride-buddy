@@ -186,7 +186,7 @@ export const translations: Record<Language, Translations> = {
         },
         {
           title: 'Flexible Delivery',
-          description: 'Free delivery in Mataram/Praya or pick up at our location'
+          description: 'Free delivery for monthly rentals in Mataram/Praya or pick up at our location'
         },
         {
           title: '24/7 Support',
@@ -223,7 +223,7 @@ export const translations: Record<Language, Translations> = {
         },
         {
           title: 'Start Your Adventure',
-          description: 'Free delivery in Mataram/Praya or pick up at our location!'
+          description: 'Free delivery for monthly rentals in Mataram/Praya or pick up at our location!'
         }
       ]
     },
@@ -263,11 +263,11 @@ export const translations: Record<Language, Translations> = {
       items: [
         {
           question: 'What is included in the rental price?',
-          answer: 'All rentals include a helmet, lock, and free delivery within Mataram and Praya areas. Fuel is not included.'
+          answer: 'All rentals include a helmet and lock. Free delivery is available for monthly rentals within Mataram and Praya areas. Fuel is not included.'
         },
         {
           question: 'Can you deliver to my location?',
-          answer: 'We offer free delivery to Mataram and Praya areas. You can also pick up the scooter at our location.'
+          answer: 'We offer free delivery for monthly rentals to Mataram and Praya areas. For daily and weekly rentals, pick up is available at our location or we can arrange delivery for a fee.'
         },
         {
           question: 'What are the age requirements?',
@@ -437,7 +437,7 @@ export const translations: Record<Language, Translations> = {
         },
         {
           title: 'Гибкая доставка',
-          description: 'Бесплатная доставка в Матарам/Прая или самовывоз'
+          description: 'Бесплатная доставка для долгосрочной аренды в Матарам/Прая или самовывоз'
         },
         {
           title: 'Поддержка 24/7',
@@ -514,11 +514,11 @@ export const translations: Record<Language, Translations> = {
       items: [
         {
           question: 'Что входит в стоимость аренды?',
-          answer: 'Все аренды включают шлем, замок и бесплатную доставку в районах Матарам и Прая. Топливо не включено.'
+          answer: 'Все аренды включают шлем и замок. Бесплатная доставка доступна для долгосрочной аренды в районах Матарам и Прая. Топливо не включено.'
         },
         {
           question: 'Можете ли вы доставить в мое место?',
-          answer: 'Мы предлагаем бесплатную доставку в районы Матарам и Прая. Вы также можете забрать скутер в нашем офисе.'
+          answer: 'Мы предлагаем бесплатную доставку для долгосрочной аренды в районы Матарам и Прая. Для суточной и недельной аренды доступен самовывоз в нашем офисе или мы можем организовать доставку за дополнительную плату.'
         },
         {
           question: 'Каковы возрастные требования?',
@@ -688,7 +688,7 @@ export const translations: Record<Language, Translations> = {
         },
         {
           title: 'Pengantaran Fleksibel',
-          description: 'Pengantaran gratis di Mataram/Praya atau ambil sendiri'
+          description: 'Pengantaran gratis untuk rental bulanan di Mataram/Praya atau ambil sendiri'
         },
         {
           title: 'Dukungan 24/7',
@@ -765,11 +765,11 @@ export const translations: Record<Language, Translations> = {
       items: [
         {
           question: 'Apa yang termasuk dalam harga sewa?',
-          answer: 'Semua sewa termasuk helm, kunci, dan pengantaran gratis di area Mataram dan Praya. Bahan bakar tidak termasuk.'
+          answer: 'Semua sewa termasuk helm dan kunci. Pengantaran gratis tersedia untuk rental bulanan di area Mataram dan Praya. Bahan bakar tidak termasuk.'
         },
         {
           question: 'Bisakah Anda mengantar ke lokasi saya?',
-          answer: 'Kami menawarkan pengantaran gratis ke area Mataram dan Praya. Anda juga bisa mengambil skuter di lokasi kami.'
+          answer: 'Kami menawarkan pengantaran gratis untuk rental bulanan ke area Mataram dan Praya. Untuk rental harian dan mingguan, Anda bisa mengambil skuter di lokasi kami atau kami dapat mengatur pengantaran dengan biaya tambahan.'
         },
         {
           question: 'Apa persyaratan usianya?',
@@ -1016,11 +1016,11 @@ export const translations: Record<Language, Translations> = {
       items: [
         {
           question: 'Was ist im Mietpreis enthalten?',
-          answer: 'Alle Mieten beinhalten einen Helm, ein Schloss und kostenlose Lieferung in den Bereichen Mataram und Praya. Kraftstoff ist nicht enthalten.'
+          answer: 'Alle Mieten beinhalten einen Helm und ein Schloss. Kostenlose Lieferung ist für Monatsmietverträge in den Bereichen Mataram und Praya verfügbar. Kraftstoff ist nicht enthalten.'
         },
         {
           question: 'Können Sie an meinen Standort liefern?',
-          answer: 'Wir bieten kostenlose Lieferung in den Bereichen Mataram und Praya an. Sie können den Roller auch an unserem Standort abholen.'
+          answer: 'Wir bieten kostenlose Lieferung für Monatsmietverträge in die Bereiche Mataram und Praya an. Für Tages- und Wochenmietverträge können Sie den Roller an unserem Standort abholen oder wir können die Lieferung gegen eine zusätzliche Gebühr arrangieren.'
         },
         {
           question: 'Was sind die Altersanforderungen?',
@@ -1267,11 +1267,11 @@ export const translations: Record<Language, Translations> = {
       items: [
         {
           question: 'Ijara narxiga nima kiradi?',
-          answer: 'Barcha ijaralarda dubulga, qulf va Mataram va Praya hududlarida bepul yetkazib berish kiradi. Yoqilg\'i kiritilmagan.'
+          answer: 'Barcha ijaralarda dubulga va qulf kiradi. Oylik ijaralarda Mataram va Praya hududlarida bepul yetkazib berish mavjud. Yoqilg\'i kiritilmagan.'
         },
         {
           question: 'Mening manzilimga yetkazib bera olasizmi?',
-          answer: 'Biz Mataram va Praya hududlariga bepul yetkazib beramiz. Skuterni bizning joyimizdan ham olishingiz mumkin.'
+          answer: 'Biz oylik ijaralarda Mataram va Praya hududlariga bepul yetkazib beramiz. Kunlik va haftalik ijaralarda skuterni bizning joyimizdan olishingiz mumkin yoki qo\'shimcha to\'lov bilan yetkazib berish talab qilishingiz mumkin.'
         },
         {
           question: 'Yosh talablari qanday?',
