@@ -110,6 +110,21 @@ export interface Translations {
     dayTab: string;
     weekTab: string;
     monthTab: string;
+    // Bike detail dialog labels
+    description: string;
+    model: string;
+    kilometers: string;
+    available: string;
+    unavailable: string;
+    bookNow: string;
+    notifyWhenAvailable: string;
+    overviewTab: string;
+    specificationsTab: string;
+    maintenanceTab: string;
+    purchaseDate: string;
+    lastMaintenance: string;
+    nextMaintenanceDue: string;
+    maintenanceInfoNotAvailable: string;
   };
   termsContent: {
     backToHome: string;
@@ -315,7 +330,21 @@ export const translations: Record<Language, Translations> = {
       currentlyUnavailable: 'Currently Unavailable',
       dayTab: 'Day',
       weekTab: 'Week',
-      monthTab: 'Month'
+      monthTab: 'Month',
+      description: 'Description',
+      model: 'Model',
+      kilometers: 'Kilometers Driven',
+      available: 'Available',
+      unavailable: 'Unavailable',
+      bookNow: 'Book Now',
+      notifyWhenAvailable: 'Notify Me When Available',
+      overviewTab: 'Overview',
+      specificationsTab: 'Specifications',
+      maintenanceTab: 'Maintenance',
+      purchaseDate: 'Purchase Date',
+      lastMaintenance: 'Last Maintenance',
+      nextMaintenanceDue: 'Next Maintenance Due',
+      maintenanceInfoNotAvailable: 'Maintenance information not available'
     },
     termsContent: {
       backToHome: 'Back to Home',
@@ -548,7 +577,21 @@ export const translations: Record<Language, Translations> = {
       currentlyUnavailable: 'Сейчас недоступен',
       dayTab: 'День',
       weekTab: 'Неделя',
-      monthTab: 'Месяц'
+      monthTab: 'Месяц',
+      description: 'Описание',
+      model: 'Модель',
+      kilometers: 'Пройденные километры',
+      available: 'Доступно',
+      unavailable: 'Недоступно',
+      bookNow: 'Забронировать',
+      notifyWhenAvailable: 'Уведомить Когда Доступно',
+      overviewTab: 'Обзор',
+      specificationsTab: 'Характеристики',
+      maintenanceTab: 'Техническое обслуживание',
+      purchaseDate: 'Дата покупки',
+      lastMaintenance: 'Последнее техническое обслуживание',
+      nextMaintenanceDue: 'Следующее техническое обслуживание',
+      maintenanceInfoNotAvailable: 'Информация о техническом обслуживании недоступна'
     },
     termsContent: {
       backToHome: 'На главную',
@@ -781,7 +824,21 @@ export const translations: Record<Language, Translations> = {
       currentlyUnavailable: 'Saat Ini Tidak Tersedia',
       dayTab: 'Hari',
       weekTab: 'Minggu',
-      monthTab: 'Bulan'
+      monthTab: 'Bulan',
+      description: 'Deskripsi',
+      model: 'Model',
+      kilometers: 'Kilometer Ditempuh',
+      available: 'Tersedia',
+      unavailable: 'Tidak Tersedia',
+      bookNow: 'Pesan Sekarang',
+      notifyWhenAvailable: 'Beri Tahu Saat Tersedia',
+      overviewTab: 'Ikhtisar',
+      specificationsTab: 'Spesifikasi',
+      maintenanceTab: 'Pemeliharaan',
+      purchaseDate: 'Tanggal Pembelian',
+      lastMaintenance: 'Pemeliharaan Terakhir',
+      nextMaintenanceDue: 'Pemeliharaan Berikutnya',
+      maintenanceInfoNotAvailable: 'Informasi pemeliharaan tidak tersedia'
     },
     termsContent: {
       backToHome: 'Kembali ke Beranda',
@@ -1014,7 +1071,21 @@ export const translations: Record<Language, Translations> = {
       currentlyUnavailable: 'Derzeit nicht verfügbar',
       dayTab: 'Tag',
       weekTab: 'Woche',
-      monthTab: 'Monat'
+      monthTab: 'Monat',
+      description: 'Beschreibung',
+      model: 'Modell',
+      kilometers: 'Gefahrene Kilometer',
+      available: 'Verfügbar',
+      unavailable: 'Nicht Verfügbar',
+      bookNow: 'Jetzt Buchen',
+      notifyWhenAvailable: 'Benachrichtigung Wenn Verfügbar',
+      overviewTab: 'Übersicht',
+      specificationsTab: 'Spezifikationen',
+      maintenanceTab: 'Wartung',
+      purchaseDate: 'Kaufdatum',
+      lastMaintenance: 'Letzte Wartung',
+      nextMaintenanceDue: 'Nächste Wartung Fällig',
+      maintenanceInfoNotAvailable: 'Wartungsinformationen nicht verfügbar'
     },
     termsContent: {
       backToHome: 'Zurück zur Startseite',
@@ -1247,7 +1318,21 @@ export const translations: Record<Language, Translations> = {
       currentlyUnavailable: 'Hozirda Mavjud Emas',
       dayTab: 'Kun',
       weekTab: 'Hafta',
-      monthTab: 'Oy'
+      monthTab: 'Oy',
+      description: 'Tavsif',
+      model: 'Model',
+      kilometers: 'Yugurilgan Kilometrlar',
+      available: 'Mavjud',
+      unavailable: 'Mavjud Emas',
+      bookNow: 'Hozir Band Qiling',
+      notifyWhenAvailable: 'Mavjud Bo\'lganda Ogohlantirish',
+      overviewTab: 'Umumiy Maʼlumot',
+      specificationsTab: 'Spetsifikatsiyalar',
+      maintenanceTab: 'Texnik Xizmat',
+      purchaseDate: 'Sotib Olish Sanasi',
+      lastMaintenance: 'Oxirgi Texnik Xizmat',
+      nextMaintenanceDue: 'Keyingi Texnik Xizmat',
+      maintenanceInfoNotAvailable: 'Texnik xizmat maʼlumotlari mavjud emas'
     },
     termsContent: {
       backToHome: 'Bosh Sahifaga Qaytish',
