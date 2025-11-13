@@ -96,20 +96,18 @@ export const Footer = () => {
               )}
             </div>
 
-            {companyInfo.google_maps_embed_url && (
-              <div className="mt-6">
-                <iframe
-                  src={companyInfo.google_maps_embed_url}
-                  width="100%"
-                  height="150"
-                  style={{ border: 0, borderRadius: '0.5rem' }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="mt-4"
-                ></iframe>
-              </div>
-            )}
+            <div className="mt-6">
+              <iframe
+                src={companyInfo.google_maps_embed_url || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d252230.02624600978!2d116.13059955!3d-8.6528536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dcdb04aba0c71a1%3A0x2a5f6fc2e63b6ab6!2sLombok%2C%20Indonesia!5e0!3m2!1sen!2s!4v1234567890'}
+                width="100%"
+                height="150"
+                style={{ border: 0, borderRadius: '0.5rem' }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="mt-4"
+              ></iframe>
+            </div>
           </div>
         </div>
 
