@@ -138,14 +138,14 @@ export const BikeCard = ({ bike }: BikeCardProps) => {
               <TabsTrigger value="daily">{t.bikeModal.dayTab}</TabsTrigger>
               <TabsTrigger value="weekly" className="relative">
                 {t.bikeModal.weekTab}
-                <Badge className="absolute -top-2 -right-2 bg-success text-white text-[10px] px-1.5 py-0 rounded-full">
-                  5%
+                <Badge className="absolute -top-2 -right-2 bg-gradient-to-br from-emerald-500 to-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg border border-white/20">
+                  -5%
                 </Badge>
               </TabsTrigger>
               <TabsTrigger value="monthly" className="relative">
                 {t.bikeModal.monthTab}
-                <Badge className="absolute -top-2 -right-2 bg-success text-white text-[10px] px-1.5 py-0 rounded-full">
-                  20%
+                <Badge className="absolute -top-2 -right-2 bg-gradient-to-br from-orange-500 to-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg border border-white/20">
+                  -20%
                 </Badge>
               </TabsTrigger>
             </TabsList>
