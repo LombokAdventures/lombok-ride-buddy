@@ -115,6 +115,54 @@ export type Database = {
         }
         Relationships: []
       }
+      company_info: {
+        Row: {
+          id: string
+          business_name: string
+          address: string
+          email: string
+          phone: string
+          whatsapp_number: string
+          telegram_username: string | null
+          instagram_url: string | null
+          facebook_url: string | null
+          youtube_url: string | null
+          google_maps_embed_url: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          business_name: string
+          address: string
+          email: string
+          phone: string
+          whatsapp_number: string
+          telegram_username?: string | null
+          instagram_url?: string | null
+          facebook_url?: string | null
+          youtube_url?: string | null
+          google_maps_embed_url?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          business_name?: string
+          address?: string
+          email?: string
+          phone?: string
+          whatsapp_number?: string
+          telegram_username?: string | null
+          instagram_url?: string | null
+          facebook_url?: string | null
+          youtube_url?: string | null
+          google_maps_embed_url?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       hero_images: {
         Row: {
           created_at: string | null
