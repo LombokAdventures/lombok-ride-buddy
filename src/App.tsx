@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { CompanyInfoProvider } from "@/contexts/CompanyInfoContext";
 import { FloatingBackHome } from "@/components/FloatingBackHome";
 import Index from "./pages/Index";
 import Admin from "./pages/Admin";
@@ -18,22 +19,24 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
       <LanguageProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter basename="/lombok-ride-buddy">
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/admin" element={<Navigate to="/secret/admin" replace />} />
-              <Route path="/secret/admin" element={<Admin />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/terms" element={<TermsAndConditions />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <FloatingBackHome />
-          </BrowserRouter>
-        </TooltipProvider>
+        <CompanyInfoProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter basename="/lombok-ride-buddy">
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/admin" element={<Navigate to="/secret/admin" replace />} />
+                <Route path="/secret/admin" element={<Admin />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/terms" element={<TermsAndConditions />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <FloatingBackHome />
+            </BrowserRouter>
+          </TooltipProvider>
+        </CompanyInfoProvider>
       </LanguageProvider>
     </ThemeProvider>
   </QueryClientProvider>
