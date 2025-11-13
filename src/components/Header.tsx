@@ -94,8 +94,8 @@ export const Header = () => {
             </div>
           </div>
 
-          {/* Desktop Navigation with Language and Theme */}
-          <nav className="hidden md:flex items-center gap-4">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-6">
             {navItems.map((item) => (
               <a
                 key={item.href}
@@ -106,13 +106,10 @@ export const Header = () => {
                 {item.label}
               </a>
             ))}
+          </nav>
 
-            {/* Divider */}
-            <div className="h-6 w-px bg-border mx-2"></div>
-
-            {/* Language Switcher */}
-            <LanguageSwitcher />
-
+          {/* Right Section */}
+          <div className="flex items-center gap-3">
             {/* Theme Selector */}
             <div className="relative" ref={themeMenuRef}>
               <Button
@@ -195,13 +192,14 @@ export const Header = () => {
                 </div>
               )}
             </div>
-          </nav>
 
-          {/* Mobile Menu Button */}
-          <div className="flex items-center md:hidden">
+            <LanguageSwitcher />
+
+            {/* Mobile Menu Button */}
             <Button
               variant="ghost"
               size="icon"
+              className="md:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X /> : <Menu />}
