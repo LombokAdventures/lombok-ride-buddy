@@ -15,6 +15,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { AdminWaitlist } from '@/components/AdminWaitlist';
 import { AdminHeroImages } from '@/components/AdminHeroImages';
 import { AdminSQLConsole } from '@/components/AdminSQLConsole';
+import { AdminCompanyInfo } from '@/components/AdminCompanyInfo';
 import type { User } from '@supabase/supabase-js';
 
 interface Bike {
@@ -846,6 +847,9 @@ const Admin = () => {
             </TabsTrigger>
             <TabsTrigger value="sql-console" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
               SQL Console
+            </TabsTrigger>
+            <TabsTrigger value="company-info" className="flex-1 min-w-[140px] sm:min-w-[160px] sm:flex-none">
+              Company Info
             </TabsTrigger>
           </TabsList>
 
@@ -1691,6 +1695,11 @@ const Admin = () => {
           {/* SQL Console Tab */}
           <TabsContent value="sql-console" className="space-y-6">
             <AdminSQLConsole />
+          </TabsContent>
+
+          {/* Company Info Tab */}
+          <TabsContent value="company-info" className="space-y-6">
+            <AdminCompanyInfo />
           </TabsContent>
 
         </Tabs>
