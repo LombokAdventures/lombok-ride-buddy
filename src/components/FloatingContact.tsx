@@ -1,12 +1,19 @@
 import { MessageCircle, Send } from 'lucide-react';
-import { contactConfig } from '@/data/bikes';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import { useCompanyInfo } from '@/hooks/useCompanyInfo';
 
 export const FloatingContact = () => {
   const { t } = useLanguage();
-  const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(t.floating.whatsappMessage)}`;
-  const telegramUrl = `https://t.me/${contactConfig.telegramUsername}`;
+  const { getByKey, isLoading } = useCompanyInfo();
+
+  if (isLoading) return null;
+
+  const whatsappNumber = getByKey('whatsapp') || '6281234567890';
+  const telegramUsername = getByKey('telegram') || 'lomboklocalrental';
+  
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(t.floating.whatsappMessage)}`;
+  const telegramUrl = `https://t.me/${telegramUsername}`;
 
   return (
     <>

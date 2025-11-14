@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { FloatingBackHome } from "@/components/FloatingBackHome";
+import { FloatingContact } from "@/components/FloatingContact";
 import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import Signup from "./pages/Signup";
@@ -32,6 +33,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
             <FloatingBackHome />
+            <FloatingContact />
           </BrowserRouter>
         </TooltipProvider>
       </LanguageProvider>
