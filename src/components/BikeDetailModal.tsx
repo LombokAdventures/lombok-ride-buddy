@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { CheckCircle, XCircle, Gauge, Fuel, Settings, Calendar, Bike as BikeIcon, MessageCircle, Send, Wrench, AlertCircle, Zap } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useCompanyInfo } from '@/contexts/CompanyInfoContext';
+import { contactConfig } from '@/data/bikes';
 import { translateFeature } from '@/utils/featureTranslator';
 import { translateTransmission } from '@/utils/transmissionTranslator';
 import { getTranslatedDescription, getTranslatedFeatures } from '@/utils/translationHelpers';
@@ -53,7 +53,6 @@ interface BikeDetailModalProps {
 
 export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps) => {
   const { t, language } = useLanguage();
-  const { companyInfo } = useCompanyInfo();
   const navigate = useNavigate();
   const [termsAgreed, setTermsAgreed] = useState(false);
   const [showTermsError, setShowTermsError] = useState(false);
@@ -79,12 +78,12 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
     onClose();
   };
 
-  if (!bike || !companyInfo) return null;
+  if (!bike) return null;
 
   const isAvailable = bike.status === 'available';
-  const whatsappMessage = `Hi! I'm interested in renting the ${bike.name} (${bike.model}) from ${companyInfo.business_name}. Is it available?`;
-  const whatsappUrl = `https://wa.me/${companyInfo.whatsapp_number}?text=${encodeURIComponent(whatsappMessage)}`;
-  const telegramUrl = companyInfo.telegram_username ? `https://t.me/${companyInfo.telegram_username}` : null;
+  const whatsappMessage = `Hi! I'm interested in renting the ${bike.name} (${bike.model}) from Lombok Local. Is it available?`;
+  const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const telegramUrl = `https://t.me/${contactConfig.telegramUsername}`;
 
   const handleContactClick = (e: React.MouseEvent) => {
     if (!termsAgreed) {
@@ -338,7 +337,7 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={telegramUrl ? "flex-1" : "w-full"}
+                className="flex-1"
                 onClick={handleContactClick}
               >
                 <Button
@@ -350,24 +349,22 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
                   WhatsApp
                 </Button>
               </a>
-              {telegramUrl && (
-                <a
-                  href={telegramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1"
-                  onClick={handleContactClick}
+              <a
+                href={telegramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1"
+                onClick={handleContactClick}
+              >
+                <Button
+                  className="w-full gap-2 bg-[#0088cc] hover:bg-[#006699]"
+                  size="lg"
+                  disabled={!isAvailable || !termsAgreed}
                 >
-                  <Button
-                    className="w-full gap-2 bg-[#0088cc] hover:bg-[#006699]"
-                    size="lg"
-                    disabled={!isAvailable || !termsAgreed}
-                  >
-                    <Send className="h-5 w-5" />
-                    Telegram
-                  </Button>
-                </a>
-              )}
+                  <Send className="h-5 w-5" />
+                  Telegram
+                </Button>
+              </a>
             </div>
             {!isAvailable && (
               <p className="text-center text-sm text-muted-foreground">
