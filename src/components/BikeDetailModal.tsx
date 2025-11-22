@@ -7,6 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { CheckCircle, XCircle, Gauge, Fuel, Settings, Calendar, Bike as BikeIcon, MessageCircle, Send, Wrench, AlertCircle, Zap } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCompanyInfo } from '@/hooks/useCompanyInfo';
+import { contactConfig } from '@/data/bikes';
 import { translateFeature } from '@/utils/featureTranslator';
 import { translateTransmission } from '@/utils/transmissionTranslator';
 import { getTranslatedDescription, getTranslatedFeatures } from '@/utils/translationHelpers';
@@ -81,8 +82,8 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
 
   if (!bike) return null;
 
-  const whatsappNumber = getByKey('whatsapp') || '6281234567890';
-  const telegramUsername = getByKey('telegram') || 'lomboklocalrental';
+  const whatsappNumber = getByKey('whatsapp') || contactConfig.whatsappNumber;
+  const telegramUsername = getByKey('telegram') || contactConfig.telegramUsername;
   const isAvailable = bike.status === 'available';
   const whatsappMessage = `Hi! I'm interested in renting the ${bike.name} (${bike.model}) from Lombok Local. Is it available?`;
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
