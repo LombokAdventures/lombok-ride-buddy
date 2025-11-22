@@ -47,7 +47,9 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-5 w-5 flex-shrink-0" />
-                <span>+{contactConfig.whatsappNumber}</span>
+                <a href={`tel:+${contactConfig.whatsappNumber}`} className="hover:text-footer-foreground transition-colors">
+                  +{contactConfig.whatsappNumber}
+                </a>
               </li>
             </ul>
           </div>
