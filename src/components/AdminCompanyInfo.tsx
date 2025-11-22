@@ -83,12 +83,12 @@ export const AdminCompanyInfo = () => {
   const fetchCompanyInfo = async () => {
     try {
       const { data, error } = await supabase
-        .from('company_info')
+        .from('company_info' as any)
         .select('*')
         .order('display_order');
 
       if (error) throw error;
-      setCompanyInfo(data || []);
+      setCompanyInfo((data as any) || []);
     } catch (error: any) {
       console.error('Error fetching company info:', error);
       toast({
@@ -112,7 +112,7 @@ export const AdminCompanyInfo = () => {
     }
 
     try {
-      const { error } = await supabase.from('company_info').insert([newInfo]);
+      const { error } = await supabase.from('company_info' as any).insert([newInfo] as any);
 
       if (error) throw error;
 
@@ -142,8 +142,8 @@ export const AdminCompanyInfo = () => {
   const handleUpdate = async (id: string, updates: Partial<CompanyInfo>) => {
     try {
       const { error } = await supabase
-        .from('company_info')
-        .update(updates)
+        .from('company_info' as any)
+        .update(updates as any)
         .eq('id', id);
 
       if (error) throw error;
@@ -168,7 +168,7 @@ export const AdminCompanyInfo = () => {
     if (!confirm('Are you sure you want to delete this item?')) return;
 
     try {
-      const { error } = await supabase.from('company_info').delete().eq('id', id);
+      const { error } = await supabase.from('company_info' as any).delete().eq('id', id);
 
       if (error) throw error;
 

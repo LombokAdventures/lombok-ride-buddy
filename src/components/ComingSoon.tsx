@@ -5,13 +5,14 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { MessageCircle, Send, Mail } from 'lucide-react';
-import { contactConfig } from '@/data/bikes';
+import { useCompanyInfo } from '@/hooks/useCompanyInfo';
 
 type ContactMethod = 'email' | 'whatsapp' | 'telegram';
 
 export const ComingSoon = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
+  const { getByKey } = useCompanyInfo();
   const [tourEmail, setTourEmail] = useState('');
   const [villaEmail, setVillaEmail] = useState('');
   const [tourWhatsapp, setTourWhatsapp] = useState('');
