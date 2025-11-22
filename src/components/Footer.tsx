@@ -1,4 +1,4 @@
-import { MapPin, Mail, Phone, Instagram, Facebook, Youtube } from 'lucide-react';
+import { MapPin, Mail, Phone, Instagram, Youtube } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { contactConfig } from '@/data/bikes';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -57,21 +57,18 @@ export const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">{t.footer.followUs}</h4>
             <div className="flex gap-4">
               <a
-                href="#"
+                href={`https://instagram.com/${contactConfig.instagramUsername}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-footer-foreground/10 hover:bg-footer-foreground/20 flex items-center justify-center transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram className="h-5 w-5" />
               </a>
               <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-footer-foreground/10 hover:bg-footer-foreground/20 flex items-center justify-center transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
+                href={contactConfig.youtubeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-footer-foreground/10 hover:bg-footer-foreground/20 flex items-center justify-center transition-colors"
                 aria-label="YouTube"
               >
