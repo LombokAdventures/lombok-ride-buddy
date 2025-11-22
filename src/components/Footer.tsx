@@ -1,29 +1,11 @@
-import { MapPin, Mail, Phone, Instagram, Facebook, Youtube } from 'lucide-react';
+import { MapPin, Mail, Phone, Instagram, Youtube } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { contactConfig } from '@/data/bikes';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useCompanyInfo } from '@/hooks/useCompanyInfo';
 
 export const Footer = () => {
   const { t } = useLanguage();
-  const { getByKey, isLoading } = useCompanyInfo();
   const currentYear = new Date().getFullYear();
-
-  if (isLoading) {
-    return (
-      <footer className="bg-footer text-footer-foreground py-12">
-        <div className="container mx-auto px-4 text-center">
-          <p>Loading...</p>
-        </div>
-      </footer>
-    );
-  }
-
-  const address = getByKey('address') || 'Lombok, Indonesia';
-  const email = getByKey('email') || 'info@lomboklocalrental.com';
-  const phone = getByKey('phone') || '6281234567890';
-  const instagram = getByKey('instagram');
-  const facebook = getByKey('facebook');
-  const youtube = getByKey('youtube');
 
   return (
     <footer className="bg-footer text-footer-foreground py-12">
@@ -55,17 +37,17 @@ export const Footer = () => {
             <ul className="space-y-3 text-footer-foreground/80">
               <li className="flex items-start gap-2">
                 <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                <span>{address}</span>
+                <span>{contactConfig.address}</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-5 w-5 flex-shrink-0" />
-                <a href={`mailto:${email}`} className="hover:text-footer-foreground transition-colors">
-                  {email}
+                <a href={`mailto:${contactConfig.email}`} className="hover:text-footer-foreground transition-colors">
+                  {contactConfig.email}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-5 w-5 flex-shrink-0" />
-                <span>+{phone}</span>
+                <span>+{contactConfig.whatsappNumber}</span>
               </li>
             </ul>
           </div>
@@ -74,39 +56,24 @@ export const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">{t.footer.followUs}</h4>
             <div className="flex gap-4">
-              {instagram && (
-                <a
-                  href={instagram.startsWith('http') ? instagram : `https://instagram.com/${instagram}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-footer-foreground/10 hover:bg-footer-foreground/20 flex items-center justify-center transition-colors"
-                  aria-label="Instagram"
-                >
-                  <Instagram className="h-5 w-5" />
-                </a>
-              )}
-              {facebook && (
-                <a
-                  href={facebook.startsWith('http') ? facebook : `https://facebook.com/${facebook}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-footer-foreground/10 hover:bg-footer-foreground/20 flex items-center justify-center transition-colors"
-                  aria-label="Facebook"
-                >
-                  <Facebook className="h-5 w-5" />
-                </a>
-              )}
-              {youtube && (
-                <a
-                  href={youtube.startsWith('http') ? youtube : `https://youtube.com/${youtube}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-footer-foreground/10 hover:bg-footer-foreground/20 flex items-center justify-center transition-colors"
-                  aria-label="YouTube"
-                >
-                  <Youtube className="h-5 w-5" />
-                </a>
-              )}
+              <a
+                href={`https://instagram.com/${contactConfig.instagramUsername}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-footer-foreground/10 hover:bg-footer-foreground/20 flex items-center justify-center transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a
+                href={contactConfig.youtubeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-footer-foreground/10 hover:bg-footer-foreground/20 flex items-center justify-center transition-colors"
+                aria-label="YouTube"
+              >
+                <Youtube className="h-5 w-5" />
+              </a>
             </div>
             
             <div className="mt-6">
