@@ -1,20 +1,13 @@
 import { MessageCircle, Send } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
-import { useCompanyInfo } from '@/hooks/useCompanyInfo';
 import { contactConfig } from '@/data/bikes';
 
 export const FloatingContact = () => {
   const { t } = useLanguage();
-  const { getByKey, isLoading } = useCompanyInfo();
 
-  if (isLoading) return null;
-
-  const whatsappNumber = getByKey('whatsapp') || contactConfig.whatsappNumber;
-  const telegramUsername = getByKey('telegram') || contactConfig.telegramUsername;
-
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(t.floating.whatsappMessage)}`;
-  const telegramUrl = `https://t.me/${telegramUsername}`;
+  const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(t.floating.whatsappMessage)}`;
+  const telegramUrl = `https://t.me/${contactConfig.telegramUsername}`;
 
   return (
     <>

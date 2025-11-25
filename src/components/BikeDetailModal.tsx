@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { CheckCircle, XCircle, Gauge, Fuel, Settings, Calendar, Bike as BikeIcon, MessageCircle, Send, Wrench, AlertCircle, Zap } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useCompanyInfo } from '@/hooks/useCompanyInfo';
 import { contactConfig } from '@/data/bikes';
 import { translateFeature } from '@/utils/featureTranslator';
 import { translateTransmission } from '@/utils/transmissionTranslator';
@@ -54,7 +53,6 @@ interface BikeDetailModalProps {
 
 export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps) => {
   const { t, language } = useLanguage();
-  const { getByKey } = useCompanyInfo();
   const navigate = useNavigate();
   const [termsAgreed, setTermsAgreed] = useState(false);
   const [showTermsError, setShowTermsError] = useState(false);
@@ -82,12 +80,10 @@ export const BikeDetailModal = ({ bike, isOpen, onClose }: BikeDetailModalProps)
 
   if (!bike) return null;
 
-  const whatsappNumber = getByKey('whatsapp') || contactConfig.whatsappNumber;
-  const telegramUsername = getByKey('telegram') || contactConfig.telegramUsername;
   const isAvailable = bike.status === 'available';
   const whatsappMessage = `Hi! I'm interested in renting the ${bike.name} (${bike.model}) from Lombok Local. Is it available?`;
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-  const telegramUrl = `https://t.me/${telegramUsername}`;
+  const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const telegramUrl = `https://t.me/${contactConfig.telegramUsername}`;
 
   const handleContactClick = (e: React.MouseEvent) => {
     if (!termsAgreed) {
