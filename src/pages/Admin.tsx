@@ -817,7 +817,7 @@ const Admin = () => {
               )}
             </Button>
             <Button
-              onClick={() => window.open('/lombok-ride-buddy', '_blank')}
+              onClick={() => window.open('/', '_blank')}
               variant="outline"
               className="gap-2"
             >

@@ -21,7 +21,7 @@ Disallow: /secret/
 Disallow: /signup
 
 # Sitemap location
-Sitemap: https://lombokadventures.github.io/lombok-ride-buddy/sitemap.xml
+Sitemap: https://lombok-ride-buddy.lovable.app/sitemap.xml
 
 # Images
 User-agent: Googlebot-Image
