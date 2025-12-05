@@ -17,11 +17,11 @@ Allow: /
 
 User-agent: *
 Allow: /
-Disallow: /secret/
+Disallow: /admin
 Disallow: /signup
 
 # Sitemap location
-Sitemap: https://lombokadventures.github.io/lombok-ride-buddy/sitemap.xml
+Sitemap: https://lomboklocal.com/sitemap.xml
 
 # Images
 User-agent: Googlebot-Image
