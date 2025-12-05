@@ -4,12 +4,12 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://lombokadventures.github.io/lombok-ride-buddy/</loc>
-    <lastmod>2025-11-10</lastmod>
+    <loc>https://lomboklocal.com/</loc>
+    <lastmod>2025-12-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://lombokadventures.github.io/lombok-ride-buddy/hero-background.jpg</image:loc>
+      <image:loc>https://lomboklocal.com/hero-background.jpg</image:loc>
       <image:title>Lombok Motorbike Rental - From Beaches to Mountains</image:title>
       <image:caption>Premium motorbike and scooter rental in Lombok, Indonesia</image:caption>
     </image:image>
@@ -17,24 +17,24 @@
 
   <!-- Terms & Conditions -->
   <url>
-    <loc>https://lombokadventures.github.io/lombok-ride-buddy/terms</loc>
-    <lastmod>2025-11-10</lastmod>
+    <loc>https://lomboklocal.com/terms</loc>
+    <lastmod>2025-12-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Fleet Section (anchor link) -->
   <url>
-    <loc>https://lombokadventures.github.io/lombok-ride-buddy/#fleet</loc>
-    <lastmod>2025-11-10</lastmod>
+    <loc>https://lomboklocal.com/#fleet</loc>
+    <lastmod>2025-12-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- Benefits Section -->
   <url>
-    <loc>https://lombokadventures.github.io/lombok-ride-buddy/#benefits</loc>
-    <lastmod>2025-11-10</lastmod>
+    <loc>https://lomboklocal.com/#benefits</loc>
+    <lastmod>2025-12-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
