@@ -22,7 +22,7 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter basename="/lombok-ride-buddy">
+          <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/admin" element={<Navigate to="/secret/admin" replace />} />
