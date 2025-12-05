@@ -1,11 +1,27 @@
+import { useState } from 'react';
 import { MapPin, Mail, Phone, Instagram, Youtube } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { contactConfig } from '@/data/bikes';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export const Footer = () => {
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
+  const navigate = useNavigate();
+  const [clickCount, setClickCount] = useState(0);
+
+  const handleSecretClick = () => {
+    const newCount = clickCount + 1;
+    setClickCount(newCount);
+    
+    if (newCount >= 5) {
+      setClickCount(0);
+      navigate('/secret/admin');
+    }
+    
+    // Reset after 2 seconds of no clicks
+    setTimeout(() => setClickCount(0), 2000);
+  };
 
   return (
     <footer className="bg-footer text-footer-foreground py-12">
@@ -94,7 +110,16 @@ export const Footer = () => {
         </div>
 
         <div className="border-t border-footer-foreground/20 pt-8 text-center text-footer-foreground/60">
-          <p>&copy; {currentYear} Lombok Local. {t.footer.rights}</p>
+          <p>
+            &copy; {currentYear}{' '}
+            <span 
+              onClick={handleSecretClick}
+              className="cursor-default select-none"
+            >
+              Lombok Local
+            </span>
+            . {t.footer.rights}
+          </p>
         </div>
       </div>
     </footer>
