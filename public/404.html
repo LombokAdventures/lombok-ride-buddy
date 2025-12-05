@@ -2,19 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Lombok Local - Page Not Found</title>
+    <title>Lombok Local - Redirecting...</title>
     <script>
-      // Redirect to home page for SPA routing
-      var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        '/?/' +
-        l.pathname.slice(1).replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+      // For HashRouter, just redirect to home - the hash will be preserved
+      window.location.replace('/');
     </script>
   </head>
   <body>
+    <p>Redirecting...</p>
   </body>
 </html>
